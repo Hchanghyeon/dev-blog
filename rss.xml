@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 14 Jan 2024 10:50:17 GMT</lastBuildDate><item><title><![CDATA[서버 접속이 안 될 때 해볼 수 있는 tcpdump를 이용한 트러블 슈팅 방법]]></title><description><![CDATA[❌ 아니! 분명 AWS에 EC2를 생성해서 ssh를 오픈했는데 왜 접속이 안 되나요? ❌ 외부 환경에서 IDC…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/troubleshooting/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/troubleshooting/</guid><pubDate>Sat, 19 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 아니! 분명 AWS에 EC2를 생성해서 ssh를 오픈했는데 왜 접속이 안 되나요?&lt;/li&gt;
+&lt;li&gt;❌ 외부 환경에서 IDC에 있는 회사 서버에 접속이 안 돼요!&lt;/li&gt;
+&lt;li&gt;❌ 집 로컬 환경에서 서버를 열어두었는데 외부에서 집에 있는 서버가 접속이 안 돼요!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;혹시 여러분도 &lt;strong&gt;위와 같은 일들을 겪어 보신 적이 있으신가요?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;저는 위와 같은 일들을 많이 겪어봤고, 학교를 다니기 전 보안 회사에서 &lt;strong&gt;UTM이라는 방화벽 장비를 다루며 고객사에서 위와 같은 문제들로 인해 직접 트러블 슈팅한 경험&lt;/strong&gt;이 많았었습니다. &lt;/p&gt;
+&lt;p&gt;저는 그때마다 가장 먼저 확인해보는 것이 있는데요! 그것은 바로 &lt;strong&gt;네트워크 패킷&lt;/strong&gt;입니다. 위에서 말하는 &lt;strong&gt;접속&lt;/strong&gt;이라는 것은 결국 &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt;로 접속한다는 것으로 결국 접속할 때는 &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt;에서 &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt;로 &lt;strong&gt;접속을 위한 패킷을 보내게 됩니다&lt;/strong&gt;. 이것은 단순히 SSH 접속뿐만이 아니라 &lt;strong&gt;HTTP 접속, MySQL의 서비스 포트인 3306 포트를 접속할 때도 적용되며 대다수의 서비스에 적용&lt;/strong&gt;된다고 보시면 될 것 같아요.&lt;/p&gt;
+&lt;p&gt;그럼 &lt;strong&gt;트러블 슈팅하는 방법을 배우기 전에 알아두면 좋은 내용&lt;/strong&gt;에 대해서 먼저 간단하게 말씀드리고 넘어가도록 하겠습니다.&lt;/p&gt;
+&lt;h3&gt;트러블 슈팅을 위한 배경 지식&lt;/h3&gt;
+&lt;h4&gt;기본적인 네트워크 환경&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/c1fad791200d0974a71472a28f8e5803/85779/image-2.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 38.82352941176471%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA40lEQVR42m1SSaqEUBDz/ufxBq5cqqjgRjeCuhDEeawm9cmjfreB0FW8mJrakxc8zyP7vstxHBqf5+l4XZeSMfUg4H0bARD3fS/LskjXdfoh3+Z51mLUgRaedScoWtdVoiiSbducJssyqeta4/u+tRh0oBpWVaUJHoqiUDFGTdNUpmlyRZIkkWEYXA5d27aqDYJAfN//M4zj2I0UhqE0TaM5OoEhRkaHMMAKUJw5tAAawSQ/O8QIAKoiRpE8z2UcR6cpy1JJPdbz7yh2f/Yo7JrG9pex1b1e2YJ/jTfyjRPZK38Ahaxuq+sC/bgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/c1fad791200d0974a71472a28f8e5803/ca1dc/image-2.png&apos; srcset=&apos;/static/c1fad791200d0974a71472a28f8e5803/e7570/image-2.png 170w,
+/static/c1fad791200d0974a71472a28f8e5803/f46e7/image-2.png 340w,
+/static/c1fad791200d0974a71472a28f8e5803/ca1dc/image-2.png 680w,
+/static/c1fad791200d0974a71472a28f8e5803/02d09/image-2.png 1020w,
+/static/c1fad791200d0974a71472a28f8e5803/85779/image-2.png 1239w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;보통 일반적인 네트워크 환경을 보면 집 PC에서 공유기를 통해 외부 인터넷에 접속하고 목적지인 서버에 접속하는 방식으로 이루어져 있습니다. 외부 인터넷은 &lt;strong&gt;수많은 라우터가 서로 연결되어 있는 형태로 집에 있는 PC와 서버가 연결&lt;/strong&gt;될 수 있는 거죠! 그렇다면 서로 어떤 방식으로 통신하는 걸까요?&lt;/p&gt;
+&lt;h4&gt;IP가 포함된 네트워크 환경&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/6b41fb145e847615d0eab80ec15507ce/5d169/image-3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 41.1764705882353%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA+0lEQVR42nVRSQqEQAzs/7/Ed3gX8aQHt4OKG7jvS4YKpBllJhDSnaQqlW5FX3bft47XddF5nhzlLC734zgeGJiiH4biMAxUliX1fU9d19G+77RtGy3LQuM46vO6rg+sAhiOQl3XHKuqonmeuSGKInaxpmnIdV09GP1QDLVM2LYtFUXBhTRNybZtJkyShOI41qtgWBAEmgTq0I/Vfd8nwzBYucrznDzPYxDILcvi9ZAPw5CVIo/VsyxjQpDhDpz0mqbJeYVpKMIgHW8D+fI2UAsFYtM0keM4rEzIgYE65P5+CpS9f1XOGIgIdSB8/LJ8ytsAgMpfDkUS39gP/bJsYnYqaUkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/6b41fb145e847615d0eab80ec15507ce/ca1dc/image-3.png&apos; srcset=&apos;/static/6b41fb145e847615d0eab80ec15507ce/e7570/image-3.png 170w,
+/static/6b41fb145e847615d0eab80ec15507ce/f46e7/image-3.png 340w,
+/static/6b41fb145e847615d0eab80ec15507ce/ca1dc/image-3.png 680w,
+/static/6b41fb145e847615d0eab80ec15507ce/02d09/image-3.png 1020w,
+/static/6b41fb145e847615d0eab80ec15507ce/5d169/image-3.png 1345w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;
+서로 통신하기 위해서는 &lt;strong&gt;별도의 주소&lt;/strong&gt;를 가지고 있어야 합니다. 저희가 네이버 지도 앱을 켜서 목적지로 갈 때 출발지와 목적지를 입력하듯 네트워크 통신도 마찬가지로 각 장비마다 별도의 고유 주소가 필요하며 출발지 주소에서 목적지 주소를 바라보고 경로를 탐색해서 찾아가게 됩니다. &lt;strong&gt;네트워크에서는 그 고유한 주소를 IP&lt;/strong&gt;라고 불러요!&lt;/p&gt;
+&lt;p&gt;예를 들어 &lt;strong&gt;192.168.0.100&lt;/strong&gt;이라는 집 PC에서 &lt;strong&gt;123.122.111.100&lt;/strong&gt;이라는 외부 웹서버를 접속한다고 가정해보겠습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;192.168.0.100인 집 PC에서 웹 브라우저로 123.122.111.100이라는 웹서버에 접속합니다. (실제로는 도메인을 입력하는 경우가 많겠죠? 하지만 도메인도 실제로는 모두 IP로 이루어져 있답니다!)&lt;/li&gt;
+&lt;li&gt;그럼 이때 192.168.0.100이라는 집 PC(출발지)에서 패킷을 만들어 공유기의 Gateway인 192.168.0.1로 보내게 되고,집 PC IP였던 192.168.0.100을 223.194.166.251이라는 외부 IP로 변환시켜 외부 인터넷으로 전달하게 됩니다.(내부 PC의 IP를 공유기의 외부 IP로 변환하는이유는 NAT에 대해서 찾아보시면 좋을 것 같아요.)&lt;/li&gt;
+&lt;li&gt;이때 패킷에는 목적지 IP가 담겨 있는데 이 목적지 IP를 활용하여 라우터들이 계속 경로 설정을 하여 123.122.111.100이라는 서버에 도달할 수 있게 해줍니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이렇게 간략하게 IP를 통해 네트워크에서 서버와 클라이언트가 어떤식으로 서로 통신하는지에 대해서 알 수 있었는데요. 여기서 중요한 것은 2번에 나왔던 &lt;strong&gt;패킷&lt;/strong&gt;입니다. 네트워크에서 말하는 패킷은 &lt;strong&gt;컴퓨터 네트워크에서 전달하는 데이터의 형식화된 블록&lt;/strong&gt;입니다. 즉 클라이언트인 192.168.0.100 PC에서 웹 서버인 123.122.111.100 서버로 웹 페이지를 요청할 때 페이지를 받아오는 과정, 요청하는 과정 등 서로 통신을 해야 하고 이 통신에 송신, 수신되는 데이터가 바로 패킷이라고 볼 수 있습니다.&lt;/p&gt;
+&lt;h4&gt;3way Handshake&lt;/h4&gt;
+&lt;p&gt;지금까지 IP를 통해 통신할 때는 패킷을 이용하여 데이터를 송, 수신받는다고 했습니다. 근데 이 통신을 하기 위해서 그냥 패킷을 보내고 받으면 끝이 아닐까? 생각이 들 수도 있겠지만 실제로는 3way Handshake라는 과정을 통해 먼저 클라이언트와 서버가 연결되어있는지 확인하는 과정이 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 492px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/d5030f6f1a0b186be9f43c9ee712680a/f5a47/image-4.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 44.705882352941174%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3klEQVR42mWRT08aYRDGR9auhlgTW0pi1UtT07sHD6RxOQnyIbCfQXtpjyatlpRoa6oI9S9ENAqKGEk8WXFllwjhAErjSV1JFGmj2ZCFZfftLEt76Zs5zJv8npl5ZuBBekhcJTiBSwpJ9orN3+YJITWlJiuyHoqqkPrL3eQQQAxhDLEiwtHlEXgAvED5KPgGjsgQcv8E+tO/TIiBGaC8FMIwB6lCqi6eA3qxpcP/BGbBvmNH7gs/NfJj9POJ+83ecCATkCWZyMS6ZUWgw//00QKN+nQhDTgJdu4MdvXvvsYqtoiN1MhGbmOMHZvNeN4dvI/mo1hOLsvMFoOa/qilM9jdEOudqXnKuGTExBKwVH9X93/uO/eGx1Ouj6lPH7jx0q8SqRAmzCDweLmdXqTBVx87fnHY8r3VFDCb/ObmBXowPEjKJHQamuSngrn1CXYilo+VxbIiKdawVfPs0zwbvAatc/wi3uyju4I9z1e7jUtt9ojmefpkejT+1pV2O2POlYz/vnQvidLA5gB61sVN3qa/C5sBraSHgq/g2Hb8v+3iXfH89Lxvvg/dvljrfbn+6tmyGW8G2p2FBHfNcdc8K7BnxTPtzmoN9SpRG4mKKcneZo+F42QhyRd45MWK+AesqFCW7B2l0QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/d5030f6f1a0b186be9f43c9ee712680a/f5a47/image-4.png&apos; srcset=&apos;/static/d5030f6f1a0b186be9f43c9ee712680a/e7570/image-4.png 170w,
+/static/d5030f6f1a0b186be9f43c9ee712680a/f46e7/image-4.png 340w,
+/static/d5030f6f1a0b186be9f43c9ee712680a/f5a47/image-4.png 492w&apos; sizes=&apos;(max-width: 492px) 100vw, 492px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[출처 geeksforgeeks]&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3way handshake과정&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;SYN : 클라이언트가 서버와의 연결을 위해 SYN이라는 플래그를 보내어 연결 요청을 보냅니다.&lt;/li&gt;
+&lt;li&gt;SYN/ACK : 서버가 클라이언트의 연결 요청을 받아 연결할 수 있다고 판단되면 SYN/ACK 플래그를 클라이언트에게 보내줍니다.&lt;/li&gt;
+&lt;li&gt;ACK : 클라이언트는 서버의 응답을 확인하고 둘 다 실제 데이터 전송을 시작할 안정적인 연결을 설정합니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;다시 정리해보면 클라이언트에서 서버로 접속할 때 IP를 이용하여 통신을 하는데 그때 패킷을 통해 데이터를 전송하게 되고 통신을 연결하기 전 3way Handshake를 통해 연결 요청을 확인할 수 있다고 볼 수 있습니다. 이때 3way Handshake도 클라이언트가 SYN 패킷을 서버로 보내고, 서버가 SYN/ACK 패킷을 날리며 3way Handshake도 결국 패킷을 이용한 통신 중에 하나로 볼 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/40688ca9fbdf410636f57b870c8e5ba4/e01d3/image-5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 37.64705882352941%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABKElEQVR42l1S246CQAzl///Fn/CFFyEhDuFhQXazoMh9VG4qnJ1WhrA0aVp6OT1lamCWaZpYSd7vN7quw+v1Yn8YhkUp9nw+WcnXPdoa2AglmqZBURRs8zzn+DiOnHs8HgxGvh6wFga8329I0yvatsXlcmFLkiQJhBD/GFiWhSzL2NdsaQuyDEhJYuL7Pg6HgwJOEccxPM9bQKjYcRxmREz1MNqCZL/fY7fbfQCD4IS8rBB+/zAgTSW2QrjsUxMBhmHI333fM2igCHz5AZJrhuNRwDTND6CUcqFPq2r6ZVUrpmfYtr38v1Gp67qIooh7OgVe1xKlIlSWJfcaeq31o/T9gFa9cj+vSLGqkviNzpC3O4aZ5fqldZ2xBdNnQ4XbE9FntI5vz+YPD+hpvsN+Nd8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/40688ca9fbdf410636f57b870c8e5ba4/ca1dc/image-5.png&apos; srcset=&apos;/static/40688ca9fbdf410636f57b870c8e5ba4/e7570/image-5.png 170w,
+/static/40688ca9fbdf410636f57b870c8e5ba4/f46e7/image-5.png 340w,
+/static/40688ca9fbdf410636f57b870c8e5ba4/ca1dc/image-5.png 680w,
+/static/40688ca9fbdf410636f57b870c8e5ba4/02d09/image-5.png 1020w,
+/static/40688ca9fbdf410636f57b870c8e5ba4/9d567/image-5.png 1360w,
+/static/40688ca9fbdf410636f57b870c8e5ba4/e01d3/image-5.png 1790w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;그럼 &lt;strong&gt;통신을 위해 가장 먼저 발생하는 것이 SYN 패킷&lt;/strong&gt;인 거고 저희는 이 &lt;strong&gt;SYN 패킷을 추적&lt;/strong&gt;한다면 서버 접속이 안 되고 있는 구간을 알 수 있지 않을까요?&lt;/p&gt;
+&lt;h4&gt;tcpdump&lt;/h4&gt;
+&lt;p&gt;저희는 클라이언트에서 서버로 요청하는 SYN 패킷을 가로채서 확인하기 위해 &lt;strong&gt;tcpdump라는 소프트웨어&lt;/strong&gt;를 사용할 겁니다. tcpdump는 네트워크에서 전송되는 패킷을 가로채서 표시할 수 있게 해주는 소프트웨어로 대부분의 유닉스 계열 운영 체제에서 사용 가능합니다. 윈도우에서는 &lt;strong&gt;wireshark&lt;/strong&gt;라는 프로그램을 이용할 수 있으며 현재 진행되는 과정들은 tcpdump를 지원하는 유닉스 계열 운영 체제에 해당합니다. 설치를 제외한 나머지 과정은 MacOS에서 진행되며 대다수의 유닉스 계열에 네트워크 관련된 인터페이스가 설치되어있는 경우 tcpdump가 깔린 경우가 많습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;설치&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;linux&quot;&gt;&lt;pre class=&quot;language-linux&quot;&gt;&lt;code class=&quot;language-linux&quot;&gt;// Ubuntu 기준(다른 리눅스 계열도 비슷한 방식으로 설치합니다.)
+# apt install tcpdump&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;네트워크 인터페이스 조회&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;노트북을 기준으로 생각해보았을 때 노트북은 무선, 유선 2가지가 있고 이 2가지에 모두 IP를 할당받을 수 있습니다. 노트북에는 유선 랜카드, 무선 랜카드 2개의 랜카드가 있다고 볼 수 있으며 인터넷에 연결된 랜카드를 통해 패킷이 나가게 됩니다. 그럼 제 노트북을 기준으로 알아 보도록 하겠습니다. &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# ifconfig&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/2467b1991cd16a3c660f30b069ca535f/7a415/image-7.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 70%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACLElEQVR42mVT147bQAzUTyRw773J3bJkq7tJsg04/oXgHoJL8v8vkx0Ga9zhHgakpN0hZ0gZk/EY5nIJ/3yBdzwhvCSI0yviwwFB4COKIvi+jziO4Xme5I7jYLvdyrf5fI7pdIrZbIZ6vQ7je6EIr9PAu7vGr9DB73iPd9/Cj2sGy7aFxFaXLcvCUhUmSLbZbOQdiZrNJlqtFqrVKoxvhQLiQRt/Fdmbb+PPOcBPa4osjuAFgZCNRiOMlRKi1+tJ7Pf76Ha7KJfLKJVKKBaLkhtT04S5WCJKMsRJioOSa/khTCWDHaxWK+lisVhIpLzhcChSdWdEu93+32Gj0cBwMMBB+UGcjkeklwuOKlKarWTTM9d1JddSdU5iUzX18jCfz6PT6YhX7n6PgxpGqKRGYYi9eibpQBWkPMplJzzPLhkpVUMk8wArnE5qwookTdMXCb3iRZ7RZCQmEbthXqvVUKlURC6jQXPpy/V6FbL7/S7gmpCQ3yhLS5tMJhI5KEZNqGHkcjmpTgIiTTNclIeE3jleZseElstizCnzEyGHwguU6zi2Io1konxPiQS7oMSPsaDWjevykUwIWY0TIuH5fJbpZlkm8o9qQMz1H0JvCXbNDvUefiLkS/pEMvqYJAlutxuez6d4yVz/HeycXq7Xq9eUvxCOR2M5qAei4+PxeBFzfQK1SrvdToj5zA7p6RfJDeUJq1ESf3aCw+EaUT5zWkLoKZOMvvOeXhdN+A8Xyr4TNxTLZAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/2467b1991cd16a3c660f30b069ca535f/ca1dc/image-7.png&apos; srcset=&apos;/static/2467b1991cd16a3c660f30b069ca535f/e7570/image-7.png 170w,
+/static/2467b1991cd16a3c660f30b069ca535f/f46e7/image-7.png 340w,
+/static/2467b1991cd16a3c660f30b069ca535f/ca1dc/image-7.png 680w,
+/static/2467b1991cd16a3c660f30b069ca535f/02d09/image-7.png 1020w,
+/static/2467b1991cd16a3c660f30b069ca535f/7a415/image-7.png 1244w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;ifconfig를 입력했을 때 가장 왼쪽위에 &lt;code class=&quot;language-text&quot;&gt;:&lt;/code&gt; 왼쪽에 쓰여 있는 것이 &lt;strong&gt;네트워크 인터페이스(랜카드)의 이름&lt;/strong&gt;이며 여러 개가 나오는데 그 중 &lt;strong&gt;inet이 입력되어있는 곳이 IP가 부여되어 사용&lt;/strong&gt;하고 있는 곳으로 볼 수 있습니다.(유선, 랜선 둘 다 사용하면 inet이 적혀있는 인터페이스가 2개 있을 수 있음!) 저는 en0이라는 네트워크 인터페이스명을 가지고 있고 192.168.1.84라는 IP를 가지고 있네요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;특정 네트워크 인터페이스에서 나가는 패킷 조회&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni en0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위에 적힌 명령어는 en0이라는 네트워크 인터페이스를 감시해서 실시간으로 출력하겠다는 뜻입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-i&lt;/code&gt; : 네트워크 인터페이스를 설정하는 옵션&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;-n&lt;/code&gt; : 한 번의 n은 IP 주소를 이름으로 변환하지 않고 두 번의 n을 입력할 경우 IP와 포트를 이름으로 변환하지 않습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/01118c42d483de183c06b94d8daa0f2c/7a163/img1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 33.529411764705884%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABVElEQVR42j1RSW7DMAz0O7K8wJfYjW3Ji+Td8VYkvRRx0xTo//8w5QhoDoREipwZjry6rtE0DWqG3Nu2dWGMQVmWiKIIYRi6nixLYa1FHMfwfR+73Q6HwwHH49Gd+/0eXt/3WNcVlYCVDrzFNM8oBNAKIImMLdEPg+uphYx1EpRVBaWUI03TFEEQwJumCdv9jrnvMHUdRhmYhx6NADbW4LYuGJoat/cFfV25HvUWOvDr9frahgS8e1SwCOhnHuNhFJ5lhodN8dtZfEQn/FQ5vgqFb6nd8wRPozGffGhRpLVGJSoZBM3zXAAlmWVF+kfPeFpRRq9MUbicgy6XoSIvkKjkVeMMPaVCrRW8cRyxbZvzaLhcwHyQO0noEXMO0hr6TYJIAAjOGt8LIe7ECr55ZFiWxTGy6f93uUaSJM4XKr4IGYEH8fd8Pru+LMtkC9mGygWU+R+lDfSv14aePgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/01118c42d483de183c06b94d8daa0f2c/ca1dc/img1.png&apos; srcset=&apos;/static/01118c42d483de183c06b94d8daa0f2c/e7570/img1.png 170w,
+/static/01118c42d483de183c06b94d8daa0f2c/f46e7/img1.png 340w,
+/static/01118c42d483de183c06b94d8daa0f2c/ca1dc/img1.png 680w,
+/static/01118c42d483de183c06b94d8daa0f2c/02d09/img1.png 1020w,
+/static/01118c42d483de183c06b94d8daa0f2c/9d567/img1.png 1360w,
+/static/01118c42d483de183c06b94d8daa0f2c/7a163/img1.png 1374w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;실행하고 바로 취소를 눌러 캡처된 패킷입니다. 빨간색으로 표시된 부분을 보면 &lt;strong&gt;제 노트북 무선 랜카드에 적혀있는 IP인 192.168.1.84번&lt;/strong&gt; &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt;에서 &lt;strong&gt;104.18.22.107 IP의 443포트인&lt;/strong&gt; &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt;로 패킷이 나가고 있는 것을 볼 수 있습니다. 443포트는 https로 저는 현재 https로 되어있는 웹사이트를 접속해 있기 때문에 위와 같이 패킷이 나오게 되는 겁니다. 그 뒤에 Flags를 볼까요? 제가 자세히 말씀드리진 않았지만 SYN, ACK와 같은 플래그들이 더 있습니다. [.]은 ACK Flag로 봐도 무방하며 연결 후 통신이 이루어지고 있다고 보면 좋을 것 같아요. &lt;/p&gt;
+&lt;p&gt;이렇게 &lt;code class=&quot;language-text&quot;&gt;출발지&lt;/code&gt; IP에서 &lt;code class=&quot;language-text&quot;&gt;목적지&lt;/code&gt; IP로 가는 패킷에 &lt;strong&gt;Flag가 담겨&lt;/strong&gt;있으므로 어느 목적지 서버를 접속할 때 &lt;strong&gt;출발지 네트워크 인터페이스에서 SYN 패킷이 목적지 IP로 날아가는지&lt;/strong&gt;, 그리고 서버에서도 동일하게 &lt;strong&gt;서버의 인터페이스에서 클라이언트가 보낸 SYN 패킷이 들어오는지 확인해보면 연결 요청에 대해서 트러블 슈팅&lt;/strong&gt; 해볼 수 있지 않을까요? &lt;/p&gt;
+&lt;p&gt;그럼  &lt;strong&gt;정상 동작일 때와 비정상 동작일 때 각각을 어떻게 확인해볼 수 있고 어떤 차이&lt;/strong&gt;가 있는지 알아봅시다.&lt;/p&gt;
+&lt;h3&gt;예제&lt;/h3&gt;
+&lt;h4&gt;클라이언트에서 정상적으로 서버에 접속되는 경우&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/734c5253b501d8d1ce7c6b1c6f3c133e/f766a/image-8.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.88235294117647%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABC0lEQVR42m1RSW6DQBDk/x9xXhFLfMEO4oDEahAQYIbN7BWqIxAHt9QwNdNd1YuBi23bJk4bxxFN02BZFnFi+jzPgqdpEnzEH3/jExn/Xdeh73vEcYw0TU/Rtm1RFIWcSU7SqxkH0TAMCMMAeZ4jCAJUVSUBSZIgy7KzUp4dx5G3404pJfdCSALLsqDrBtErhmmaUp3rung8HqdyGIawbfvErPL5/MFvUeL7fsfX7fZPqLWWZKU0yrKC53miygqzXYwt831dV5kb5+r7vrTOYnhHTDHmGfxwFtdZMvn9Hvbkdm8lP2emdC2tRVEkmHEcFUXo5Pm4FNqxRQoykWdd1+j2RTGOmGR8vy7lD7GrG7hxWDvxAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/734c5253b501d8d1ce7c6b1c6f3c133e/ca1dc/image-8.png&apos; srcset=&apos;/static/734c5253b501d8d1ce7c6b1c6f3c133e/e7570/image-8.png 170w,
+/static/734c5253b501d8d1ce7c6b1c6f3c133e/f46e7/image-8.png 340w,
+/static/734c5253b501d8d1ce7c6b1c6f3c133e/ca1dc/image-8.png 680w,
+/static/734c5253b501d8d1ce7c6b1c6f3c133e/02d09/image-8.png 1020w,
+/static/734c5253b501d8d1ce7c6b1c6f3c133e/9d567/image-8.png 1360w,
+/static/734c5253b501d8d1ce7c6b1c6f3c133e/f766a/image-8.png 1808w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;클라이언트 PC&lt;/strong&gt; : 192.168.1.84&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MySQL 서버&lt;/strong&gt; : 180.224.180.78&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;현재 저는 카페에 있고 카페 무선 와이파이로 받은 &lt;strong&gt;클라이언트 PC IP는 192.168.1.84&lt;/strong&gt;이고 집에 테스트를 하기 위해 열어둔 &lt;strong&gt;MySQL서버는 180.224.180.78번&lt;/strong&gt; 입니다. 제 노트북인 192.168.1.84에서 &lt;strong&gt;MySQL Workbench로 집에 있는 180.224.180.78을 접속&lt;/strong&gt;해보겠습니다. 접속할 때는 아래와 같이 명령어를 통해 패킷을 캡처해보도록 하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni en0 port 33306&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;명령어에 port를 입력하는 경우 특정 포트를 선택해서 캡처할 수 있습니다.(집에 있는 MySQL서버는 테스트 용도로 3306 포트가 아닌 33306포트로 오픈되어있는 상태입니다.)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;클라이언트에서 확인한 tcpdump&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/08ee7df693653a0af076a366ac2669cd/83e8e/img2.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 52.94117647058824%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB90lEQVR42jVS2Y7aQBD0vyTaLIcPbAy+z/GBbTACsatNULJSHvL/X1DpGpaHkT1dR9f0jFH3PfJaoRkG1F2PQjWyFKq2R5hm2CcJkrJElOf4/rqAu9sjqyp4+wB+GCHOC+zjRLgpttstjM9e4WeZ4ndb4T2L8CH/d5Xjj+z/zQN+1Rne0lDwEpNn47Or8VEkoO6uCq37e1C4iW65WsForSWmraPJB2et17xzMcqe9XPgoTUXOPobDK4l+y0OGxPXeI/OXmnO6Jqo15Lek4Sb3U4fqeo6rJ0NlpaNlW3r/4VpwhbSwrTwslxr7LEsWK4ntaXmvUiybz9eYQrfqMRsGkdcLxeURYGiyNE0Cqqu8cSiKNJ74r00LmSe83xCLPW2aRAGAVzXRZZlMGohjiK63W5i1KCSgU/ThE6EXPM8IxDBRRqSy2/btrjf78jFeJDLpJHv+xo3UrkdGhEoJRFJSm6ZIM3HZ0KpEWMT8k4nSRjHuh58JSSuDXt5OsfjUXcigUZMUcgRmZAGfBK11FmjhsbhVyOmcxxHYwZNCPKYT0MupmbHWZKwnsh7ZKPnWBiAycgNo1An1IbsxjRMSQMegyKCTEaMZBqQyxEQu16vehTkUuN53uNSCNKMCWlIEyamEedIoyRJ5biPmRKj5nw+ayNqacymNP8Pu6aADVucwYUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/08ee7df693653a0af076a366ac2669cd/ca1dc/img2.png&apos; srcset=&apos;/static/08ee7df693653a0af076a366ac2669cd/e7570/img2.png 170w,
+/static/08ee7df693653a0af076a366ac2669cd/f46e7/img2.png 340w,
+/static/08ee7df693653a0af076a366ac2669cd/ca1dc/img2.png 680w,
+/static/08ee7df693653a0af076a366ac2669cd/02d09/img2.png 1020w,
+/static/08ee7df693653a0af076a366ac2669cd/83e8e/img2.png 1084w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;위 사진은 클라이언트에서 캡처한 패킷인데 &lt;strong&gt;192.168.1.84에서 180.224.180.78의 33306포트로 SYN패킷&lt;/strong&gt;이 나가는 것을 확인할 수 있습니다. 아래 &lt;b&gt;Flag [S.]&lt;/b&gt;의 경우 &lt;strong&gt;SYN/ACK&lt;/strong&gt;를 표현하는 뜻이며 그 아래 바로 &lt;b&gt;Flag [.]&lt;/b&gt;이 나온 것을 보면 정상적으로 연결된 것을 확인해볼 수 있습니다. 그럼 반대편인 MySQL서버에서도 확인해볼까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버 네트워크 인터페이스 확인&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/4a840dbe60f4c586acf498c5799b19d7/b38ab/image-9.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 45.294117647058826%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABdUlEQVR42k2SyXKDQAxE+SJveC/vNjt2YgPeEnLIIYcs/3/szFOFlA8CoUGt7tZ4RVnq5X7X2/Wie+VyF+/1q25loTRJlGWZ9vu94ji2SNNUy+VSu91OQRBoNBppOBzau9/vy/Pdw+909JXu9L2P9XNI9JkG+oi3Nqh0A89Vpev1quPxqMQNqdz37XZTnueaz+dar9fabrcaj8fyer2eiDxLVbqG0/OzkijU0+Ggg4vNZqPT6aSiKKypYQsj3/fVarXUbrctut2uPB4dxxAp1eVizUEYCivO57MxuvzVV6uV1QAFbDKZWMBsMBgYMQ/9FPg5iiKFDow8cwMIWOEVTJFHjof0IJXgfwCN4Ww2syL+MBkmMMKfuq7NOxbDORbAApk0IxN1jVxj2BQAowkAwMixARCGcA67Rh6SG/8fw5bCISzYHs2LxcK2SI5UwLkmLAILqHFFGpBH8P8tNxsEGK8aVtSpATidTu0bz1gGwASWsQs8/AUCokGqAISJlwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/4a840dbe60f4c586acf498c5799b19d7/ca1dc/image-9.png&apos; srcset=&apos;/static/4a840dbe60f4c586acf498c5799b19d7/e7570/image-9.png 170w,
+/static/4a840dbe60f4c586acf498c5799b19d7/f46e7/image-9.png 340w,
+/static/4a840dbe60f4c586acf498c5799b19d7/ca1dc/image-9.png 680w,
+/static/4a840dbe60f4c586acf498c5799b19d7/02d09/image-9.png 1020w,
+/static/4a840dbe60f4c586acf498c5799b19d7/b38ab/image-9.png 1168w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;우선 MySQL 서버의 IP는 &lt;strong&gt;172.17.0.4&lt;/strong&gt;이고 eth0이라는 네트워크 인터페이스를 이용하고 있습니다. 서버의 IP인 180.224.180.78도 외부 IP일 뿐 NAT가 적용되고 현재 도커로 돌린 MySQL이기 때문에 위와 같이 172.17.0.4로 나오게 됩니다. 출발지에서 보기에는 서버는 &lt;strong&gt;180.224.180.78&lt;/strong&gt; IP를 가지고 있다고 봐주시면 될 것 같아요!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버에서 확인한 tcpdump&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# tcpdump -nni eth0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/7cfef3e8c3eacbc0462007e18593120d/41314/img3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 24.705882352941178%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAABGUlEQVR42h2Q23KDMAxE+aq2XGMIkBrM3UCSJkySttO+9P8fT+U87Fhar1aj9Zq2Zds2rLWM40jT96ynE/O6ouuaUXi7LPhhSJgkvAXBE64PovgJVyc7RawUXl0bFhlomgYj2PqWKdtxNZpbZ3gMLb+r5XPsntxd/s/6wJyn/CwTH9WBu2huXcOXHfCsnbleL6xi2o8T3zL4Z3se5p05CRjDFy654qgiqV85pjE29jllMY+6lD7iVhWcs4RJeK/rOqZpQmtNK+fXxmCHgU5efSifGESTZynFPsNUFbosSZMYJRFEYcA+VSRytu8HeL0MO8NKhO50Z+pyHYRvxaiWHFfJ05iGohBzydktLcTU6fZ5TiUalWYopfgHA4q7/0VpDx8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/7cfef3e8c3eacbc0462007e18593120d/ca1dc/img3.png&apos; srcset=&apos;/static/7cfef3e8c3eacbc0462007e18593120d/e7570/img3.png 170w,
+/static/7cfef3e8c3eacbc0462007e18593120d/f46e7/img3.png 340w,
+/static/7cfef3e8c3eacbc0462007e18593120d/ca1dc/img3.png 680w,
+/static/7cfef3e8c3eacbc0462007e18593120d/02d09/img3.png 1020w,
+/static/7cfef3e8c3eacbc0462007e18593120d/41314/img3.png 1074w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;출발지 172.17.0.1에서 172.17.0.4의 3306포트로 SYN 패킷이 들어온 것을 보실 수 있습니다. 현재 출발지 IP가 카페 외부 IP인 39.115.214.146으로 나오지 않는 이유는 현재 제가 도커를 이용해서이고 33306포트가 아닌 3306으로 나오는 이유도 도커의 외부포트 내부포트를 변경해서입니다. &lt;/p&gt;
+&lt;p&gt;현재 저 빨간색 패킷 부분은 결국 39.115.214.146이라는 제 노트북이 저의 집에 있는 서버인 180.224.180.78의 33306포트로 접근했다 라고 생각해주시면 될 것 같아요.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;결국 클라이언트에서 서버로 접속되는 패킷이 정상적으로 SYN, SYN/ACK, ACK가 된 것을 확인할 수 있고 클라이언트와 서버에서 모두 패킷을 확인할 수 있었습니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4&gt;클라이언트에서 정상적으로 서버에 접속되지 않는 경우&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;1. 서버가 Down 되어있을 때&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/f277872cf92a7fdace7e0063e640172b/418a5/img4.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.29411764705882%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABDUlEQVR42l2R64qEMAyFff/nWJgHWXf/zf7RQdgREUVnvaMV8X62J1KRCYQ2bfLlNLVwsX3fT1+WBUoprOsqPk2TOM8Zz/Msvm3bWUuz3oFmHccRXdehLEukaXrm8LyqKtkTNmkoCOVKoIGwaxzHAkiSRFZaURQSG9VN08DzvKO59lnDVJahcN0DyITf5xNlVeNPX9i2LRCq+rnfT2U8cxznjKnefTyQ5SU+v77xcbvJCKy+7xEEAWoNrusGYRhiGAb0qkf6emlQCd/3Rd04TvJk5rAuz3OZaxRFcLVC7i0z8OscORt26zolQBaKKt2EoyDQjIq1VNu27aHw/YeN8dL86rUBlTOPMdXy/mr/qzQbjQtiRl8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/f277872cf92a7fdace7e0063e640172b/ca1dc/img4.png&apos; srcset=&apos;/static/f277872cf92a7fdace7e0063e640172b/e7570/img4.png 170w,
+/static/f277872cf92a7fdace7e0063e640172b/f46e7/img4.png 340w,
+/static/f277872cf92a7fdace7e0063e640172b/ca1dc/img4.png 680w,
+/static/f277872cf92a7fdace7e0063e640172b/02d09/img4.png 1020w,
+/static/f277872cf92a7fdace7e0063e640172b/9d567/img4.png 1360w,
+/static/f277872cf92a7fdace7e0063e640172b/418a5/img4.png 1810w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;클라이언트에서 확인한 tcpdump&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/8cfb89eaae188c9f11651442337560f9/f7f62/img5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 13.529411764705882%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAvElEQVR42iWOS27DMAxEfZ9kF9iNI1uyKCm2pH4C5ABF0e6KoEXTbHr5FxpdEOTMcIZslmVhmiZCCIgIMSUm70npiFdsjMF7QVRvu47Ndou1Vj2erntgGAec+kflVr4ppeCcI8So3SI6Jw1aq+bMU62Yfk/QI6OG79uWPM/YwVCWmaBhUXefa0F0p4katH51Pr3wZlo+fc9PFi5x5PvouNXI7THxftjxpfi3xH9tdvydMh/KX0vgIgOv/Y47GRdsePCDhW4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/8cfb89eaae188c9f11651442337560f9/ca1dc/img5.png&apos; srcset=&apos;/static/8cfb89eaae188c9f11651442337560f9/e7570/img5.png 170w,
+/static/8cfb89eaae188c9f11651442337560f9/f46e7/img5.png 340w,
+/static/8cfb89eaae188c9f11651442337560f9/ca1dc/img5.png 680w,
+/static/8cfb89eaae188c9f11651442337560f9/02d09/img5.png 1020w,
+/static/8cfb89eaae188c9f11651442337560f9/f7f62/img5.png 1096w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SEW는 SYN ECE CWR의 약자입니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SYN은 새로운 연결을 시작한다는 이야기이고&lt;/li&gt;
+&lt;li&gt;ECE는 Explicit Congestion Notification이라는 TCP혼잡제어 기능을 사용할 수 있다고 알려주는 것입니다.&lt;/li&gt;
+&lt;li&gt;CWR(Congestion Window Reduced)은 슬라이딩윈도우의 윈도우 사이즈를 줄여달라는 뜻입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;결국 SEW도 &lt;strong&gt;SYN의 일종으로 SYN&lt;/strong&gt;을 보냈으나 Flag가 &lt;b&gt;[S.]&lt;/b&gt;가 아닌 &lt;b&gt;[R.]&lt;/b&gt; &lt;strong&gt;연결종료가&lt;/strong&gt; 나왔으므로 서버와 정상적으로 연결될 수 없는 것을 알 수 있습니다. &lt;strong&gt;이때 클라이언트에서는 SYN을 보낸 게 확인되었기 때문에 SYN을 보낸 클라이언트에서는 전혀 접속하는 데 문제가 없는 것이고 서버 쪽이 문제 있을 수 있다라고 유추할 수 있게 됩니다.&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 서버 상단의 방화벽이 막고 있을 때&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;실제로 중요한 회사 서버들은 서버 앞단에 방화벽 같은 보안 장비를 두는 경우가 많습니다. 소프트웨어 단계에서의 방화벽도 있으며 하드웨어든 소프트웨어로 이루어져 있든 MySQL서버 앞단에서 33306으로 들어오는 &lt;strong&gt;포트를 차단할 경우 외부에서는 내부에 있는 MySQL서버를 접속하지 못하는 거죠&lt;/strong&gt;. 제가 회사에 다니며 겪었던 가장 흔한 일 중의 하나였습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/57de11a057ba8ea34a0a1990cb1cca3d/0aea6/img6.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 37.05882352941176%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABI0lEQVR42l1Ry26DMBD0//9IT+2NHqtccmii3toovIWEIgEBEQLhzdSzyKjNSqu19zEzXqtlWUA3Zs73+x1lWaLve3RdJ5E+jiOmaVrz2od5/jenDBAbOcgC4+PxkEHXdRHH8UaYpik8z1tBSKBri+4zklRVVajrGuXthiAIBCCKIiRJIirpJGAfFfOeZRlGDVIVORzrDeefbxyORxGlyO55PoryBl8D7vd7KTiOI26MfWEYbvdEK/36PGD3+oLd7gOW9S5rUEVRCOMwjKtSrYLPZrzmOWwNatu2gMx6X8yfTic5k5ggl8sFvu+jaRoos+S/Ns8TWv3MruvRtq0MEiDNcmTXHLkmkh3qnKkbHIUnM7/FhmEYNqcSDjOaX6bPT7/8C/08GSLwnTZ/AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/57de11a057ba8ea34a0a1990cb1cca3d/ca1dc/img6.png&apos; srcset=&apos;/static/57de11a057ba8ea34a0a1990cb1cca3d/e7570/img6.png 170w,
+/static/57de11a057ba8ea34a0a1990cb1cca3d/f46e7/img6.png 340w,
+/static/57de11a057ba8ea34a0a1990cb1cca3d/ca1dc/img6.png 680w,
+/static/57de11a057ba8ea34a0a1990cb1cca3d/02d09/img6.png 1020w,
+/static/57de11a057ba8ea34a0a1990cb1cca3d/9d567/img6.png 1360w,
+/static/57de11a057ba8ea34a0a1990cb1cca3d/0aea6/img6.png 1756w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;그럼 192.168.1.84인 클라이언트에서 180.224.180.78 서버로 접속 요청을 시도해보겠습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;클라이언트에서 확인한 tcpdump&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/75b74fffb2527087f006706985703dc9/5a4f3/image-11.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 40.588235294117645%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABGElEQVR42lWSV67EMAhFvadITlF673X/a2FyeA9p5sMivsChOG7fd5nnScqylGmapKoqadtWz3VdchyHasMwSF3XEgTBGz+rhu26TtZ1lfM8JUkScX3fS5ZlggUeRZEGf+vjOOo3gKIoFECBbdskjmNtJMsz9TkqQAayLIuEYaidGLD5/7bENE0VxuFOA1jy8Ckwz3OFAPT+BTa1JlARP0CKWocAONwBYSlIA45dAcQyAgFV+Tey6QYEgoZFMxAroFPeweG0B3me5wVG0jSNmG47ZBwSbTVo7JxCPBxA8hxVODgBkmjBdEcy34x63dfP69/3rWNyJw+fY1eI7Aqw916TcRJkvxEd0C0aFm0YB/Ghl/5lkMejfADy/B53s33p4QAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/75b74fffb2527087f006706985703dc9/ca1dc/image-11.png&apos; srcset=&apos;/static/75b74fffb2527087f006706985703dc9/e7570/image-11.png 170w,
+/static/75b74fffb2527087f006706985703dc9/f46e7/image-11.png 340w,
+/static/75b74fffb2527087f006706985703dc9/ca1dc/image-11.png 680w,
+/static/75b74fffb2527087f006706985703dc9/02d09/image-11.png 1020w,
+/static/75b74fffb2527087f006706985703dc9/5a4f3/image-11.png 1052w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;180.224.180.78로 계속 SYN 패킷을 날리고 있습니다. 위에서 서버가 다운되었을 때는 찾지 못해 [R.] Flag가 뜨며 바로 종료되었으나 현재 서버는 다운되지 않았지만, &lt;strong&gt;방화벽에 의해 포트가 차단이 되어 SYN 패킷은 날아가지만 서버에서는 응답은 없는 현상이 발생&lt;/strong&gt;하는 것입니다. 그럼 MySQL서버는 다운되지 않았으니 클라이언트가 서버에 접속 요청을 보낼 때 서버에서 패킷을 한 번 캡처해볼까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;서버에서 확인한 tcpdump&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/b9842d66b2dda10d47b4970c54eacce9/7a415/image-12.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 18.823529411764707%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAhElEQVR42q2MSwrEIBBEvZIRXBkSxE8iKoII7rz/KWrohgGZ9Swer7ssW6y10FrDGAO9d8w5kXPmnTjPE9d1sY0x7Pu+OSOcc+wQArTWEKUUWGvxPA+898z7vqC81srHaU8pcS/GyDNl9Ic6lJH54HEcUEpBSgmad+9Q9uX3be+IvfgPPo7SiJ8DnSQLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/b9842d66b2dda10d47b4970c54eacce9/ca1dc/image-12.png&apos; srcset=&apos;/static/b9842d66b2dda10d47b4970c54eacce9/e7570/image-12.png 170w,
+/static/b9842d66b2dda10d47b4970c54eacce9/f46e7/image-12.png 340w,
+/static/b9842d66b2dda10d47b4970c54eacce9/ca1dc/image-12.png 680w,
+/static/b9842d66b2dda10d47b4970c54eacce9/02d09/image-12.png 1020w,
+/static/b9842d66b2dda10d47b4970c54eacce9/7a415/image-12.png 1244w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;예상하셨겠지만 &lt;strong&gt;아무런 패킷을 받을 수 없었습니다&lt;/strong&gt;. 서버 상단에 있는 방화벽에서 패킷을 막고 있기 때문에 방화벽을 통과할 수 없어 이런 현상이 발생하고, 이처럼 클라이언트에서 나가는 것은 확인했는데 서버까지 안 들어온다고 하면 클라이언트에서 출발 이후 서버에게 도착하기전까지 어떤 장비나 소프트웨어에 의해 막혀있다고 판단할 수 있는 거죠. &lt;/p&gt;
+&lt;p&gt;방화벽 차단뿐만 아니라 포트포워딩을 잘못 설정했을 때, AWS에서 보안 그룹 설정을 잘못했을 때 등 다양한 원인에 의해 발생할 수 있습니다. &lt;/p&gt;
+&lt;h3&gt;마지막으로&lt;/h3&gt;
+&lt;p&gt;클라이언트에서 서버로 접속이 안 되는 경우는 사실 어디가 잘못되었다고 쉽게 특정할 수는 없습니다. 정말 다양한 원인에 의해 발생할 수 있는 문제이지만 앞에서 말씀드린 것처럼 tcpdump를 이용한다면 네트워크 어느 구간에서 문제가 있는지 유추할 수 있어 시간을 절약할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;모든 분이 이해하기 쉽게 작성하기 위해 자세하게 적기보다는 어떠한 원리로 트러블 슈팅할 수 있는지에 초점을 맞춰서 글을 작성했습니다. tcpdump는 실제로 활용할 수 있는 방법이 많으므로 한 번 따로 공부해보시는 것도 추천해 드립니다!&lt;/p&gt;
+&lt;h3&gt;번외&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/71b5452fbc96e871a61b61fff233aee8/47fb9/image-13.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 29.411764705882355%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA8ElEQVR42j2RV46FMAxF2Q9P4o/ee28Cif1vxJPjEXxEsePr45vEmqZJ6rrW1TSN7l3XSd/3kiSJ5uyO40hs9qIoNM/zXGtxHGvNtm1dFs1VVSkMUZ5nUpaltG0r4zhqA/mrYRA1zpZ5Vvjv9xPf98XzPLGGYVDxcRwqemE4wX0QBAY8yLIsqtv3XevE1LMsk8Y4va5Lnuf5dwhkNtNwCAgn6sBAcIgGt0DWdVUg132B9FDftk0sAgDneX4grkWM6zRNPzEgzhhAzMD3Lem/71ss7IZh+H1CFEUqSowzoK7rqoP3c4AxhEWdJ0ni5HvbP0Ye1sPB7TKyAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Alt text&apos; title=&apos;&apos; src=&apos;/static/71b5452fbc96e871a61b61fff233aee8/ca1dc/image-13.png&apos; srcset=&apos;/static/71b5452fbc96e871a61b61fff233aee8/e7570/image-13.png 170w,
+/static/71b5452fbc96e871a61b61fff233aee8/f46e7/image-13.png 340w,
+/static/71b5452fbc96e871a61b61fff233aee8/ca1dc/image-13.png 680w,
+/static/71b5452fbc96e871a61b61fff233aee8/02d09/image-13.png 1020w,
+/static/71b5452fbc96e871a61b61fff233aee8/47fb9/image-13.png 1246w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;SpringBoot에서 JDBC를 사용하면 Hikari CP(커넥션 풀)를 이용하게 되는데 이때 값을 설정하지 않으면 디폴트 값으로 웹서버와 DB서버 사이에 풀을 10개 만들게 됩니다. 이것도 사실 데이터베이스와 웹서버가 네트워크 통신으로 이루어지기 때문에 위와 같이 패킷을 캡처해서 실제로 &lt;strong&gt;10번의 요청을&lt;/strong&gt; 보내는지 알 수 있게 됩니다. 위 사진에서도 SEW 즉, SYN 패킷이 10번 날아간 것을 확인해볼 수 있습니다!&lt;/p&gt;
+&lt;p&gt;긴 글 읽어주셔서 감사합니다. 🙏🙏🙏&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🤩 4. Other Tips]]></title><description><![CDATA[How to change the favicon? The favicon is located in . If you replace that image, the favicon will change. If you want to change the name of…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/other-tips/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/other-tips/</guid><pubDate>Tue, 04 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;How to change the favicon?&lt;/h2&gt;
+&lt;p&gt;The favicon is located in &lt;code class=&quot;language-text&quot;&gt;static/favicon.png&lt;/code&gt;. If you replace that image, the favicon will change.&lt;/p&gt;
+&lt;p&gt;If you want to change the name of the favicon, change the &lt;code class=&quot;language-text&quot;&gt;icon&lt;/code&gt; property of &lt;code class=&quot;language-text&quot;&gt;gatsby-plugin-manifest&lt;/code&gt; in &lt;code class=&quot;language-text&quot;&gt;gatsby-config.js&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Utterance is not working properly.&lt;/h2&gt;
+&lt;p&gt;In the http environment, utterance may not work properly. Host your blog with https.&lt;/p&gt;
+&lt;h2&gt;How to set OG Image?&lt;/h2&gt;
+&lt;p&gt;Replace the &lt;code class=&quot;language-text&quot;&gt;og-image.png&lt;/code&gt; file in the &lt;code class=&quot;language-text&quot;&gt;/static&lt;/code&gt; directory with your own image file.&lt;/p&gt;
+&lt;h2&gt;Do you have another question?&lt;/h2&gt;
+&lt;p&gt;Please comment on this article or &lt;a href=&quot;https://github.com/devHudi/gatsby-starter-hoodie/issues&quot;&gt;open an issue&lt;/a&gt; in the gatsby-starter-hoodie repository. Your participation advances gatsby-starter-hoodie. Thank you 😎.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🤔 3. Writing Guide]]></title><description><![CDATA[1. Add a post You can add posts by creating a new markdown document in the  path. 1-1. Post file structure There are two ways to add a new…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/writing-guide/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/writing-guide/</guid><pubDate>Mon, 03 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;1. Add a post&lt;/h2&gt;
+&lt;p&gt;You can add posts by creating a new markdown document in the &lt;code class=&quot;language-text&quot;&gt;contents/post&lt;/code&gt; path.&lt;/p&gt;
+&lt;h3&gt;1-1. Post file structure&lt;/h3&gt;
+&lt;p&gt;There are two ways to add a new document. The first is to create a markdown file for a single document without a directory. If you are writing about JavaScript, you can create a &lt;code class=&quot;language-text&quot;&gt;about-javascript.md&lt;/code&gt; file in the &lt;code class=&quot;language-text&quot;&gt;contents/posts&lt;/code&gt; directory.&lt;/p&gt;
+&lt;p&gt;The second is to create a directory and create an &lt;code class=&quot;language-text&quot;&gt;index.md&lt;/code&gt; file in it. This method is useful when the document contains several additional files such as picture files.&lt;/p&gt;
+&lt;p&gt;Each file name or directory name becomes a unique address of the document and can be accessed as follows. &lt;code class=&quot;language-text&quot;&gt;https://siteURL/about-javascript&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;1-2. Frontmatter&lt;/h3&gt;
+&lt;p&gt;The Markdown document you create contains the document&apos;s metadata called frontmatter.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
+title: &quot;🤔 3. Writing Guide&quot;
+description: &quot;How to write and add a post?&quot;
+date: 2021-05-03
+update: 2021-05-03
+tags:
+  - hoodie
+  - writing-guide
+series: &quot;Getting started your blog with gatsby-starter-hoodie&quot;
+---&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Above is the frontmatter of the document you are currently reading. Among them, title and date are required. It is recommended to enclose the string with spaces in quotation marks.&lt;/p&gt;
+&lt;h3&gt;1-3. Writing markdown&lt;/h3&gt;
+&lt;p&gt;If you have written a Frontmatter, you can write your markdown document under it. gatsby-starter-hoodie supports most Markdown syntax. To learn more about Markdown syntax, see the &lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;Mastering Markdown&lt;/a&gt; documentation on GitHub.&lt;/p&gt;
+&lt;h2&gt;2. Syntax Highlighting &amp;#x26; Katex&lt;/h2&gt;
+&lt;h3&gt;2-1. Syntax Highlighting&lt;/h3&gt;
+&lt;p&gt;Syntax highlighting based on Prism.JS is supported.&lt;/p&gt;
+&lt;h4&gt;Examples&lt;/h4&gt;
+&lt;p&gt;Javascript&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Python&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It supports a wider variety of other languages. Check it out on the &lt;a href=&quot;https://prismjs.com/&quot;&gt;Prism.js website&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;2-2. Katex&lt;/h3&gt;
+&lt;p&gt;It supports Katex syntax, you can easily express complex formulas.&lt;/p&gt;
+&lt;h4&gt;Inline mode&lt;/h4&gt;
+&lt;p&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;E&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;E = m c^{2}&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.05764em;&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8141079999999999em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8141079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h4&gt;Block mode&lt;/h4&gt;
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msubsup&gt;&lt;mo&gt;∫&lt;/mo&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;∞&lt;/mi&gt;&lt;/msubsup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;\int_{0}^{\infty} f(x) dx&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:2.326242em;vertical-align:-0.9119499999999999em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mop&quot;&gt;&lt;span class=&quot;mop op-symbol large-op&quot; style=&quot;margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;&quot;&gt;∫&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:1.414292em;&quot;&gt;&lt;span style=&quot;top:-1.7880500000000001em;margin-left:-0.44445em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3.8129000000000004em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;∞&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.9119499999999999em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;h2&gt;3. Add images to a post&lt;/h2&gt;
+&lt;p&gt;You can easily embed images using relative paths. It is easy to manage documents containing images by creating a directory.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/aaf92/sample-image.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 61.1764705882353%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/aAAwDAQACEAMQAAABUsxAixiE/wD/xAAbEAACAwADAAAAAAAAAAAAAAABAgADBBEiI//aAAgBAQABBQIFeW7ETHWtk0D2awqf/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABcRAAMBAAAAAAAAAAAAAAAAAAABEiH/2gAIAQIBAT8Bawk//8QAGRAAAwEBAQAAAAAAAAAAAAAAAAEhEQIx/9oACAEBAAY/AlpNaPR9d1p4iQyH/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARMVEhQf/aAAgBAQABPyEd1DoR9Q8GOjBKBbRhAA6FtfYtBQ6T/9oADAMBAAIAAwAAABB4H//EABcRAQADAAAAAAAAAAAAAAAAAAABESH/2gAIAQMBAT8QnCn/xAAXEQEAAwAAAAAAAAAAAAAAAAAAESFB/9oACAECAQE/EIC2v//EABoQAQADAQEBAAAAAAAAAAAAAAEAESExUUH/2gAIAQEAAT8QP6VZquJtsFI0/Vr3yMt2lQzk4W0PDvPdhEWvMWuMepjaz//Z&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Sample Image Caption&apos; title=&apos;&apos; src=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/a22ce/sample-image.jpg&apos; srcset=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/0b705/sample-image.jpg 170w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/31389/sample-image.jpg 340w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/a22ce/sample-image.jpg 680w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/29373/sample-image.jpg 1020w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/232dc/sample-image.jpg 1360w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/aaf92/sample-image.jpg 1920w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Sample Image Caption&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Images are loaded with Lazy Loading, so you can secure fast document loading speed.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠ The extension of the file must be set to lowercase.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;4. Tagging&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; margin-bottom: 16px;&apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/82ce4bec7f5360eef32a473171b181af/6031b/tag-example.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 18.823529411764707%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAEABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG+AD//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAY/An//xAAVEAEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAQABPyGP/9oADAMBAAIAAwAAABBzz//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABUQAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAEBAAE/EAF//9k=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;tag example&apos; title=&apos;&apos; src=&apos;/static/82ce4bec7f5360eef32a473171b181af/a22ce/tag-example.jpg&apos; srcset=&apos;/static/82ce4bec7f5360eef32a473171b181af/0b705/tag-example.jpg 170w,
+/static/82ce4bec7f5360eef32a473171b181af/31389/tag-example.jpg 340w,
+/static/82ce4bec7f5360eef32a473171b181af/a22ce/tag-example.jpg 680w,
+/static/82ce4bec7f5360eef32a473171b181af/6031b/tag-example.jpg 737w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;You can classify and search documents by tag set in Frontmatter. All tags you set can be viewed and searched in &lt;code class=&quot;language-text&quot;&gt;https://siteUrl/tags&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;5. Series&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 677px; margin-bottom: 16px;&apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 17.058823529411764%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAADABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAECBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAdqwSD//xAAVEAEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAQABBQIv/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwJ//8QAFRABAQAAAAAAAAAAAAAAAAAAARD/2gAIAQEAAT8hF//aAAwDAQACAAMAAAAQ8A//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAYEAEAAwEAAAAAAAAAAAAAAAABABAhEf/aAAgBAQABPxAk0GGHCv/Z&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;series example&apos; title=&apos;&apos; src=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg&apos; srcset=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/0b705/series-example.jpg 170w,
+/static/1ea4e56966cb5fb6e110d32124fd883c/31389/series-example.jpg 340w,
+/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg 677w&apos; sizes=&apos;(max-width: 677px) 100vw, 677px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;You can publish multiple related documents in a series. The series set in Frontmatter is grouped together and shown at the top of the document. This can be useful for serialized documents with an order. Series documents are displayed in ascending order of creation date.&lt;/p&gt;
+&lt;p&gt;The current document is also set in a series called &lt;code class=&quot;language-text&quot;&gt;Getting started your blog with gatsby-starter-hoodie&lt;/code&gt;.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🚀 2. Quick Start]]></title><description><![CDATA[Getting started your blog with gatsby-starter-hoodie by following steps below. It's very easy 😉. 1. Create a Gatsby site Make sure you have…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/quick-start/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/quick-start/</guid><pubDate>Sun, 02 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Getting started your blog with gatsby-starter-hoodie by following steps below. It&apos;s very easy 😉.&lt;/p&gt;
+&lt;h2&gt;1. Create a Gatsby site&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Make sure you have &lt;strong&gt;node.js&lt;/strong&gt; and &lt;strong&gt;gatsby-cli&lt;/strong&gt; installed on your computer.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npx gatsby new my-hoodie-blog https://github.com/devHudi/gatsby-starter-hoodie&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;2. Start dev server&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ cd my-hoodie-blog
+$ npm run start&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now you can access to your blog at localhost:8000.&lt;/p&gt;
+&lt;h2&gt;3. Create your own Github repository&lt;/h2&gt;
+&lt;p&gt;Utterance comment widget is based on &lt;strong&gt;Github issue system&lt;/strong&gt;. So you need your own GitHub repository. Also, if you want to publish your blog through Github Pages or Netlify, the Github Repository is a necessary.&lt;/p&gt;
+&lt;p&gt;If you don&apos;t know how to create a GitHub repository, follow the &lt;a href=&quot;https://docs.github.com/en/github/getting-started-with-github/create-a-repo&quot;&gt;official GitHub documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Add remote repository&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git init
+$ git remote add origin https://github.com/{YOUR_GITHUB_NAME}/{YOUR_REPOSITORY_NAME}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;4. Write blog-config.js&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;MY BLOG&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Hello, This is my blog&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;YOUR NAME&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;siteUrl&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://myblog.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://github.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;facebook&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.facebook.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;instagram&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.instagram.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.google.com/&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;utterances&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{YOUR_GITHUB_NAME}/{YOUR_REPOSITORY_NAME}&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pathname&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;gatsby-starter-hoodie provides a configuration file called &lt;code class=&quot;language-text&quot;&gt;blog-config.js&lt;/code&gt;. In this file, you can configure blog, biography (profile), and utterance. The website settings you are currently viewing are as above.&lt;/p&gt;
+&lt;p&gt;Configure &lt;code class=&quot;language-text&quot;&gt;blog-config.js&lt;/code&gt; to suit your blog. However, it is recommended not to modify &lt;code class=&quot;language-text&quot;&gt;utterances.type&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Change profile image&lt;/h3&gt;
+&lt;p&gt;Replace &lt;code class=&quot;language-text&quot;&gt;static/profile.png&lt;/code&gt; with the image you want. To change the image file name, you need to change the source code of &lt;code class=&quot;language-text&quot;&gt;src/components/Bio.jsx&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;5. Add your content&lt;/h2&gt;
+&lt;p&gt;Markdown content is in &lt;code class=&quot;language-text&quot;&gt;contents/posts&lt;/code&gt;. You can write and add your articles like the sample posts here. &lt;a href=&quot;/writing-guide&quot;&gt;Click here&lt;/a&gt; to see the detail writing guide.&lt;/p&gt;
+&lt;h2&gt;6. Deploy your blog&lt;/h2&gt;
+&lt;h3&gt;6-1 via Netlify&lt;/h3&gt;
+&lt;p&gt;Follow the Connecting to Netlify steps in &lt;a href=&quot;https://www.netlify.com/blog/2016/02/24/a-step-by-step-guide-gatsby-on-netlify/&quot;&gt;A Step-by-Step Guide: Gatsby on Netlify&lt;/a&gt;. It&apos;s not difficult.&lt;/p&gt;
+&lt;p&gt;If you connect the github repository using Netlify, it is automatically distributed whenever you push it, so it is convenient.&lt;/p&gt;
+&lt;h3&gt;6-2. via Github Pages&lt;/h3&gt;
+&lt;h4&gt;Case 1&lt;/h4&gt;
+&lt;p&gt;If the repository name is in the form of &lt;code class=&quot;language-text&quot;&gt;{YOUR_GITHUB_NAME} .github.io&lt;/code&gt;, run it below.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run deploy-gh&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Case 2&lt;/h4&gt;
+&lt;p&gt;If the repository name is not in the form of &lt;code class=&quot;language-text&quot;&gt;{YOUR_GITHUB_NAME} .github.io&lt;/code&gt;, run it below.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run deploy-gh-prefix-paths&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In the above case, you need to change &lt;code class=&quot;language-text&quot;&gt;pathPrefix&lt;/code&gt; in &lt;code class=&quot;language-text&quot;&gt;gatsby-config.js&lt;/code&gt; to your repository name.&lt;/p&gt;
+&lt;h3&gt;6-3. other platforms&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can build the gatsby website with the command above. The build output is created in the &lt;code class=&quot;language-text&quot;&gt;/public&lt;/code&gt; directory. Deploy the &lt;code class=&quot;language-text&quot;&gt;/public&lt;/code&gt; directory using the command for the platform you want to deploy.&lt;/p&gt;
+&lt;h2&gt;7. Cutomize&lt;/h2&gt;
+&lt;h3&gt;Project Structure&lt;/h3&gt;
+&lt;p&gt;You can customize your own gatsby-starter-hoodie by referring to the following file structure 🙊.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;├── node_modules
+├── contents
+│   └── posts // your articles are here
+├── public // build outputs are here
+└── src
+    ├── assets
+    │   └── theme // theme config is here
+    ├── components
+    │   └── Article
+    │       └── Body
+    │           └── StyledMarkdown
+    │               └── index.jsx // markdown styles are here
+    │   ...
+    ├── fonts // webfonts are here
+    ├── hooks
+    ├── images
+    ├── pages // page components are here
+    ├── reducers
+    ├── templates // post components are here
+    └── utils&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[🎇 1. About gatsby-starter-hoodie]]></title><description><![CDATA[About gatsby-starter-hoodie gatsby-starter-hoodie is a gatsby theme created for writing tech blogs. Markdown, Code Highlighting in various…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/about-hoodie/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/about-hoodie/</guid><pubDate>Sat, 01 May 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;About gatsby-starter-hoodie&lt;/h2&gt;
+&lt;p&gt;gatsby-starter-hoodie is a gatsby theme created for writing tech blogs. Markdown, Code Highlighting in various programming languages, and Katex syntax are supported. Also, you can easily categorize articles into tags and series.&lt;/p&gt;
+&lt;p&gt;Start your blog with a neatly designed gatsby-starter-hoodie that supports dark mode.&lt;/p&gt;
+&lt;h2&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Markdown&lt;/li&gt;
+&lt;li&gt;Code Highlighting&lt;/li&gt;
+&lt;li&gt;Katex Syntax&lt;/li&gt;
+&lt;li&gt;Dark Mode (Responsive to the settings of the OS)&lt;/li&gt;
+&lt;li&gt;Tag Categoriazation&lt;/li&gt;
+&lt;li&gt;Series Categorization&lt;/li&gt;
+&lt;li&gt;Responsive Web&lt;/li&gt;
+&lt;li&gt;SEO&lt;/li&gt;
+&lt;li&gt;Utterance (Comment widget)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Let&apos;s get started&lt;/h2&gt;
+&lt;p&gt;Follow the &lt;a href=&quot;/quick-start&quot;&gt;Quick Start&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🤩 4. 그 외 팁들]]></title><description><![CDATA[파비콘은 어떻게 변경하나요?  에 파비콘 파일이 위치해 있습니다. 이미지 파일을 대체하면 파비콘을 변경할 수 있습니다. 만약 파비콘 파일의 이름을 변경하고 싶다면,  파일의  에서  속성을 변경하셔야합니다. Utterance…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/other-tips-kr/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/other-tips-kr/</guid><pubDate>Sun, 04 Apr 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;파비콘은 어떻게 변경하나요?&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;static/favicon.png&lt;/code&gt; 에 파비콘 파일이 위치해 있습니다. 이미지 파일을 대체하면 파비콘을 변경할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;만약 파비콘 파일의 이름을 변경하고 싶다면, &lt;code class=&quot;language-text&quot;&gt;gatsby-config.js&lt;/code&gt; 파일의 &lt;code class=&quot;language-text&quot;&gt;gatsby-plugin-manifest&lt;/code&gt; 에서 &lt;code class=&quot;language-text&quot;&gt;icon&lt;/code&gt; 속성을 변경하셔야합니다.&lt;/p&gt;
+&lt;h2&gt;Utterance 가 제대로 작동하지 않아요.&lt;/h2&gt;
+&lt;p&gt;http 환경에서는 Utterance 가 제대로 작동하지 않을 수 있습니다. 여러분의 웹사이트를 https 환경으로 제공하세요.&lt;/p&gt;
+&lt;h2&gt;OG Image 를 설정하고 싶어요.&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;/static&lt;/code&gt; 디렉토리의 &lt;code class=&quot;language-text&quot;&gt;og-image.png&lt;/code&gt; 파일을 여러분이 원하는 이미지 파일로 대체하세요.&lt;/p&gt;
+&lt;h2&gt;다른 질문이 있으신가요?&lt;/h2&gt;
+&lt;p&gt;이 문서에 댓글을 달거나 gatsby-starter-hoodie 레포지토리에 &lt;a href=&quot;https://github.com/devHudi/gatsby-starter-hoodie/issues&quot;&gt;이슈를 열어주세요&lt;/a&gt;. 여러분의 참여가 gatsby-starter-hoodie 를 더욱 발전시킵니다. 감사해요 😎.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🤔 3. 작성 가이드]]></title><description><![CDATA[1. 포스트 추가하기  경로에 새로운 마크다운 파일을 생성하여 여러분의 글을 추가할 수 있습니다. 1-…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/writing-guide-kr/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/writing-guide-kr/</guid><pubDate>Sat, 03 Apr 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;1. 포스트 추가하기&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;contents/post&lt;/code&gt; 경로에 새로운 마크다운 파일을 생성하여 여러분의 글을 추가할 수 있습니다.&lt;/p&gt;
+&lt;h3&gt;1-1. 포스트 파일 구조&lt;/h3&gt;
+&lt;p&gt;새로운 문서를 추가하는 방법에는 두가지가 있습니다. 첫번째는 디렉토리 없이 문서를 생성하는 방법입니다. 만약 여러분이 Javascript 에 관한 문서를 생성한다면, &lt;code class=&quot;language-text&quot;&gt;about-javascript.md&lt;/code&gt; 파일을 &lt;code class=&quot;language-text&quot;&gt;contents/posts&lt;/code&gt; 디렉토리에 추가할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;두번째 방법은 먼저 디렉토리를 생성한 뒤, 디렉토리 안에 &lt;code class=&quot;language-text&quot;&gt;index.md&lt;/code&gt; 파일을 추가하는 것 입니다. 이 방법은 문서 내에 여러 이미지 파일 등 부수적인 파일 여러개가 포함되었을 때 유용합니다.&lt;/p&gt;
+&lt;p&gt;첫번째 방법으로 생성한 파일명이나, 두번째 방법으로 생성한 디렉토리 이름은 웹사이트에서 고유의 주소를 갖습니다. &lt;code class=&quot;language-text&quot;&gt;https://siteURL/about-javascript&lt;/code&gt; 와 같이요.&lt;/p&gt;
+&lt;h3&gt;1-2. Frontmatter&lt;/h3&gt;
+&lt;p&gt;마크다운은 문서의 메타데이터인 Frontmatter 라 불리는 정보를 가지고 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
+title: &quot;🤔 3. 작성 가이드&quot;
+description: &quot;어떻게 글을 작성하고 추가할까요?&quot;
+date: 2021-04-03
+update: 2021-04-03
+tags:
+  - hoodie
+  - writing-guide
+series: &quot;gatsby-starter-hoodie 로 블로그 시작하기&quot;
+---&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위는 지금 여러분이 읽고 있는 문서의 Frontmatter 입니다. &lt;code class=&quot;language-text&quot;&gt;title&lt;/code&gt; 과 &lt;code class=&quot;language-text&quot;&gt;date&lt;/code&gt; 는 필수 값입니다. 띄어쓰기를 포함된 문자열을 입력할 때에는 따옴표로 감싸는 것을 추천합니다.&lt;/p&gt;
+&lt;h3&gt;1-3. 마크다운 작성하기&lt;/h3&gt;
+&lt;p&gt;만약 Frontmatter 까지 작성했다면, 여러분은 그 아래에 마크다운 문서를 작성하면 됩니다. gatsby-starter-hoodie 는 대부분의 마크다운 문법을 지원합니다. 마크다운 작성 방법을 알고 싶다면, Github 의 &lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;Mastering Markdown&lt;/a&gt; 문서를 참고하세요.&lt;/p&gt;
+&lt;h2&gt;2. 코드 하이라이팅 &amp;#x26; Katex&lt;/h2&gt;
+&lt;h3&gt;2-1. 코드 하이라이팅&lt;/h3&gt;
+&lt;p&gt;Prism.JS 에 기반한 코드 하이라이팅이 제공됩니다.&lt;/p&gt;
+&lt;h4&gt;예시&lt;/h4&gt;
+&lt;p&gt;Javascript&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Python&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그 외 더 많은 언어를 제공합니다. 제공되는 언어를 확인하고 싶다면, &lt;a href=&quot;https://prismjs.com/&quot;&gt;Prism.js 웹사이트&lt;/a&gt; 를 참고하세요.&lt;/p&gt;
+&lt;h3&gt;2-2. Katex&lt;/h3&gt;
+&lt;p&gt;Katex 문법을 지원하여 복잡한 수식도 쉽게 표현할 수 있습니다.&lt;/p&gt;
+&lt;h4&gt;인라인 모드&lt;/h4&gt;
+&lt;p&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;E&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;E = m c^{2}&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.05764em;&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8141079999999999em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8141079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h4&gt;블럭 모드&lt;/h4&gt;
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msubsup&gt;&lt;mo&gt;∫&lt;/mo&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;∞&lt;/mi&gt;&lt;/msubsup&gt;&lt;mi&gt;f&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;\int_{0}^{\infty} f(x) dx&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:2.326242em;vertical-align:-0.9119499999999999em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mop&quot;&gt;&lt;span class=&quot;mop op-symbol large-op&quot; style=&quot;margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;&quot;&gt;∫&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:1.414292em;&quot;&gt;&lt;span style=&quot;top:-1.7880500000000001em;margin-left:-0.44445em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3.8129000000000004em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;∞&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.9119499999999999em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10764em;&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot;&gt;x&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;h2&gt;3. 글에 이미지 추가하기&lt;/h2&gt;
+&lt;p&gt;상대경로를 이용하여 쉽게 이미지를 추가할 수 있습니다. 디렉토리를 생성하고 그 안에 &lt;code class=&quot;language-text&quot;&gt;index.md&lt;/code&gt; 를 추가하여, 글을 추가하는 방법으로 작성해야 이미지 관리가 쉽습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/aaf92/sample-image.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 61.1764705882353%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/aAAwDAQACEAMQAAABUsxAixiE/wD/xAAbEAACAwADAAAAAAAAAAAAAAABAgADBBEiI//aAAgBAQABBQIFeW7ETHWtk0D2awqf/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABcRAAMBAAAAAAAAAAAAAAAAAAABEiH/2gAIAQIBAT8Bawk//8QAGRAAAwEBAQAAAAAAAAAAAAAAAAEhEQIx/9oACAEBAAY/AlpNaPR9d1p4iQyH/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARMVEhQf/aAAgBAQABPyEd1DoR9Q8GOjBKBbRhAA6FtfYtBQ6T/9oADAMBAAIAAwAAABB4H//EABcRAQADAAAAAAAAAAAAAAAAAAABESH/2gAIAQMBAT8QnCn/xAAXEQEAAwAAAAAAAAAAAAAAAAAAESFB/9oACAECAQE/EIC2v//EABoQAQADAQEBAAAAAAAAAAAAAAEAESExUUH/2gAIAQEAAT8QP6VZquJtsFI0/Vr3yMt2lQzk4W0PDvPdhEWvMWuMepjaz//Z&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;샘플 이미지 캡션&apos; title=&apos;&apos; src=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/a22ce/sample-image.jpg&apos; srcset=&apos;/static/69b244095d8c72158c9dd2d4ca59a7b1/0b705/sample-image.jpg 170w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/31389/sample-image.jpg 340w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/a22ce/sample-image.jpg 680w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/29373/sample-image.jpg 1020w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/232dc/sample-image.jpg 1360w,
+/static/69b244095d8c72158c9dd2d4ca59a7b1/aaf92/sample-image.jpg 1920w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;샘플 이미지 캡션&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;이미지는 Lazy Loading 으로 로드되어, 빠른 초기 문서 로딩 속도를 확보할 수 있습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠ 이미지의 모든 확장자는 소문자여야합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;4. 태그&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; margin-bottom: 16px;&apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/82ce4bec7f5360eef32a473171b181af/6031b/tag-example.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 18.823529411764707%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAEABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG+AD//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAY/An//xAAVEAEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAQABPyGP/9oADAMBAAIAAwAAABBzz//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABUQAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAEBAAE/EAF//9k=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;tag example&apos; title=&apos;&apos; src=&apos;/static/82ce4bec7f5360eef32a473171b181af/a22ce/tag-example.jpg&apos; srcset=&apos;/static/82ce4bec7f5360eef32a473171b181af/0b705/tag-example.jpg 170w,
+/static/82ce4bec7f5360eef32a473171b181af/31389/tag-example.jpg 340w,
+/static/82ce4bec7f5360eef32a473171b181af/a22ce/tag-example.jpg 680w,
+/static/82ce4bec7f5360eef32a473171b181af/6031b/tag-example.jpg 737w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Frontmatter 의 태그를 통해 쉽게 문서를 분류하고 검색할 수 있습니다. 여러분의 모든 태그는 &lt;code class=&quot;language-text&quot;&gt;https://siteUrl/tags&lt;/code&gt; 경로에서 확인하고, 검색할 수 있습니다.&lt;/p&gt;
+&lt;h2&gt;5. 시리즈&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 677px; margin-bottom: 16px;&apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 17.058823529411764%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAADABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAECBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAdqwSD//xAAVEAEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAQABBQIv/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAFBABAAAAAAAAAAAAAAAAAAAAEP/aAAgBAQAGPwJ//8QAFRABAQAAAAAAAAAAAAAAAAAAARD/2gAIAQEAAT8hF//aAAwDAQACAAMAAAAQ8A//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAYEAEAAwEAAAAAAAAAAAAAAAABABAhEf/aAAgBAQABPxAk0GGHCv/Z&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;series example&apos; title=&apos;&apos; src=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg&apos; srcset=&apos;/static/1ea4e56966cb5fb6e110d32124fd883c/0b705/series-example.jpg 170w,
+/static/1ea4e56966cb5fb6e110d32124fd883c/31389/series-example.jpg 340w,
+/static/1ea4e56966cb5fb6e110d32124fd883c/d1584/series-example.jpg 677w&apos; sizes=&apos;(max-width: 677px) 100vw, 677px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;여러분이 연관된 여러개의 문서를 작성할 때 시리즈를 사용할 수 있습니다. Frontmatter 에 작성된 시리즈가 같은 문서끼리 묶여 문서 상단에 리스트로 표시됩니다. 시리즈는 일련의 순서가 있는 문서들을 작성할 때 유용하게 사용할 수 있습니다. 시리즈는 문서의 작성 날짜 순서대로 정렬됩니다.&lt;/p&gt;
+&lt;p&gt;현재 문서는 &lt;code class=&quot;language-text&quot;&gt;gatsby-starter-hoodie 로 블로그 시작하기&lt;/code&gt; 라는 시리즈로 설정되어 있습니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[🚀 2. 빠르게 시작하기]]></title><description><![CDATA[아래 단계를 따라서 여러분의 블로그를 시작하세요. 굉장히 쉬워요 😉. 1. Gatsby 사이트 생성 컴퓨터에 node.js 와 gatsby-cli 가 설치되어 있어야합니다. 2. 개발 서버 시작 이제 localhost:800…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/quick-start-kr/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/quick-start-kr/</guid><pubDate>Fri, 02 Apr 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;아래 단계를 따라서 여러분의 블로그를 시작하세요. 굉장히 쉬워요 😉.&lt;/p&gt;
+&lt;h2&gt;1. Gatsby 사이트 생성&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;컴퓨터에 &lt;strong&gt;node.js&lt;/strong&gt; 와 &lt;strong&gt;gatsby-cli&lt;/strong&gt; 가 설치되어 있어야합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npx gatsby new my-hoodie-blog https://github.com/devHudi/gatsby-starter-hoodie&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;2. 개발 서버 시작&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ cd my-hoodie-blog
+$ npm run start&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 localhost:8000 으로 여러분의 블로그를 접속할 수 있습니다.&lt;/p&gt;
+&lt;h2&gt;3. Github 레포지토리 생성&lt;/h2&gt;
+&lt;p&gt;Utterance 댓글 위젯은 &lt;strong&gt;Github 이슈 시스템&lt;/strong&gt; 기반입니다. 따라서 각 블로그 별 Github 레포지토리가 필요합니다. 또한 여러분이 Github Pages 혹은 Netlify 로 블로그를 배포하길 원한다면, Github 레포지토리는 필수입니다.&lt;/p&gt;
+&lt;p&gt;만약 Github 레포지토리를 생성하는 법을 모른다면, &lt;a href=&quot;https://docs.github.com/en/github/getting-started-with-github/create-a-repo&quot;&gt;Github 공식 문서&lt;/a&gt; 를 참조하세요.&lt;/p&gt;
+&lt;h3&gt;원격 레포지토리 등록&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;git remote add origin https://github.com/{YOUR_GITHUB_NAME}/{YOUR_REPOSITORY_NAME}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;4. blog-config.js 작성&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;MY BLOG&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Hello, This is my blog&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;YOUR NAME&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;siteUrl&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://myblog.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://github.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;facebook&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.facebook.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;instagram&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.instagram.com&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.google.com/&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;utterances&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;repo&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;{YOUR_GITHUB_NAME}/{YOUR_REPOSITORY_NAME}&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;pathname&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;gatsby-starter-hoodie 는 &lt;code class=&quot;language-text&quot;&gt;blog-config.js&lt;/code&gt; 라는 설정 파일을 제공합니다. 이 파일에서 블로그 정보, 작성자 프로필, Utterance 설정 등을 작성할 수 있습니다. 여러분 블로그 설정에 맞게 &lt;code class=&quot;language-text&quot;&gt;blog-config.js&lt;/code&gt; 를 설정하세요. 하지만, &lt;code class=&quot;language-text&quot;&gt;utterances.type&lt;/code&gt; 속성은 수정하지 않는 것을 권장합니다.&lt;/p&gt;
+&lt;h3&gt;프로필 이미지 변경&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;static/profile.png&lt;/code&gt; 에 위치한 이미지 파일을 원하는 이미지 파일로 교체하세요. 만약 파일명을 변경하고 싶다면, &lt;code class=&quot;language-text&quot;&gt;src/components/Bio.jsx&lt;/code&gt; 의 소스코드를 수정해야합니다.&lt;/p&gt;
+&lt;h2&gt;5. 포스트 추가&lt;/h2&gt;
+&lt;p&gt;마크다운 포스트는 &lt;code class=&quot;language-text&quot;&gt;contents/posts&lt;/code&gt; 경로에 위치해있습니다. 해당 경로에서 글을 작성할 수 있습니다. &lt;a href=&quot;https://devHudi.github.io/gatsby-starter-hoodie/writing-guide&quot;&gt;여기를 클릭하여&lt;/a&gt; 더 자세한 글 작성 방법을 확인하세요.&lt;/p&gt;
+&lt;h2&gt;6. 블로그 배포하기&lt;/h2&gt;
+&lt;h3&gt;6-1 Netlify 를 통해&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.netlify.com/blog/2016/02/24/a-step-by-step-guide-gatsby-on-netlify/&quot;&gt;A Step-by-Step Guide: Gatsby on Netlify&lt;/a&gt; 문서를 참조하여, Netlify 를 Github 레포지토리와 연결할 수 있습니다. 이 과정은 어렵지 않습니다.&lt;/p&gt;
+&lt;p&gt;Github 레포지토리와 연결이 되었다면, Github 레포지토리에 변경사항이 발생할 때 마다 자동으로 여러분의 블로그에 배포됩니다.&lt;/p&gt;
+&lt;h3&gt;6-2. Github Pages 를 통해&lt;/h3&gt;
+&lt;h4&gt;상황 1&lt;/h4&gt;
+&lt;p&gt;레포지토리 이름이 &lt;code class=&quot;language-text&quot;&gt;{YOUR_GITHUB_NAME}.github.io&lt;/code&gt; 형태일 경우, 아래 명령어를 실행해주세요.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run deploy-gh&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;상황 2&lt;/h4&gt;
+&lt;p&gt;레포지토리 이름이 &lt;code class=&quot;language-text&quot;&gt;{YOUR_GITHUB_NAME}.github.io&lt;/code&gt; 형태가 아닐 경우, 아래 명령어를 실행해주세요.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run deploy-gh-prefix-paths&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;만약 위와 같은 경우 &lt;code class=&quot;language-text&quot;&gt;gatsby-config.js&lt;/code&gt; 에서 &lt;code class=&quot;language-text&quot;&gt;pathPrefix&lt;/code&gt; 를 여러분의 레포지토리 이름으로 바꿔야합니다.&lt;/p&gt;
+&lt;h3&gt;6-3. 다른 플랫폼&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위 명령어로 Gastby 웹사이트를 빌드할 수 있습니다. 빌드 결과물은 &lt;code class=&quot;language-text&quot;&gt;/public&lt;/code&gt; 에 저장됩니다. &lt;code class=&quot;language-text&quot;&gt;/public&lt;/code&gt; 디렉토리를 여러분이 사용하는 플랫폼의 배포 명령을 통해 배포해주세요.&lt;/p&gt;
+&lt;h2&gt;7. 커스터마이징&lt;/h2&gt;
+&lt;h3&gt;프로젝트 구조&lt;/h3&gt;
+&lt;p&gt;아래 프로젝트 구조를 참고하여 커스터마이징 할 수 있습니다 🙊.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;├── node_modules
+├── contents
+│   └── posts // your articles are here
+├── public // build outputs are here
+└── src
+    ├── assets
+    │   └── theme // theme config is here
+    ├── components
+    │   └── Article
+    │       └── Body
+    │           └── StyledMarkdown
+    │               └── index.jsx // markdown styles are here
+    │   ...
+    ├── fonts // webfonts are here
+    ├── hooks
+    ├── images
+    ├── pages // page components are here
+    ├── reducers
+    ├── templates // post components are here
+    └── utils&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[🎇 1. gatsby-starter-hoodie 에 대하여]]></title><description><![CDATA[gatsby-starter-hoodie 에 대하여 gatsby-starter-hoodie 는 기술 블로그를 작성하기 위해 개발된 Gatsby 테마입니다. 마크다운과 많은 프로그래밍 언어의 코드 하이라이팅, 그리고 Katex…]]></description><link>https://devhudi.github.io/gatsby-starter-hoodie/about-hoodie-kr/</link><guid isPermaLink="false">https://devhudi.github.io/gatsby-starter-hoodie/about-hoodie-kr/</guid><pubDate>Thu, 01 Apr 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;gatsby-starter-hoodie 에 대하여&lt;/h2&gt;
+&lt;p&gt;gatsby-starter-hoodie 는 기술 블로그를 작성하기 위해 개발된 Gatsby 테마입니다. 마크다운과 많은 프로그래밍 언어의 코드 하이라이팅, 그리고 Katex 문법을 지원합니다. 또한 태그와 시리즈를 통하여 쉽게 게시물을 분류할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;다크모드를 지원하는 깔끔한 디자인의 gatsby-starter-hoodie 로 여러분의 블로그를 시작하세요.&lt;/p&gt;
+&lt;h2&gt;주요 기능&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;마크다운&lt;/li&gt;
+&lt;li&gt;코드 하이라이팅&lt;/li&gt;
+&lt;li&gt;Katex 문법&lt;/li&gt;
+&lt;li&gt;다크모드 (OS 환경설정과 연동)&lt;/li&gt;
+&lt;li&gt;태그 분류&lt;/li&gt;
+&lt;li&gt;시리즈 분류&lt;/li&gt;
+&lt;li&gt;반응형 웹&lt;/li&gt;
+&lt;li&gt;SEO&lt;/li&gt;
+&lt;li&gt;Utterance (댓글 위젯)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;시작&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;/quick-start-kr&quot;&gt;빠르게 시작하기&lt;/a&gt; 문서에서 블로그를 세팅하세요.&lt;/p&gt;</content:encoded></item></channel></rss>
