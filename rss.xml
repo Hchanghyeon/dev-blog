@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 06 Feb 2024 12:29:46 GMT</lastBuildDate><item><title><![CDATA[개발자가 되기 전 나의 10년 회고록]]></title><description><![CDATA[만 나이 개정법을 시행하기 전 나이로 29살이 되었다.  나이가 30살이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 1…]]></description><link>https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</guid><pubDate>Wed, 31 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;만 나이 개정법을 시행하기 전 나이로 &lt;strong&gt;29살&lt;/strong&gt;이 되었다. &lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 14 Feb 2024 12:59:54 GMT</lastBuildDate><item><title><![CDATA[개발자가 되기 전 나의 10년 회고록]]></title><description><![CDATA[만 나이 개정법을 시행하기 전 나이로 29살이 되었다.  나이가 30살이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 1…]]></description><link>https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</guid><pubDate>Wed, 31 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;만 나이 개정법을 시행하기 전 나이로 &lt;strong&gt;29살&lt;/strong&gt;이 되었다. &lt;/p&gt;
 &lt;p&gt;나이가 &lt;strong&gt;30살&lt;/strong&gt;이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 10년간의 회고를 내 인생의 중요했던 순간들을 위주로 기록해보려고 한다.&lt;/p&gt;
 &lt;img src=&apos;/dev-blog/static/IMG_4654-4e6e4509988917abcf1e986aaa6116b7.jpg&apos; style=&apos;width:300px&apos;&gt;
 &lt;blockquote&gt;
@@ -202,9 +202,9 @@
 &lt;blockquote&gt;
 &lt;p&gt;내가 속해있던 팀이 만들었었던 스마트 냉장고 작품&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;나는 팀장을 맡아 직접 프로젝트를 설계하고, 모든 제작 과정에 참여했었다. 사실 스마트 냉장고를 만들 때 걱정했던 것이 &apos;이것을 우리가 구현할 수 있을까?&apos;에 대한 의문이었다. 스마트 냉장고는 안에 있는 카메라와 인공지능을 통해 식재료를 인식하고, 이것을 리스트 화하며 냉장고안에 있는 식재료들로 레시피를 추천해준다든지, 유통기한 알림을 준다든지 등 기술적으로 난이도가 있다고 생각했었다. 팀원들도 할 수 있을까에 대한 의문이 많이 생겨, 내가 직접 시스템을 설계해보고 기술적으로 가능할 것 같은지, 그리고 한국전자전에 출품하려면 심사를 받아야 하는데 그 심사기준을 넘을 수 있을지 고민하며 관련된 자료를 모아 팀원들에게 발표하고 팀원들과 결국 해당 프로젝트를 하기로 결심했다.&lt;/p&gt;
+&lt;p&gt;나는 팀장을 맡아 직접 프로젝트를 설계하고, 모든 제작 과정에 참여했었다. 사실 스마트 냉장고를 만들 때 걱정했던 것이 &apos;이것을 우리가 구현할 수 있을까?&apos;에 대한 의문이었다. 스마트 냉장고는 안에 있는 카메라와 인공지능을 통해 식재료를 인식하고, 이것을 리스트 화하며 냉장고안에 있는 식재료들로 레시피를 추천해준다든지, 유통기한 알림을 준다든지 등 기술적으로 난이도가 있다고 생각했었다. 팀원들도 할 수 있을까에 대한 의문이 많이 생겨, 내가 직접 시스템을 설계해보고 기술적으로 가능할 것 같은지, 그리고 한국전자전에 출품하려면 심사를 받아야 하는데 그 심사기준을 넘을 수 있을지 고민하며 관련된 자료를 모아 팀원들에게 발표하고 팀원들을 설득하여 스마트 냉장고를 주제로 개발하기로 했다.&lt;/p&gt;
 &lt;p&gt;팀원들이 그렇게 많지는 않았는데 나는 태블릿에 보여지는 프론트엔드 영역 전부와 백엔드를 거의 다 담당했었다. 이때 인공지능을 맡았던 친구와 하드웨어를 담당했던 친구들이 정말 잘해줘서 출품 당시 다른 팀들보다 완성도가 높았던 것 같다.&lt;/p&gt;
-&lt;p&gt;아무래도 인공지능에 관련된 기술을 사용하다보니 한국전자전 관람객분들에게 인기가 많았는데, 그 중 가장 기억에 남았던게 식품 관련 회사에서 우리 팀을 잘봐주셔서 필요한거 있으면 연락을 달라고 하셨었다. 이렇게 한국전자전이라는 큰 전시에서 내가 만든 작품을 전시하고, 관람객들에게 설명하면서 몇 달동안 힘들게 만들었던 작품에 보상을 받는 것 같아 기분이 좋았고, 남들에게 인정받는 것이 되게 보람찼다.&lt;/p&gt;
+&lt;p&gt;아무래도 인공지능에 관련된 기술을 사용하다보니 한국전자전 관람객분들에게 인기가 많았는데, 그 중 가장 기억에 남았던게 식품 관련 회사에서 우리 팀을 잘봐주셔서 필요한거 있으면 연락을 달라고 하시며 잘 만들었다고 칭찬해주셨었다. 이렇게 한국전자전이라는 큰 전시에서 내가 만든 작품을 전시하고, 관람객들에게 설명하면서 몇 달동안 힘들게 만들었던 작품에 보상을 받는 것 같아 기분이 좋았고, 남들에게 인정받는 것이 되게 보람찼다.&lt;/p&gt;
 &lt;h4&gt;컴퓨터공학부 조교&lt;/h4&gt;
 &lt;p&gt;3학년을 그렇게 마무리할 때쯤, 남은 1년이 아깝다고 느껴졌다. 학과가 3년제이다 보니 3학년에 졸업을 해야 했었는데 학교에서는 남은 1년을 위해 컴퓨터소프트웨어공학과 학사 제도가 있었다. 남은 1년을 컴퓨터소프트웨어공학과에서 야간으로 수업을 들으면 학사 학위를 주는 것이었는데, 야간 평일 주 3회 수업을 하다보니 주간에는 할 일이 없었다.&lt;/p&gt;
 &lt;p&gt;원래 마음 같아선 주간에는 취업을 위한 공부만 하고 싶었는데, 그럴 수 없기도 했고 근로 장학생으로 근무하며 학과 팀장님께서 나를 너무 좋게 봐주셔서 조교할 생각이 없냐고 물어봐주셨다. 복합적으로 생각했을 때 학교에서 주간에는 돈도 벌고 야간에는 바로 수업을 갈 수 있었기 때문에 오히려 나에게는 최고의 자리이지 않았나 싶었다. 그렇게 나는 인공지능소프트웨어학과 학사 업무지원과 컴퓨터공학부 실습실 관리 담당으로 4학년 동안 컴퓨터공학부 조교를 하게 되었다.&lt;/p&gt;
@@ -226,7 +226,7 @@
 &lt;p&gt;노션으로 일간, 주간, 월간으로 해야하는 일을 분류하고, 매일마다 했던 일들을 일일 업무에 기록했다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;1년동안 이렇게 노션에 정리하면서 근무를 했었는데 되게 효율적이었고 모든 일을 빠르고 누락되지 않게 잘 처리할 수 있는 하나의 좋은 방법이었던 것 같다. &lt;/p&gt;
-&lt;p&gt;그렇게 1년동안 9시부터 6시까지는 교직원으로 근무하고, 19시 30분부터 22시 30분까지는 수업을 들으며 바쁘게 보냈다.&lt;/p&gt;
+&lt;p&gt;그렇게 1년동안 9시부터 18시까지는 교직원으로 근무하고, 19시 30분부터 22시 30분까지는 수업을 들으며 바쁘게 보냈다.&lt;/p&gt;
 &lt;p&gt;학사를 졸업하면서, 조교도 그만두기로 결정했었는데, 팀장님과 학부장님, 여러 교수님들이 좋게 봐주셨는지 일년만 더하면 안 되냐고 부탁하셨었다. 개발자가 얼른 되고 싶었기에 정중히 거절하고 그만두기로 했다.&lt;/p&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 337px; &apos;&gt;
@@ -268,8 +268,8 @@
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;현실은 처참했다. 프로그래머스, 원티드, 잡플래닛, 잡코리아 등 약 70건 정도 지원했는데 서류는 약 5개 합격, 과제 또는 코딩테스트를 응시한 곳은 2곳, 테스트를 합격한 곳은 &lt;strong&gt;한 곳이었다.&lt;/strong&gt; 드디어 면접 볼 수 있는 기회가 주어졌다. &lt;/p&gt;
 &lt;p&gt;그래도 서류합격률이 10% ~ 20% 사이는 될 줄 알았지만 결과는 처참했다. 그래서 그만큼 기회가 주어진 면접이 너무 소중해서 면접을 열심히 준비했었다.&lt;/p&gt;
-&lt;p&gt;면접을 보자마자 어디라도 취업할 수 있을 것 같다던 나의 자신감이 무너지게 된 큰 계기가 되었다. 이력서에는 이것저것 활동한 기록들과 회사를 다닌 이력 등 나를 뽐낼 수 있었던 것은 많았지만 기술적으로 내가 대답할 수 있는 것은 많지 않았다. &lt;/p&gt;
-&lt;p&gt;면접이 끝나고 내가 왜 기술적인 것에 대답하지 못했는지 곰곰히 생각해보았는데, 프로젝트를 하며 기능 구현한 것을 다 할 줄 안다고 착각했던 것 같다. 자바스크립트와 노드를 이용해서 서버를 만들고 기능을 구현할 줄은 알지만 자바스크립트와 노드의 동작 방식은 제대로 몰랐던 셈이다. &lt;/p&gt;
+&lt;p&gt;면접을 보자마자 어디라도 취업할 수 있을 것 같았던 나의 자신감이 무너지게 된 큰 계기가 되었다. 이력서에는 이것저것 활동한 기록들과 회사를 다닌 이력 등 나를 뽐낼 수 있었던 것은 많았지만 기술적으로 내가 대답할 수 있는 것은 많지 않았다. &lt;/p&gt;
+&lt;p&gt;면접이 끝나고 내가 왜 기술적인 것에 대답하지 못했는지 곰곰히 생각해보았는데, 프로젝트를 하며 기능 구현한 것을 다 할 줄 안다고 착각했던 것 같다. 자바스크립트와 노드를 이용해서 서버를 만들고 여러가지 기능을 구현할 줄은 알지만 자바스크립트와 노드의 동작 방식은 제대로 몰랐던 셈이다. &lt;/p&gt;
 &lt;p&gt;학교를 다니며 교수님께서 가르쳐주시는 것만 받아들이고, 프로젝트를 할 때도 기능만 구현하면 잘하는 것이라 생각했었다. 동작 방식이나 원리, 코드 한 줄 한 줄에 대해서는 고민을 하지 않았던 것이다.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;결국 나는 항상 성적을 받기 위한 개발을 했을 뿐 개발에 대해 진심으로 공부했다고 말할 수 없었다.&lt;/strong&gt;&lt;/p&gt;
@@ -301,10 +301,88 @@
 &lt;/blockquote&gt;
 &lt;p&gt;후기를 계속 찾아보니 좋다는 이야기 밖에 없었고 정말 모든 교육생들이 만족하는 것 같아서 합격하고 싶은 마음에 정말 열심히 준비했다. 공부한 것을 매일 정리만 하지 않고 나의 생각을 같이 기록했고, 코딩테스트 준비와 서류를 정말 신경써서 준비하려고 노력했다. 서류를 쓰며 가장 중요하게 생각했던 것은 글에 거짓 없이 나의 진심을 담는거였다.&lt;/p&gt;
 &lt;p&gt;나의 진심이 전달된 것인지 서류, 코딩테스트, 면접 모두 합격하여 데브코스 교육을 들을 기회가 생겼다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/fe486/image-13.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 70%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGElEQVR42nVUWZbaQAzkDoCN9xXvxthmGSB8cIC5QH5ym5wg962olDSPZGY+hBpLqq6SZC+COEfRvyFMCmw2NhzHFXM+Ndd11cyZfsNzlMONCzjybFEUBS7XG46nE6IoEtDNE8CTBM/zpdiBba/hey7SNFULggBhGGh89/0nqh+/sAlSLFjYtg3u9zvO5zP6vscwDNjtdqirCtuyQtGOaPsJfphgu92iaRr4vo9K4m3bIohi+GLEWpBRHMcKQmMC/TiOwkAY2xbyZsZ0f0dSDsiyFKEoIUMSKMtSgESVtsv5w5CAXdcpK3r+Xy6XItOGtV4hrUZM397VE5CtIcN5npWA53navyfDMAw1QCmUwVvzPFd5mfQr7xrU8wTXCwQwUzAyJCBzzYCegAQygGRIM9LbukGxr1GOjbBd6yUEM5Lruv4IyIfX61Vv5JnSeTMBCwFIdw2ysYNt2cqciozkTxkS5PF44Ha7KRiNDGeRGSUp3roc1z7D2rKUoQE8HA7aon8A+cMmM0CplG0AWez5AaahxGFfwZIhcW+jv1M+ye6SDIdiQBWQQVJnkMn0LFytVtI3C9lQI9s3ItnSoZgefimZxewhJVwuFxyPR2U4ieREFracZGDnQYdSCIBZG5P3QTIZcZEpld7sFotcifvCxpfXjLn6TADoyY79fH3fFywkfUvkrIUBjWcWMZmx14/D60eCi///R+M3cUqKLeyiQVUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/e7570/image-13.png 170w,
+/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/f46e7/image-13.png 340w,
+/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/ca1dc/image-13.png 680w,
+/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/fe486/image-13.png 768w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/bf436/image-12.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 97.05882352941177%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsTAAALEwEAmpwYAAACWklEQVR42o2UV9LaUAyFvQaaC9hUU0w3HQxryEMWkp1liYo/JYchmcnM/3DnytJVOUeSg8GksNm2snx1NeQoCi2O46+dJLE4iizORpbke4vToQWTycTKw8EOx6MVRWEJj/4ToNvt2mg8tsFgYGmaWpr1LQmbllffrfzx09LzNwtms5m9Xi9bLpeWZdk7IM7/ymEtz+tgx93ONtutHesi+v2+5fnElsXCqw1w6PV67hSGoWfnO6qNn9Vid10tUx02dDppmvkdDIdD29bZVquVjWs45/PZoU+n07dusVg4gtFo5De2PM9tvV77jW5XV00sD3i5XNwJ436/d4MeUTE33+gPNd8Ens/nLmPHpyxLrzxQ+dxAajQaDr3dbruMrtlsWqvV+sve6XRc/oQOVQGkApGMZAPi+E8nmQAO3zRPOr5poKBzbzab35AxPp9PhwXs+/3uznxDBQ7wCjyCVVXl8OH38Xh4sNPp5H4U55DJppEBDtA4wJKMnm5/6pDxIRD+3mUEgpIJDjQ63DzgMXxi4xAEaBonGoQ/SPBzyMAQZEFilG632xsSQ4wTMOFckOEeO7JDVlNENDyRkWxkpypuDTx2bvzw4S2cc7zLKARNIwIUYDIqcIQOqOgZFXGJniAUov0OyE4XGUwgAQ3IgkJm4GGnOrrNiKDHDjVUyhti+abwmAA4aJ745pG2RnOInQBaPTjWoVKHzAEyULQR2gbB19jIjk2U4Mt5bwrZyEwFfItgKqFqOObGBiw1i/faLmJ4hQj8D+FOpWudPg8B9RYqgMuIYWOjrterB/wFqjIV37w4emEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/e7570/image-12.png 170w,
+/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/f46e7/image-12.png 340w,
+/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/ca1dc/image-12.png 680w,
+/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/bf436/image-12.png 745w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;3월부터 6월까지 노션에다가 공부한 것을 기록하고, 그날 공부한 것에 대한 나의 생각을 적었었다.
+데브코스 교육 담당 매니저님께서 정말 꼼꼼하게 보신다고 들었어서 지원서에 이 링크도 같이 넣어두었는데 이런 것들이 합격에 영향을 조금이라도 주지 않았을까 싶다!&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3&gt;교육 기간&lt;/h3&gt;
+&lt;p&gt;6월이 되고 데브코스 과정을 시작했다. 자바와 스프링에 대해서 많이 모르고 들어와서 그런지 다른 친구들에 비해 확실히 내가 실력이 부족하다는 것을 많이 느꼈다. 아무래도 그런 생각이 계속 들다보니까 잘할 수 있을까란 걱정도 들면서 심적으로 스트레스를 좀 많이 받았었는데 서브멘토님과 면담 후 자신감을 많이 얻어 그런 생각이 싹 없어졌다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;그리고 매번 생각하는 것이지만, 부족하다는 것은 배울게 많다는 것이고, 배울게 많다는 것은 정말 즐거운 일이라고 생각한다.
+그래서 백엔드 쪽을 좋아하나보다. 공부를 해도해도 끝이 없는 분야이기도해서,,&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;나는 교육 기간동안 최대한 기본기에 초점을 맞춰 공부하려했다. 다른 교육생들이 새로운 기술을 사용하거나 잘하는 것을 보고 부러워하거나 따라가지 않으려 했다. 나의 페이스에 맞춰 이전보다 나은 내가 되기 위해 노력한다라는 생각으로 마인드 컨트롤하며 공부했는데 확실히 오랜기간동안 꾸준하게 공부할 수 있는 장치가 된 것 같다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;남들이 지금 잘한다고 부러워하지 말자, 나도 꾸준하게 공부하고 노력하면 그들처럼 될 수 있을 것이라 믿는다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;교육 기간동안 가장 좋았던 것 2가지를 뽑자면 아래와 같다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;멘토님과 서브멘토님의 코드리뷰와 질의 응답&lt;/p&gt;
+&lt;p&gt;데브코스는 과제가 정말 많다. 과제가 끝나면 그 다음 과제가 있고 이게 반복되는데 그 과제를 할 때마다 멘토님과 서브멘토님의 코드 리뷰를 해주신다. 사실 데브코스에 오기 전에는 코드를 작성할 때 동작만 하면 오케이하고 넘어가는 경우가 많았는데 멘토님과 서브멘토님의 코드리뷰를 통해 코드 한줄 한줄에 나의 생각을 담아서 짤 줄 알게되었다. &lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/55aab/image-14.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 110.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAAAsTAAALEwEAmpwYAAADdElEQVR42p1U23LiRhDVmw0GdAOEJHQFSUhCEghzsYEY71Jb3lTykN3K/3/KSfeAXNhJHpKHUz3XntPdp0dygxlm8xWSvMasWCElRGmFKFsgzpaYziqxHyYlJlGKMvUQBD76po+h9RED04NkhCHG2QzjKMYoiDD0IyjmGLJhQjEsKCMbGs1V04bK45EFldf/CUMLknVOEPxRInqrMcwD5IctkpcdptsV/HUFo5xAzzzoeQNiR+Dxre3PfWiJC8k+JHDPGaJTDX3qwsxC+MscbjWHkRLbCbGbEshexs67bdbkkNhHDvTQgZQVC8wXaxTLHZxwBttPMLQDyH0T/ZGL0Th8z09jDdpv5nwmmdewvQhd1YAk6yNyuMXxy3c8Pr1ge/hC+IrN/hX5YoOYisWFCeICk1lJdi4KFkQ5JslljaEZDjrKEFJPGyFOC1T1GuXyEcViheVqQxWdodWRcdfuovXQE7gntDsKratodXW0e7qwDHbGvgTDoDwh2/+JfP8D6fMFVv4KLdxBnzxTbg+Eo7CKnUIeeuLyLThcEXK71xeHNDrcNkt0rQIdq4Li1ND8FTTvav1HaG4NleaKnb07YWaNM8FwSoL1w4hyk4PZdnoqOrKGh66C+3bvAgr1rtW5mcu479AZeQBtOP7gXCqqDfanb3j7/SeOr29UmBOefjljvtwiq9Zkd0jLNertEUW9Q7l6wnJzoEJusH4+4fXbbwIv519hkCKkuwdVtFxOlY7zJcZUfm+aYRwkcAguSYnHXFUec2WnXO2bKodkuV1ZTlQUU2xU9RZ5+YiSWOTELKVxRg/xY8yUL3CfxyQZduxNUoQkpbEfCw2GJCcOXzhkbaWLPV2mi1klLgkQY36Mx+GVmU/s+aI6sD9YnXTIviROrOXF6BqkO8WihCsi4Vz9W/C5ZszJv0WzLmQziTMRgumE9JINZXDB50vdq3AbiTTgPc4dt6Bw6IUxFus91vuvIm9F/YSMLIfHPTq75o1zdau5W4e8x06Fw1a3T41On0CQ416mAxTaAx3ifDCUvkUfhYUejT87a8CtxykRwt4fz6iJ4ZY+A2bmUvVYNuo17M/dcMuMC8FF41/KcqcXhj3NEDn0p7mQAsN0Jv/K5jP+1sumG8FgB9rl1Q5v0AH5Gup/hbSjUDnpA/osVQqB/zWhr/8BvvsXwDxR9XnhQwgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/ca1dc/image-14.png&apos; srcset=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/e7570/image-14.png 170w,
+/dev-blog/static/16f7d01159751e36db673228c4594694/f46e7/image-14.png 340w,
+/dev-blog/static/16f7d01159751e36db673228c4594694/ca1dc/image-14.png 680w,
+/dev-blog/static/16f7d01159751e36db673228c4594694/55aab/image-14.png 809w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;주로 이런식으로 코드 리뷰를 받았었다!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그리고 매주마다 멘토님, 서브멘토님과 미팅 날짜를 잡아 사담도하고, 질의응답을 가지는 시간이 있었는데 이때 이제 개발자가 되기 위해서 어떠한 노력이 필요한지, 기술적으로 궁금한 것들 등 다양하게 여쭤보기도하고 여러가지 피드백을 받을 수 있어서 좋았다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/91652/image-15.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 120.58823529411767%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAAAsTAAALEwEAmpwYAAADqElEQVR42m1VyY7bRhDlLwTZPJ5FIiVx38nmJmqz5AlgIEDgiy85BAjgz8ghtxzyzc/1iuJYNubwUN3V3cV6tdH6/79/8fdfn7AbUgxdCGfj4e5hiV/fPn2DN/cLxbz+/vyXu0fVW6fzM8atwXGMcTmWyIoKWdkgSkukRa1I8hpBnKskoqRQmRZGZKXrpt/BDRJYP/z0BgvHR1FvkZY98qpFK4eV6WG6LfrxgHbYwbRbdMMeteh4XjcDQjF8++EnewPr7aONtRchL414VyPOSt0/LFZ64XG5ViwcF0uBvfJgr33VkabSvaVMBb/S9iOqphdPO0Erxg0K8TYVOlk1UfOjDEk2SU/o+WEKTxDIno5s/BgWrYZJrhRJo+nGad0OSpWS1BkvxsgLE5UEDdxKslCD3DDoL9SE1iznNelTku7KDVTyzNn4uiYYJjVIt0mvEg+ZsZLUZZ9Lto16PGg4iFK8J/3SdAojoeI96hkKNchFKbFj9kiPSVm7oXgeKx3di+SHuXc2wTdn3jWW9NhiEa/kMUuAAY8FpB9KonyRXiRBjzP56PTI0zimWIkhJpNv52KnLfWQWaqqBmGUYL0RzzwfsRiJJVmMbywPmcUoLfSD3Gda1LU6QoasDi3sH3++R9S0CC4fsRj/QLJ/h+T5T3jnT/D3H4RGANbqa7h/EjxOmHVWWSQYDjuMHz6iPf+OspcS6d7DMyf41SDxCjXDmmXbVbDA7x4cNCbFTprB9YSZF8qZdMpv73qMwxbH40UudEI5guNs4NhrrBwPKzG4dqNXwTNnHaqcYT0sXGn2Uvr0gH571ExznxWNlMPUMSwb7jk04rRC/nLWvNyjnsm0bPGCF/rtQWtOJ0hWK9Lc6MUZ1PExpSbqBZUaDiIxuLA99YDe0cth/CqJtt+r1OkST6XF8cXHt+CZF6Ti4cpXRd1sFRxRLHKu+SH2NmHaUb3gme67Ub3lnaLq9T7PraVQZm0dTu8Vu8NZPSJdthQlveJjtiNjSj1H3aRvNAQ0TOpqkIphPCnVptupN3PQ556ejWXfJWQacVPc2SBKmVmlQY5xUuZ0HqXAuabHcxwPpwu665of3+5Oes5xRxuaFHrIITruz3qhvRqNkuqahFovx6mRHmavm2uZlKpP8+l8rowphsKdgZ4SM1xLQ0ohN0ozTBs8H0L883mBy7iWuSdzUJjZN1g6hEwb/qBMnaJt2ewGGy9WuH6iZUC4foooitBUPsKQw5UdEryKL96w4XUJzRT+AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/ca1dc/image-15.png&apos; srcset=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/e7570/image-15.png 170w,
+/dev-blog/static/34154c93c77d12b51c75d749e48e9829/f46e7/image-15.png 340w,
+/dev-blog/static/34154c93c77d12b51c75d749e48e9829/ca1dc/image-15.png 680w,
+/dev-blog/static/34154c93c77d12b51c75d749e48e9829/91652/image-15.png 694w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;데브코스 끝나고도 질문이 생겨 여쭤보면 바쁘신 와중에도 답변을 너무 잘해주신다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그리고 가장 기억에 남았던게 서브멘토님께서 팀원들에게 CI/CD를 가르쳐주기 위해 전 날 하루를 통으로 공부하신다음 다음 날 4시간동안 쉬지 않고 알려주셨었는데 교육생들을 위해 이렇게까지 열심히 해주시는 모습을 보고 너무너무 감사했었다. &lt;/p&gt;
+&lt;p&gt;하루 빨리 좋은 곳에 취업해서 멘토님과 서브멘토님께 자랑하고 맛있는거 대접해드리고 싶다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;의지할 수 있는 좋은 동료&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h3&gt;피어 리뷰&lt;/h3&gt;
 &lt;p&gt;데브코스 기간동안 PRE팀과 NEW팀 두 번의 팀이 구성되는데 PRE팀은 데브코스 적응을 위한 팀이고, NEW팀은 데브코스 적응 후 최종 프로젝트까지 같이 하게되는 팀이다. 아래는 데브코스 기간동안 팀원들에게 받은 피어리뷰이다.&lt;/p&gt;
-&lt;h4&gt;PRE팀&lt;/h4&gt;
+&lt;h4&gt;PRE팀(6명)&lt;/h4&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/52eab84c61377797ac0c916697c47cd6/7c717/image901.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
@@ -319,7 +397,7 @@
     &lt;/span&gt;
     &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;PRE팀 피어리뷰&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
-&lt;h4&gt;NEW팀&lt;/h4&gt;
+&lt;h4&gt;NEW팀(4명)&lt;/h4&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/9f57b31e49270915cf1c1b5dadb3086b/ac7a9/image902.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
@@ -335,7 +413,7 @@
     &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;NEW팀 피어리뷰&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;나 스스로는 많이 부족하다고 생각하는데, 팀원들이 항상 좋은 리뷰를 해주며 용기를 주어 매번 잘 이겨냈던 것 같다. 무사히 수료할 수 있게 도와준 나의 모든 팀원들에게 정말 감사하다.&lt;/p&gt;
-&lt;h2&gt;현재의 나&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[[OAuth] 소셜 최초 로그인시 회원가입 추가 정보를 받는 로직에 대한 고민]]></title><description><![CDATA[고민 배경 제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다. 일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 회원 가입 을 하게 됩니다. OAuth…]]></description><link>https://hchanghyeon.github.io/dev-blog/oauth_user_register/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/oauth_user_register/</guid><pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;고민 배경&lt;/h2&gt;
+&lt;h2&gt;현재의 나&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[소셜 최초 로그인시 회원가입 추가 정보를 받는 로직에 대한 고민]]></title><description><![CDATA[고민 배경 제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다. 일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 회원 가입 을 하게 됩니다. OAuth…]]></description><link>https://hchanghyeon.github.io/dev-blog/oauth_user_register/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/oauth_user_register/</guid><pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;고민 배경&lt;/h2&gt;
 &lt;p&gt;제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다.&lt;/p&gt;
 &lt;p&gt;일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 &lt;strong&gt;회원 가입&lt;/strong&gt; 을 하게 됩니다.&lt;/p&gt;
 &lt;p&gt;OAuth 제공자인 카카오에서 주는 &lt;code class=&quot;language-text&quot;&gt;oauthId&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;email&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;nickname&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;profileImageUrl&lt;/code&gt; 로 간편하게 회원가입할 수 있다면 로그인 요청시 바로 회원가입을 진행하면 되지만, 현재 진행하고 있는 프로젝트에서는 회원에 대한 추가적인 정보(&lt;code class=&quot;language-text&quot;&gt;position&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;address&lt;/code&gt;) 를 받아야만 하는 상태입니다.&lt;/p&gt;
