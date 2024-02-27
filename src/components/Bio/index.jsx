@@ -20,6 +20,7 @@ import {
 } from "react-icons/fa6"
 
 import { siteUrl, description, author, links } from "../../../blog-config"
+import ResumePage from "pages/resume"
 
 const BioWrapper = styled.div`
   display: flex;
@@ -149,6 +150,11 @@ const Bio = () => {
           <Link link={link}>
             <FaLink />
           </Link>
+          <div>
+            <Link link="/resume">
+              이력서
+            </Link>
+          </div>
         </LinksWrapper>
       </div>
     </BioWrapper>

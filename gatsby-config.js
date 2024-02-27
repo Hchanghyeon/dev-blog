@@ -10,6 +10,14 @@ module.exports = {
     siteUrl,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-gtag`,
+      options: {
+        trackingId: `G-WGSBPPZ338`,
+        head: true,
+        anonymize: true,
+      },
+    },
     `gatsby-plugin-catch-links`,
     `gatsby-plugin-robots-txt`,
     {
