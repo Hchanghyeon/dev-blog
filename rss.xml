@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 14 Feb 2024 12:59:54 GMT</lastBuildDate><item><title><![CDATA[개발자가 되기 전 나의 10년 회고록]]></title><description><![CDATA[만 나이 개정법을 시행하기 전 나이로 29살이 되었다.  나이가 30살이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 1…]]></description><link>https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</guid><pubDate>Wed, 31 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;만 나이 개정법을 시행하기 전 나이로 &lt;strong&gt;29살&lt;/strong&gt;이 되었다. &lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 27 Feb 2024 05:35:03 GMT</lastBuildDate><item><title><![CDATA[개발자가 되기 전 나의 10년 회고록]]></title><description><![CDATA[만 나이 개정법을 시행하기 전 나이로 29살이 되었다.  나이가 30살이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 1…]]></description><link>https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/20&apos;s_review/</guid><pubDate>Wed, 31 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;만 나이 개정법을 시행하기 전 나이로 &lt;strong&gt;29살&lt;/strong&gt;이 되었다. &lt;/p&gt;
 &lt;p&gt;나이가 &lt;strong&gt;30살&lt;/strong&gt;이 되기 직전이고, 개발자로 취업하기 전 이력서와 자기소개서를 작성해보니 점점 예전의 기억들이 흐릿해지는 것 같았다. 그래서 개발자가 되기 전 내가 어떻게 살아왔는지 10년간의 회고를 내 인생의 중요했던 순간들을 위주로 기록해보려고 한다.&lt;/p&gt;
 &lt;img src=&apos;/dev-blog/static/IMG_4654-4e6e4509988917abcf1e986aaa6116b7.jpg&apos; style=&apos;width:300px&apos;&gt;
 &lt;blockquote&gt;
@@ -103,11 +103,6 @@
 &lt;li&gt;실습실 문 열고 닫기, 청소&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;위는 요약해서 적어 보이지만, 방학 때도 주 5일 8시간씩 출근하여 모든 강의실에 있는 PC를 포멧하고 개발 환경을 세팅하는 등 실습실에서 일어나는 모든 일을 했었다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/dev-blog/static/IMG_9167-1420394ef0909983e407eafa6b401a7d.jpg&quot; alt=&quot;레고 분해&quot;&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;위 사진은 레고로 내가 원하는 형태를 만들고 C언어로 코딩을 하여 센서를 통해 움직이는 로봇을 만드는 수업이었다.
-한 학기가 종료되면 학생들이 만든 레고들을 모두 분해하여, 각 키트의 부품 종류에 맞게 다시 넣어둬야 하는데 이게 진짜 오래 걸려서 힘들었었다.&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;p&gt;가장 기억에 남는 것은 근로 장학생으로 근무하며 출석 프로그램을 개발한 것이었다.
 근로장학생은 매월 말일 근무일지를 작성해야 하는데 근로 장학생이 워낙 많기도 하고 시간을 짧게 하다 보니 매주 시간표가 같지 않은 경우가 많아 까먹는 경우가 많았다. 이때 자기가 언제 출근했는지 항상 기록해두었어야 했는데 이게 너무 불편하기도 했었고 여러 명이 근무하다보니 인수인계도 잘 안 되어 업무 누락되는 경우도 허다했다. 이런 불편한 것을 어떻게 개선할 수 있을까 고민해보다가 출석 프로그램을 만들어 웹사이트와 연동시키면 해결할 수 있을 것이라 생각했었고 &lt;strong&gt;혼자 개발하여 학부 근로 장학생들이 사용하며 근무일지 누락, 업무 누락 등 다양한 것을 개선&lt;/strong&gt;시킬 수 있었다.&lt;/p&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
@@ -305,25 +300,25 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/fe486/image-13.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 70%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACGElEQVR42nVUWZbaQAzkDoCN9xXvxthmGSB8cIC5QH5ym5wg962olDSPZGY+hBpLqq6SZC+COEfRvyFMCmw2NhzHFXM+Ndd11cyZfsNzlMONCzjybFEUBS7XG46nE6IoEtDNE8CTBM/zpdiBba/hey7SNFULggBhGGh89/0nqh+/sAlSLFjYtg3u9zvO5zP6vscwDNjtdqirCtuyQtGOaPsJfphgu92iaRr4vo9K4m3bIohi+GLEWpBRHMcKQmMC/TiOwkAY2xbyZsZ0f0dSDsiyFKEoIUMSKMtSgESVtsv5w5CAXdcpK3r+Xy6XItOGtV4hrUZM397VE5CtIcN5npWA53navyfDMAw1QCmUwVvzPFd5mfQr7xrU8wTXCwQwUzAyJCBzzYCegAQygGRIM9LbukGxr1GOjbBd6yUEM5Lruv4IyIfX61Vv5JnSeTMBCwFIdw2ysYNt2cqciozkTxkS5PF44Ha7KRiNDGeRGSUp3roc1z7D2rKUoQE8HA7aon8A+cMmM0CplG0AWez5AaahxGFfwZIhcW+jv1M+ye6SDIdiQBWQQVJnkMn0LFytVtI3C9lQI9s3ItnSoZgefimZxewhJVwuFxyPR2U4ieREFracZGDnQYdSCIBZG5P3QTIZcZEpld7sFotcifvCxpfXjLn6TADoyY79fH3fFywkfUvkrIUBjWcWMZmx14/D60eCi///R+M3cUqKLeyiQVUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/e7570/image-13.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;공부 정리 내역&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/e7570/image-13.png 170w,
 /dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/f46e7/image-13.png 340w,
 /dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/ca1dc/image-13.png 680w,
 /dev-blog/static/2ca2b3da47eec7b7434f586ee96e7e26/fe486/image-13.png 768w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;공부 정리 내역&lt;/figcaption&gt;
   &lt;/figure&gt;
 &lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/bf436/image-12.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 97.05882352941177%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAATCAYAAACQjC21AAAACXBIWXMAAAsTAAALEwEAmpwYAAACWklEQVR42o2UV9LaUAyFvQaaC9hUU0w3HQxryEMWkp1liYo/JYchmcnM/3DnytJVOUeSg8GksNm2snx1NeQoCi2O46+dJLE4iizORpbke4vToQWTycTKw8EOx6MVRWEJj/4ToNvt2mg8tsFgYGmaWpr1LQmbllffrfzx09LzNwtms5m9Xi9bLpeWZdk7IM7/ymEtz+tgx93ONtutHesi+v2+5fnElsXCqw1w6PV67hSGoWfnO6qNn9Vid10tUx02dDppmvkdDIdD29bZVquVjWs45/PZoU+n07dusVg4gtFo5De2PM9tvV77jW5XV00sD3i5XNwJ436/d4MeUTE33+gPNd8Ens/nLmPHpyxLrzxQ+dxAajQaDr3dbruMrtlsWqvV+sve6XRc/oQOVQGkApGMZAPi+E8nmQAO3zRPOr5poKBzbzab35AxPp9PhwXs+/3uznxDBQ7wCjyCVVXl8OH38Xh4sNPp5H4U55DJppEBDtA4wJKMnm5/6pDxIRD+3mUEgpIJDjQ63DzgMXxi4xAEaBonGoQ/SPBzyMAQZEFilG632xsSQ4wTMOFckOEeO7JDVlNENDyRkWxkpypuDTx2bvzw4S2cc7zLKARNIwIUYDIqcIQOqOgZFXGJniAUov0OyE4XGUwgAQ3IgkJm4GGnOrrNiKDHDjVUyhti+abwmAA4aJ745pG2RnOInQBaPTjWoVKHzAEyULQR2gbB19jIjk2U4Mt5bwrZyEwFfItgKqFqOObGBiw1i/faLmJ4hQj8D+FOpWudPg8B9RYqgMuIYWOjrterB/wFqjIV37w4emEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/e7570/image-12.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;공부 일기&apos; title=&apos;&apos; src=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/65a2881ca88900e409f58e9b62be39d1/e7570/image-12.png 170w,
 /dev-blog/static/65a2881ca88900e409f58e9b62be39d1/f46e7/image-12.png 340w,
 /dev-blog/static/65a2881ca88900e409f58e9b62be39d1/ca1dc/image-12.png 680w,
 /dev-blog/static/65a2881ca88900e409f58e9b62be39d1/bf436/image-12.png 745w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;공부 일기&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;3월부터 6월까지 노션에다가 공부한 것을 기록하고, 그날 공부한 것에 대한 나의 생각을 적었었다.
@@ -348,13 +343,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/55aab/image-14.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 110.00000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAAAsTAAALEwEAmpwYAAADdElEQVR42p1U23LiRhDVmw0GdAOEJHQFSUhCEghzsYEY71Jb3lTykN3K/3/KSfeAXNhJHpKHUz3XntPdp0dygxlm8xWSvMasWCElRGmFKFsgzpaYziqxHyYlJlGKMvUQBD76po+h9RED04NkhCHG2QzjKMYoiDD0IyjmGLJhQjEsKCMbGs1V04bK45EFldf/CUMLknVOEPxRInqrMcwD5IctkpcdptsV/HUFo5xAzzzoeQNiR+Dxre3PfWiJC8k+JHDPGaJTDX3qwsxC+MscbjWHkRLbCbGbEshexs67bdbkkNhHDvTQgZQVC8wXaxTLHZxwBttPMLQDyH0T/ZGL0Th8z09jDdpv5nwmmdewvQhd1YAk6yNyuMXxy3c8Pr1ge/hC+IrN/hX5YoOYisWFCeICk1lJdi4KFkQ5JslljaEZDjrKEFJPGyFOC1T1GuXyEcViheVqQxWdodWRcdfuovXQE7gntDsKratodXW0e7qwDHbGvgTDoDwh2/+JfP8D6fMFVv4KLdxBnzxTbg+Eo7CKnUIeeuLyLThcEXK71xeHNDrcNkt0rQIdq4Li1ND8FTTvav1HaG4NleaKnb07YWaNM8FwSoL1w4hyk4PZdnoqOrKGh66C+3bvAgr1rtW5mcu479AZeQBtOP7gXCqqDfanb3j7/SeOr29UmBOefjljvtwiq9Zkd0jLNertEUW9Q7l6wnJzoEJusH4+4fXbbwIv519hkCKkuwdVtFxOlY7zJcZUfm+aYRwkcAguSYnHXFUec2WnXO2bKodkuV1ZTlQUU2xU9RZ5+YiSWOTELKVxRg/xY8yUL3CfxyQZduxNUoQkpbEfCw2GJCcOXzhkbaWLPV2mi1klLgkQY36Mx+GVmU/s+aI6sD9YnXTIviROrOXF6BqkO8WihCsi4Vz9W/C5ZszJv0WzLmQziTMRgumE9JINZXDB50vdq3AbiTTgPc4dt6Bw6IUxFus91vuvIm9F/YSMLIfHPTq75o1zdau5W4e8x06Fw1a3T41On0CQ416mAxTaAx3ifDCUvkUfhYUejT87a8CtxykRwt4fz6iJ4ZY+A2bmUvVYNuo17M/dcMuMC8FF41/KcqcXhj3NEDn0p7mQAsN0Jv/K5jP+1sumG8FgB9rl1Q5v0AH5Gup/hbSjUDnpA/osVQqB/zWhr/8BvvsXwDxR9XnhQwgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/ca1dc/image-14.png&apos; srcset=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/e7570/image-14.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;코드 리뷰&apos; title=&apos;&apos; src=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/ca1dc/image-14.png&apos; srcset=&apos;/dev-blog/static/16f7d01159751e36db673228c4594694/e7570/image-14.png 170w,
 /dev-blog/static/16f7d01159751e36db673228c4594694/f46e7/image-14.png 340w,
 /dev-blog/static/16f7d01159751e36db673228c4594694/ca1dc/image-14.png 680w,
 /dev-blog/static/16f7d01159751e36db673228c4594694/55aab/image-14.png 809w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;코드 리뷰&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;주로 이런식으로 코드 리뷰를 받았었다!&lt;/p&gt;
@@ -364,21 +359,42 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/91652/image-15.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 120.58823529411767%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAYCAYAAAD6S912AAAACXBIWXMAAAsTAAALEwEAmpwYAAADqElEQVR42m1VyY7bRhDlLwTZPJ5FIiVx38nmJmqz5AlgIEDgiy85BAjgz8ghtxzyzc/1iuJYNubwUN3V3cV6tdH6/79/8fdfn7AbUgxdCGfj4e5hiV/fPn2DN/cLxbz+/vyXu0fVW6fzM8atwXGMcTmWyIoKWdkgSkukRa1I8hpBnKskoqRQmRZGZKXrpt/BDRJYP/z0BgvHR1FvkZY98qpFK4eV6WG6LfrxgHbYwbRbdMMeteh4XjcDQjF8++EnewPr7aONtRchL414VyPOSt0/LFZ64XG5ViwcF0uBvfJgr33VkabSvaVMBb/S9iOqphdPO0Erxg0K8TYVOlk1UfOjDEk2SU/o+WEKTxDIno5s/BgWrYZJrhRJo+nGad0OSpWS1BkvxsgLE5UEDdxKslCD3DDoL9SE1iznNelTku7KDVTyzNn4uiYYJjVIt0mvEg+ZsZLUZZ9Lto16PGg4iFK8J/3SdAojoeI96hkKNchFKbFj9kiPSVm7oXgeKx3di+SHuXc2wTdn3jWW9NhiEa/kMUuAAY8FpB9KonyRXiRBjzP56PTI0zimWIkhJpNv52KnLfWQWaqqBmGUYL0RzzwfsRiJJVmMbywPmcUoLfSD3Gda1LU6QoasDi3sH3++R9S0CC4fsRj/QLJ/h+T5T3jnT/D3H4RGANbqa7h/EjxOmHVWWSQYDjuMHz6iPf+OspcS6d7DMyf41SDxCjXDmmXbVbDA7x4cNCbFTprB9YSZF8qZdMpv73qMwxbH40UudEI5guNs4NhrrBwPKzG4dqNXwTNnHaqcYT0sXGn2Uvr0gH571ExznxWNlMPUMSwb7jk04rRC/nLWvNyjnsm0bPGCF/rtQWtOJ0hWK9Lc6MUZ1PExpSbqBZUaDiIxuLA99YDe0cth/CqJtt+r1OkST6XF8cXHt+CZF6Ti4cpXRd1sFRxRLHKu+SH2NmHaUb3gme67Ub3lnaLq9T7PraVQZm0dTu8Vu8NZPSJdthQlveJjtiNjSj1H3aRvNAQ0TOpqkIphPCnVptupN3PQ556ejWXfJWQacVPc2SBKmVmlQY5xUuZ0HqXAuabHcxwPpwu665of3+5Oes5xRxuaFHrIITruz3qhvRqNkuqahFovx6mRHmavm2uZlKpP8+l8rowphsKdgZ4SM1xLQ0ohN0ozTBs8H0L883mBy7iWuSdzUJjZN1g6hEwb/qBMnaJt2ewGGy9WuH6iZUC4foooitBUPsKQw5UdEryKL96w4XUJzRT+AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/ca1dc/image-15.png&apos; srcset=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/e7570/image-15.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;질의 응답&apos; title=&apos;&apos; src=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/ca1dc/image-15.png&apos; srcset=&apos;/dev-blog/static/34154c93c77d12b51c75d749e48e9829/e7570/image-15.png 170w,
 /dev-blog/static/34154c93c77d12b51c75d749e48e9829/f46e7/image-15.png 340w,
 /dev-blog/static/34154c93c77d12b51c75d749e48e9829/ca1dc/image-15.png 680w,
 /dev-blog/static/34154c93c77d12b51c75d749e48e9829/91652/image-15.png 694w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;질의 응답&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;데브코스 끝나고도 질문이 생겨 여쭤보면 바쁘신 와중에도 답변을 너무 잘해주신다.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;그리고 가장 기억에 남았던게 서브멘토님께서 팀원들에게 CI/CD를 가르쳐주기 위해 전 날 하루를 통으로 공부하신다음 다음 날 4시간동안 쉬지 않고 알려주셨었는데 교육생들을 위해 이렇게까지 열심히 해주시는 모습을 보고 너무너무 감사했었다. &lt;/p&gt;
+&lt;p&gt;그리고 가장 기억에 남았던게 서브멘토님께서 팀원들에게 CI/CD를 가르쳐주기 위해 전 날 하루를 통으로 공부하신다음 다음 날 4시간동안 쉬지 않고 알려주셨었는데 교육생들을 위해 이렇게까지 열심히 해주시는 모습을 보고 너무너무 감동먹었었다.&lt;/p&gt;
 &lt;p&gt;하루 빨리 좋은 곳에 취업해서 멘토님과 서브멘토님께 자랑하고 맛있는거 대접해드리고 싶다.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;의지할 수 있는 좋은 동료&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;의지할 수 있는, 열심히 하는 동료&lt;/p&gt;
+&lt;p&gt;가장 좋았던 것 중 하나로 동료들이 정말 열심히 한다는 점이다. 열심히 할 뿐더러 모르는 것이 있으면 같이 머리를 맞대고 몇시간 동안 토론하기도 하고, 자기가 정리한 내용들을 공유한다든지 공부하는데 정말 도움이 많이 되었던 것 같다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 51.764705882352935%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABxUlEQVR42lVS2ZKjMAzkMwKBGHMYbHMZwhHCJJvMbG3t/39Qr2ySqdmHLrVk3JZaeNdLj3W7Y5xXlKpBbwxU1aKQjct1bZDmEuEpIXAcI+54xFIHy23tDc8W67ZH0w0ww4xpmmG6Fj1xM0w4Txf05xmtGak2om1qFxvKRVkhTgSCMP5+0LOkNWfopned2a6UqiA1dalqinunNrfQVedgeV4oZGKHFedpsQvazobhjIKKpSQREhD0sSi0+7CQFrXjOdXco/R43Q4OXT+SNZ2zhkZOoJoRXw+Dzy3FIcpw4jkiLna8vPrp2c/8FGcO7zMvCBlURx5tX6jXO+R0QyQNDqKFLxr4AfvPdAvrmcXxFR1/LyU4MkhDgtdPVMsDerxCjR/Qyy+UZoGgUYMohf+66B/3ywHBD/cYRPE39yxpdIXnumCbRjz7Hr/HM/7cVvx93vC4XpDwBDHLwGmjCRlvR2M0JufcRUYWJUmCEyPBU5zC2H/vtdFcSGRJjrLU0LJEXQrUMofKNCoyvu168kygpKW1MoXMJE1Roat2USe4rSMe9w3zsiAqO0SZct0wWsrhyAl2JEbjMuK7p9YCe+a/bLA8CDn+AQE9I/TC0UdUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;정리한 글 공유&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png&apos; srcset=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/e7570/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 170w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/f46e7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 340w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 680w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/02d09/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1020w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/9d567/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1360w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1888w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;정리한 글 공유&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;그런 공유 문화에 적응되어, 나도 내가 트러블 슈팅한 내용들을 공유하여 다른 교육생들의 다양한 생각도 들을 수 있었다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그 뿐만 아니라 오랫동안 공부해서 지칠 때, 동료들끼리 서로 힘내자고 응원하고 격려하며 이겨낼 수 있었다. 확실히 개발은 혼자하는 것이 아니기 때문에 동료들과의 지속적인 소통과 교류, 할 수 있다는 긍정적인 마인드가 중요한 것 같다. 데브코스를 시작하고나서부터 스스로 성장하는 것보다, 동료 성장이 더 좋다고 느끼게 된 것 같다.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;피어 리뷰&lt;/h3&gt;
 &lt;p&gt;데브코스 기간동안 PRE팀과 NEW팀 두 번의 팀이 구성되는데 PRE팀은 데브코스 적응을 위한 팀이고, NEW팀은 데브코스 적응 후 최종 프로젝트까지 같이 하게되는 팀이다. 아래는 데브코스 기간동안 팀원들에게 받은 피어리뷰이다.&lt;/p&gt;
@@ -413,6 +429,8 @@
     &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;NEW팀 피어리뷰&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;나 스스로는 많이 부족하다고 생각하는데, 팀원들이 항상 좋은 리뷰를 해주며 용기를 주어 매번 잘 이겨냈던 것 같다. 무사히 수료할 수 있게 도와준 나의 모든 팀원들에게 정말 감사하다.&lt;/p&gt;
+&lt;h3&gt;배운 점&lt;/h3&gt;
+&lt;p&gt;데브코스를 통해 가장 크게 배운 점은 &lt;strong&gt;코드와 기술에 나의 생각을 담을 수 있다는 것&lt;/strong&gt;이다. 전에는 정말 아무 생각 없이 사용했던 기술과 작성했던 코드를 이제는 근거 있는 코드와 기술을 사용하려고 노력한다. 그리고 &lt;strong&gt;멘토님께서 무엇보다 사람이 중요하다&lt;/strong&gt;고 말씀해주셨었는데, 협업을 하며 팀원들에게 조금 더&lt;/p&gt;
 &lt;h2&gt;현재의 나&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[소셜 최초 로그인시 회원가입 추가 정보를 받는 로직에 대한 고민]]></title><description><![CDATA[고민 배경 제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다. 일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 회원 가입 을 하게 됩니다. OAuth…]]></description><link>https://hchanghyeon.github.io/dev-blog/oauth_user_register/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/oauth_user_register/</guid><pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;고민 배경&lt;/h2&gt;
 &lt;p&gt;제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다.&lt;/p&gt;
 &lt;p&gt;일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 &lt;strong&gt;회원 가입&lt;/strong&gt; 을 하게 됩니다.&lt;/p&gt;
