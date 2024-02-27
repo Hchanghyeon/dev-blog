@@ -150,11 +150,11 @@ const Bio = () => {
           <Link link={link}>
             <FaLink />
           </Link>
-          <div>
+          {/* <div>
             <Link link="/resume">
               이력서
             </Link>
-          </div>
+            </div> */}
         </LinksWrapper>
       </div>
     </BioWrapper>
