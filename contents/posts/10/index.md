@@ -1,5 +1,5 @@
 ---
-title: "[OMG-3] 외부로 API 요청시 계속 Null이 나와요!"
+title: "[OMG-4] 외부로 API 요청시 계속 Null이 나와요!"
 description: "외부로 API 요청 후 응답 값으로 계속 Null이 나오는 현상에 대한 트러블 슈팅입니다."
 date: 2024-02-29
 update: 2024-02-29
