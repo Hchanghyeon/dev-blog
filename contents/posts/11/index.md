@@ -71,7 +71,7 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
         private final GameService gameService;
 
         @GetMapping("/maplestorym")
-        public ResponseEntity<MapleStoryMCharacterInfoResponse>     getCharacterInfo(
+        public ResponseEntity<MapleStoryMCharacterInfoResponse> getCharacterInfo(
                 @RequestParam final String characterName,
                 @RequestParam final String worldName
         ) {
