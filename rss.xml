@@ -1,4 +1,175 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 29 Feb 2024 08:38:16 GMT</lastBuildDate><item><title><![CDATA[[OMG-3] 외부로 API 요청시 계속 Null이 나와요!]]></title><description><![CDATA[문제 Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다. GameService.java MapleStoryMRestTemplate.java CharacterBasic.java 위는 API…]]></description><link>https://hchanghyeon.github.io/dev-blog/10/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/10/</guid><pubDate>Thu, 29 Feb 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;문제&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 01 Mar 2024 09:06:15 GMT</lastBuildDate><item><title><![CDATA[[OMG-5] dev 환경 ci/cd 구축하기]]></title><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded></content:encoded></item><item><title><![CDATA[[OMG-3] API 요청 흐름에 대한 기능 설계 및 구현]]></title><description><![CDATA[안녕하세요. 저번 글에서는 프로젝트에서 구현할 기능들과 간단한 서비스 흐름도를 그려보며 설계를 해보았습니다. 이번 글에서는 프로젝트의 핵심 주요 기능에 대한 흐름을 설계하여 그림으로 좀 더 자세하게 표현하고 설명해보고자 합니다. 우선 OMG…]]></description><link>https://hchanghyeon.github.io/dev-blog/11/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/11/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;안녕하세요. 저번 글에서는 프로젝트에서 구현할 기능들과 간단한 서비스 흐름도를 그려보며 설계를 해보았습니다.&lt;/p&gt;
+&lt;p&gt;이번 글에서는 프로젝트의 핵심 주요 기능에 대한 흐름을 설계하여 그림으로 좀 더 자세하게 표현하고 설명해보고자 합니다.&lt;/p&gt;
+&lt;p&gt;우선 OMG 프로젝트의 기본 기능 흐름도는 아래와 같습니다.&lt;/p&gt;
+&lt;h3&gt;기본 기능 흐름도&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/97d01/image.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 17.64705882352941%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA4klEQVR42m2PTUrEQBCFs/Fw4hG8h1vxALpz7S3EpQq6cCGomxlQEoX8x7Tdme6Z7nTy2WmYhWDBR0G9R72qRGmHnyamwH81zzN6o9GDYbe1eO//6H4c6XqBGDQuaIkpr2H7FZZC2zTkeU5RFLEvOOtoRc1b9kRar+JCIUT0VGWJdSObKkOvH3HpMwl3B+zWp5gRjFbR3HVdRCoZToCXzwfObo65vD9BDQopJU0Ib5saE3R5e4U8P0RcHJF4+YozJfuP+76P6QvW2jhT5oesW5H3Kc656Nl/sFw4Dt/Y6j3wwS+sOytFxvXtsAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/ca1dc/image.png&apos; srcset=&apos;/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/e7570/image.png 170w,
+/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/f46e7/image.png 340w,
+/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/ca1dc/image.png 680w,
+/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/02d09/image.png 1020w,
+/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/9d567/image.png 1360w,
+/dev-blog/static/30c42d447c4b5105639c8fc0ed858735/97d01/image.png 1814w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;클라이언트가 메이플스토리M의 캐릭터 명과 캐릭터 월드명을 웹페이지에 입력하여 Spring 서버로 전달합니다.&lt;/li&gt;
+&lt;li&gt;전달 받은 Spring서버는 클라이언트의 캐릭터 명과 캐릭터 월드명을 이용하여 게임사 서버로 캐릭터 정보를 달라고 요청합니다.&lt;/li&gt;
+&lt;li&gt;요청을 받은 게임사 API 서버는 캐릭터 정보를 Spring 서버로 응답합니다.&lt;/li&gt;
+&lt;li&gt;게임사로부터 받은 캐릭터 응답 값을 Spring서버에서 하나로 모아 클라이언트에게 응답합니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;위 네가지 순서는 OMG 프로젝트의 기본 기능이면서 제일 중요한 기능으로 볼 수 있습니다. 이 기능을 메이플스토리M 게임에 빗대어 자세하게 설명해보도록 하겠습니다.&lt;/p&gt;
+&lt;h3&gt;MapleStoryM 캐릭터 조회 기능 흐름도&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/11bd9/image-1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 76.47058823529412%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAC3UlEQVR42pWTzWsUdxjHc/DQ2lP/BwsKpRXE1Jte7KGHHgueiiWePYhgSuvLRdFSrNBjL5LENChIoQYKbV7FGjckcRO1SfYl+zbr7M7b7uy8z87HZ3cSGkEJGXhmDvPjw+f7e55nwA9CLDvE9bvEcYxtd7CsFlarjWZatDsOvufjOQFhEBH4HlqjjqpUcdsmQRhheyFB3KXb7TLgtasY+Qm8+iSBZ5JZrzH7vEDmVYn5bIHXDQO1WeNleRnVrOE4LqqqojUbuJqGJXA9O4Obe0bsdRiIm5MwPQCzH+Lry4RdiOKobxvFIb3n382/GBo/zt0nNzC1FvW6Ql2pUddbaGvzmMOH0X88SlD7T4CNSZKpHvAgcXuVpI/opu8k/S5X5hgaG+T+8h2Jn7BeLPeBRsshrKyiDX+KfnWQQNlIgUylhu8Flmc5d+8LxhZ+otNyUcSwIWWbNs21x+jfC/DK8f0A5/rA0YVbtC2XnBhu5IqU5X47+cVtYM9wfRv4zx5AiXx29BgTS7dJYth6rVOWcoNEImfRLskdXj62Y/gnzByA+Y8FmH0ncKUyz4WHXzGxeEciO3J/VZpStimjJZGN6ycxbn25Y/gojTz30XsNe8DzD07ze+Y2ltkhV6qykS+RUy2MV08xrp0Q6Kldkaf2jvzdduQwgM1SjdxWlbrm0NpcQr90ZHfk/TRFumx1aMowN+tV2Sgb4+WTXV1+y/D/yImAkiSRVYq3Iwtw/ATjmZ8xDYfM2gZLa+soqk5QzqbAt+bwbwFOf0BgrqRuO8AkBS5uTfHtyFFGFm7idgLK1RqKotCWpugvHqNdPIT2w2epYaTPwLNPiBc+x26soFsOhUKBQnGLzUIRz41YrTzlyuQZ/lj5DUPWrVgqkZd/FTG0i89p/fI11q/fEKhFAUYhcej0qzdkiumSyWu8qJhUNBvHj+id8UKvv9uuH1LTbRQpx/Xoyt5HvkscuP1zbwBFKx6Lq3WWuAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/e7570/image-1.png 170w,
+/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/f46e7/image-1.png 340w,
+/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/ca1dc/image-1.png 680w,
+/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/02d09/image-1.png 1020w,
+/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/9d567/image-1.png 1360w,
+/dev-blog/static/96b94b3573ed1d994336e2f6f7eb57e5/11bd9/image-1.png 1420w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;메이플스토리M 게임의 캐릭터 명과 캐릭터 월드명을 Spring Server로 전달합니다.&lt;/li&gt;
+&lt;li&gt;전달 받은 캐릭터명과 캐릭터 월드명을 이용하여 캐릭터 고유 번호를 요청합니다.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;캐릭터 고유 번호를 응답받습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;해당 게임의 API는 무조건 사용자 이름과 월드명을 통해 ocid라는 캐릭터 고유 번호를 받고 해당 고유 번호로 캐릭터의 정보를 요청할 수 있게 되어있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;캐릭터 기본 정보를 요청합니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 기본 정보를 응답받습니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 장비 정보를 요청합니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 장비 요청을 받습니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 스탯 정보를 요청합니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 스탯 정보를 응답받습니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 길드 정보를 요청합니다.&lt;/li&gt;
+&lt;li&gt;캐릭터 길드 정보를 응답받습니다.&lt;/li&gt;
+&lt;li&gt;게임사로부터 받은 모든 정보를 종합하여 클라이언트에게 응답합니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;RestTemplate 동기를 사용한 이유&lt;/h3&gt;
+&lt;p&gt;우선, 3번에서 말씀드렸듯이 사용자의 캐릭터 명과 캐릭터 월드명을 이용하여 ocid를 먼저 받은 다음, ocid로 나머지 캐릭터에 대한 정보를 요청해야합니다. 그래서 2번에서 API를 요청할 때는 무조건 동기적으로 작동해야하고, 나머지 4번부터 11번 사이의 요청들은 비동기로 돌아가도 됩니다. 저는 우선 ocid를 제외한 API 요청은 4개여서 요청 개수가 적다고 생각이 들었고, 요청마다의 응답시간이 길지 않았기 때문에 동기적으로 동작시켜도 괜찮겠다고 생각이 들었습니다.&lt;/p&gt;
+&lt;h3&gt;기본 기능 코드&lt;/h3&gt;
+&lt;p&gt;이번에는 위의 기능을 코드로 옮겨보도록 하겠습니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;클라이언트가 메이플스토리M의 캐릭터 명과 캐릭터 월드명을 웹페이지에 입력하여 Spring 서버로 전달합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GameController.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@RestController&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequiredArgsConstructor&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequestMapping&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/games&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GameController&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GameService&lt;/span&gt; gameService&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@GetMapping&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/maplestorym&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ResponseEntity&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;MapleStoryMCharacterInfoResponse&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;     &lt;span class=&quot;token function&quot;&gt;getCharacterInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token annotation punctuation&quot;&gt;@RequestParam&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token annotation punctuation&quot;&gt;@RequestParam&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMCharacterInfoResponse&lt;/span&gt;  mapleStoryMCharacterInfoResponse &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; gameService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;  &lt;span class=&quot;token function&quot;&gt;getMapleStoryMCharacterInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                worldName
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ResponseEntity&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;mapleStoryMCharacterInfoResponse&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Controller를 통해 characterName과 worldName을 받습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;전달 받은 Spring서버는 클라이언트의 캐릭터 명과 캐릭터 월드명을 이용하여 게임사 서버로 캐릭터 정보를 달라고 요청한 이후 클라이언트에게 응답합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GameService.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Service&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequiredArgsConstructor&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GameService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMApi&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMCharacterInfoResponse&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getMapleStoryMCharacterInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Character&lt;/span&gt; character &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCharacterOcid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 캐릭터 고유 번호&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CharacterBasic&lt;/span&gt; characterBasic &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCharacterBasic&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;character&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ocid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 캐릭터 기본 정보&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CharacterItemEquipment&lt;/span&gt; characterItemEquipment &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCharacterItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;character&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ocid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 캐릭터 장비 정보&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CharacterStat&lt;/span&gt; characterStat &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCharacterStat&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;character&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ocid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 캐릭터 스탯 정보&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CharacterGuild&lt;/span&gt; characterGuild &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; mapleStoryMApi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCharacterGuild&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;character&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ocid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 캐릭터 길드 정보&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMCharacterInfoResponse&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                characterBasic&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                characterItemEquipment&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                characterStat&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                characterGuild
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;GameService에서는 받은 characterName과 worldName을 이용해서 게임사 API 서버로 캐릭터에 대한 정보를 종류별로 요청하고 받은 값을 모두 종합하여 하나의 캐릭터 종합 정보로 클라이언트에게 응답합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;MapleStoryMApi.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMApi&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;Character&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterOcid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;CharacterBasic&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterBasic&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; ocid&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;CharacterItemEquipment&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterItem&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; ocid&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;CharacterStat&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterStat&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; ocid&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;CharacterGuild&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterGuild&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; ocid&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;MapleStoryMApi는 MapleStoryM API 서버에 캐릭터와 관련된 정보를 요청하기 위한 인터페이스입니다. 클래스로 작성해도되지만, 인터페이스로 작성한 이유는 추후 RestTemplate의 동기 방식이 성능이 좋지 않을 경우 WebClient를 이용한 비동기 처리로 유연하게 변경하기 위함입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;MapleStoryMApiRestTemplate.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Component&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequiredArgsConstructor&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMApiRestTemplate&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMApi&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RestTemplate&lt;/span&gt; restTemplate&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MapleStoryMProperties&lt;/span&gt; mapleStoryMProperties&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Character&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCharacterOcid&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; restTemplate&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;exchange&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                        &lt;span class=&quot;token function&quot;&gt;createOcidApiUri&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token class-name&quot;&gt;HttpMethod&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;GET&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;HttpEntity&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createHttpHeaders&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token class-name&quot;&gt;Character&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getBody&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;createOcidApiUri&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt;   &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UriComponentsBuilder&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;fromHttpUrl&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                        mapleStoryMProperties&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getBaseUrl&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt;    mapleStoryMProperties&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getOcidApiUri&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;queryParam&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;character_name&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;queryParam&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;world_name&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;toUriString&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt; 여러 &lt;span class=&quot;token constant&quot;&gt;API&lt;/span&gt; 요청 메서드
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;API 요청 구현 코드이며, 메이플스토리M에 대한 모든 API 요청을 위한 클래스입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;자, 지금까지 OMG 프로젝트의 기본 기능에 대한 설계와 코드에 대해서 살펴보았습니다. 현재는 MapleStoryM에 대한 코드만 있지만, 추후 확장하면서 다른 게임들도 모두 이런식으로 게임사 API 서버를 통해 데이터를 받아 응답할 예정입니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[OMG-4] 외부로 API 요청시 계속 Null이 나와요!]]></title><description><![CDATA[문제 Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다. GameService.java MapleStoryMRestTemplate.java CharacterBasic.java 위는 API…]]></description><link>https://hchanghyeon.github.io/dev-blog/10/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/10/</guid><pubDate>Thu, 29 Feb 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;문제&lt;/h2&gt;
 &lt;p&gt;Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;GameService.java&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getMapleStoryMCharacterInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
