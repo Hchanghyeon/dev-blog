@@ -1,4 +1,308 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 01 Mar 2024 09:16:26 GMT</lastBuildDate><item><title><![CDATA[[OMG-5] dev 환경 ci/cd 구축하기]]></title><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded></content:encoded></item><item><title><![CDATA[[OMG-4] 외부로 API 요청시 계속 Null이 나와요!]]></title><description><![CDATA[문제 Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다. GameService.java MapleStoryMRestTemplate.java CharacterBasic.java 위는 API…]]></description><link>https://hchanghyeon.github.io/dev-blog/10/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/10/</guid><pubDate>Thu, 29 Feb 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;문제&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 04 Mar 2024 11:54:05 GMT</lastBuildDate><item><title><![CDATA[[OMG-5] dev 인프라 환경 ci/cd 구축하기]]></title><description><![CDATA[일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev…]]></description><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev 환경을 구축해보도록 하겠습니다.&lt;/p&gt;
+&lt;h2&gt;Synology NAS의 Docker로 Ubuntu 구축하기&lt;/h2&gt;
+&lt;p&gt;아무래도 dev환경은 테스트 환경이고, 개인 프로젝트이다보니 클라우드 서비스를 이용하기는 금액적으로 부담이 생깁니다. 그래서 저는 집에 연결되어있는 Synology NAS의 Docker 기능을 이용하여 Ubuntu를 구축해보려 합니다. &lt;/p&gt;
+&lt;p&gt;Synology NAS는 네트워크에 연결된 개인 스토리지 서버이지만, Synology사에서 만든 NAS는 다른 서버의 역할도 할 수 있도록 여러가지 기능들을 제공합니다. 그 중 하나가 Docker인데 Container Manager라는 앱을 통해 여러가지 서버를 구축할 수 있습니다.&lt;/p&gt;
+&lt;h3&gt;1. 레지스트리 다운로드&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/4ee41/image.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 28.235294117647058%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA8UlEQVR42o2Q4W7DIAyE8/4vOa1alZaQNgk4BLB9NUlXKfs1pJMtBN+d3YUQEGOEqoBFUZhRWfCfoyIoywyOC+oyIVNEl3KBcXY9hwGXy4/VHpwSJK0nsX2QvEEbTBVSK2j0yGGGrhHJgnVzIJjR/ih4h9v3F4brFU/XI00exR5nc2+1zA8DpwNoCVTPicNW0UVKaBO2hDES7s7hPk7WG8DS1/JW5X3E08h6JD2qAZMBex+wrArKBiTCzXn454RkSRqk2FhNbK5irmLQo5cP6FdxY3Q5548j0Qo3jHjMtuC22/0z74Cm+u6bUbv/C6SieAE36dWZcRNxigAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;이미지 다운로드&apos; title=&apos;&apos; src=&apos;/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/ca1dc/image.png&apos; srcset=&apos;/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/e7570/image.png 170w,
+/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/f46e7/image.png 340w,
+/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/ca1dc/image.png 680w,
+/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/02d09/image.png 1020w,
+/dev-blog/static/60e9fc6da915db13d51f53f156a9c0cb/4ee41/image.png 1185w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;이미지 다운로드&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;우선 NAS의 Container Manager 앱을 설치하고(지원되는 기종이 따로 있음) 접속하여 레지스트리를 클릭합니다.&lt;/li&gt;
+&lt;li&gt;원하는 이미지의 이름을 적고 다운로드 받습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2. 이미지 실행 시키기&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/419aa7120329ccae137d014631ea991c/01c73/image-1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.88235294117647%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABI0lEQVR42k2Ri67DIAiGff+3XLakXWtnvV+q/gdcXQ4JaUX4+UDx2jWsdfDeo7WGq1akUpDLNTykjJj4/I213tHJ2fr9z3X8va4KwUIxJUwLMUMqg+M0sD5AaYtNKhzGw/j4K2RnYwDrHJ2vISy0NlCnHodGl7V1ImyDmJPYElGa1BDKl6wQaYzpFqTcEOFdQM4XxP544v1coDcFu0kUKraxIlLSHGuQ+gpHorOBo9gQJNIJFSkueH+fj/rtY46kjR2jdCIOIQ2xeBPmXGg18UfonKdcP+KCu83RiIeWDkS6MNaOUbiBJ0EVqDBPwTxE2Co1PychrUH0f6/G5g6F5bHgeK0w2wfnKrHTSsy6Q78l+QFJdzvf+wblGtbDYZGOHq7gD4/UISP7E6J5AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;이미지 실행&apos; title=&apos;&apos; src=&apos;/dev-blog/static/419aa7120329ccae137d014631ea991c/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/419aa7120329ccae137d014631ea991c/e7570/image-1.png 170w,
+/dev-blog/static/419aa7120329ccae137d014631ea991c/f46e7/image-1.png 340w,
+/dev-blog/static/419aa7120329ccae137d014631ea991c/ca1dc/image-1.png 680w,
+/dev-blog/static/419aa7120329ccae137d014631ea991c/02d09/image-1.png 1020w,
+/dev-blog/static/419aa7120329ccae137d014631ea991c/01c73/image-1.png 1145w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;이미지 실행&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;받아온 이미지를 클릭하여 실행시킵니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;3. 컨테이너 설정&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/b38af/image-2.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 46.470588235294116%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABQUlEQVR42pWQy0rDQBSGR9xqV25E8LbwCSvi1morrfhI0lKfQVwILlxok6mtSTr3md8z01hLvaAHPubwT/LlnLDtyxyHVxy7PY494uiaY6udY/MsR6P1dzZaHAfdZ7D1kwz73TF2OhysOQI7zojRnObos/+FtfRshsbpE9h5f4berUBvKBD7BQOB9lDhYrCS/0CrL9G5mYCFEGBECQSP5QrewYo3YgpvNX6rUJ9KKTDjPPLXKTI+QVVJaOvg6FKOc7zc32Hy+AAtKKdQ20D4rxgH4wPKmQSLZmMtiqJEzscQ9PJ8Qp+mjKePfcxC+H7COpdSzYUxsCR1zi0uPZ3aWCj6ulQ25UqbhKWtluULoaqFlkRFWdHKsySJ9xFhQlonpP8b4GjSuFZFaBKvCoWsV47TlSQrigKVUHAB/6oPoVIa7/z1e0No6NfXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;컨테이너 이름 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/ca1dc/image-2.png&apos; srcset=&apos;/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/e7570/image-2.png 170w,
+/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/f46e7/image-2.png 340w,
+/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/ca1dc/image-2.png 680w,
+/dev-blog/static/b30232bdf8f47a0a470ba390235aecd4/b38af/image-2.png 740w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;컨테이너 이름 설정&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;컨테이너 이름을 설정합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/4a768/image-3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 41.1764705882353%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAABIUlEQVR42qWQy0rEMBSGs1RczMaFiojvKHbtDVF0IeLlgdyobyEzxbZp0qa3NJMmv6etA10MIhrycS7/yU8Stn2Z4uBGYO86xe5VisNbgdlFio0Tjs3T37N1xjE752AsiLFDpvtkxo7jnwkmMZjUQy8BO1qAPbw2eH7XeHrTuKf8keKfII+7lxwMtLz3qI2D6RxV6/CT2K3Ru0Fz1oBZmom4wMc8xCKMkIpsRCrw7zwhXch8yGMukakKUpWk5xBZMcyWtUat2/6GHiqcIyNaweHLnFCwPELLP4G6GHuVAiiaXKI1S6xe1mOWFpp6xpjxyTKKEIchnC7hm54KTglYOuwo73uuHjVbFbD0NSsz2rC2Q0umfT0YNsYiKQz9ocd/1xca7ioCL0dzagAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;컨테이너 포트 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/ca1dc/image-3.png&apos; srcset=&apos;/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/e7570/image-3.png 170w,
+/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/f46e7/image-3.png 340w,
+/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/ca1dc/image-3.png 680w,
+/dev-blog/static/19d1f4e95c771ff8e3857d6ac2780c8c/4a768/image-3.png 738w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;컨테이너 포트 설정&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;고급 설정에서 포트를 설정해줍니다.&lt;/li&gt;
+&lt;li&gt;dev 환경은 Docker Hub를 이용하지 않고 github actions 서버에서 NAS로 scp를 이용하여 빌드된 파일을 보내줄 예정이기 때문에 scp와 ssh를 위한 포트를 설정합니다.&lt;/li&gt;
+&lt;li&gt;이때 왼쪽에 있는 포트는 NAS 서버로 접근할 때의 포트를 의미하고, 오른쪽 포트는 컨테이너 환경안에서의 포트입니다.&lt;/li&gt;
+&lt;li&gt;나머지 설정은 건드리지 않고 컨테이너 설정을 완료시킵니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;4. 컨테이너 실행 및 SSH 설정&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/84055/image-4.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 28.235294117647058%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAv0lEQVR42o2RyW7DMAwF9f/f2EuRNnbqypajffOEChD0VMQPGOhASBxSyux3rHX03oWDWptQOY7jNKUUYoGoP1Dj8is5Zya98LNoamucTcqF392x6RvqepmwmyUYiw8J6zwuZEKq0rk+rdsbRBLnE4vxqF2vFB9oMUqXwOfXzDQvfE+357mZO2WsofV/KVUQy14Lynr/N7IY2ZiJUhyMjB2dGtus2PmKCmL2SsyV3UVSSsSY8GJ+5lNGxjtarzwAlTDWjJe08MYAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;컨테이너 실행&apos; title=&apos;&apos; src=&apos;/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/ca1dc/image-4.png&apos; srcset=&apos;/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/e7570/image-4.png 170w,
+/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/f46e7/image-4.png 340w,
+/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/ca1dc/image-4.png 680w,
+/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/02d09/image-4.png 1020w,
+/dev-blog/static/0020c0e7c688b3629dca90c3a61670f0/84055/image-4.png 1217w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;컨테이너 실행&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;우선 컨테이너 설정이 끝나면 컨테이너 탭에 들어가 터미널 열기를 해야합니다.&lt;/li&gt;
+&lt;li&gt;Docker로 만들어진 Ubuntu의 경우 설치되어있는게 없는 깡통이기 때문에 SSH 접속을 위한 설치를 해주어야합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 468px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/3bcf47fdc6e6691a69fecb89be14761a/b4003/image-5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 28.235294117647058%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA+klEQVR42qWQy06DQBSG57l4BlaESMKGEPsk6tZy0dj6XLrQmNQUkNIOlxGmCmWG34F4W7jQeJIvOZfkOyeHRHGCjxhGhgH/CdJ2HX5SfPeOS34LWadb7MpnsGaPOKNYxSmSbY7mtUPOGtCqxqEXkFJ+IkbEey6+ZmNOHpWgUjKuBBktsX7aIN3lqm5RKOEo/csXSN0O6iKGaFMiySo0quYdwPYSvRJxzrFYXuNqsZwILy7hBwE8P0AQhph7/tQ/n3s4OT0DKbjA3SrFzX2E24cYeX0Ae5Eomh5CbaSU4ng2g2macBwHrutC13UcWRYshWEYU9+2bWiahjfH3LJmvqUSvwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;패키지 업데이트&apos; title=&apos;&apos; src=&apos;/dev-blog/static/3bcf47fdc6e6691a69fecb89be14761a/b4003/image-5.png&apos; srcset=&apos;/dev-blog/static/3bcf47fdc6e6691a69fecb89be14761a/e7570/image-5.png 170w,
+/dev-blog/static/3bcf47fdc6e6691a69fecb89be14761a/f46e7/image-5.png 340w,
+/dev-blog/static/3bcf47fdc6e6691a69fecb89be14761a/b4003/image-5.png 468w&apos; sizes=&apos;(max-width: 468px) 100vw, 468px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;패키지 업데이트&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;apt update 명령어를 통해 운영체제에서 사용 가능한 패키지들과 그 버전에 대한 정보를 업데이트합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 574px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/2e4b7a259715f1d10a6c93ca2030112e/312c2/image-6.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 31.76470588235294%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABLElEQVR42pWR20oCURSG520i8SbTEMOkbkKszMPYQS+8802iUDQPkJ3fqosoqExK8zDqjDM6jl9bDa8s6F98rLX+zdqszZY0rU+rrfCbxuMF/BHSYGjS7qjogyE9TZ/Wmj7AEP4kW+KGsWCeLYuRNetHc348cSZpusFr9ZOeGK63uzy/Vak3FRS1z1e7N93oP5IMExrdIQ9PFR5fPmipJkrfwhgJv9GkWCpxUS5TKBTJnee5zJxylTnjJpfmLp/lXnCby3CdFX36BMkUg6ph0exoKD0dTdQTJqpU3jmOx0kkEkSjUZLJJEfBXQ73Auxs+QhsbuBzrbJmt+GyL+O2LSEt/ojZO2u1OqlUClmWiUQixGIxgqEQcuyA/XAYt8fDtt/PutfLisOBw+nkG9QrlhF37AVfAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;ssh 설치&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2e4b7a259715f1d10a6c93ca2030112e/312c2/image-6.png&apos; srcset=&apos;/dev-blog/static/2e4b7a259715f1d10a6c93ca2030112e/e7570/image-6.png 170w,
+/dev-blog/static/2e4b7a259715f1d10a6c93ca2030112e/f46e7/image-6.png 340w,
+/dev-blog/static/2e4b7a259715f1d10a6c93ca2030112e/312c2/image-6.png 574w&apos; sizes=&apos;(max-width: 574px) 100vw, 574px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;ssh 설치&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;apt install openssh-server 명령어를 통해 ssh를 다운받습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 494px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/0b535a5a85bd718ac4065f9475e6800d/7f4de/image-8.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 24.705882352941178%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA40lEQVR42pWOS0/CQBSF51+xFIzER2KiG+0G/Qu44v+5cGei0QUEE1DoTCn2YUtb+vy8YEiMC6Mn8+XMmZPcO2rp+TgLl62aZnOEhu9q/oEqypKirKjrhno3UIpd3nhV139GOX7I03iCE0TMXY+H4QvPkhfBB0a6mevz48O/SsVZznuUkOQVq6zAj1M8yVGas1oXhHHC3NaC/YXWGG3Q8qbFbXFjnO3dMRoVZPDm5dw9jrm9HzKyQ5YpzIKKtWx8nU65uLTo9a6wxE/PzrGOTxgcdOm3OwwOj+h39rnZa3PdavEJ9extxSJSyIEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;vim 설치&apos; title=&apos;&apos; src=&apos;/dev-blog/static/0b535a5a85bd718ac4065f9475e6800d/7f4de/image-8.png&apos; srcset=&apos;/dev-blog/static/0b535a5a85bd718ac4065f9475e6800d/e7570/image-8.png 170w,
+/dev-blog/static/0b535a5a85bd718ac4065f9475e6800d/f46e7/image-8.png 340w,
+/dev-blog/static/0b535a5a85bd718ac4065f9475e6800d/7f4de/image-8.png 494w&apos; sizes=&apos;(max-width: 494px) 100vw, 494px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;vim 설치&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;apt install vim 명령어를 통해 ssh 설정을 위한 vim을 설치합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 517px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/018f92aefbdb30bd9a63176998b6089f/3414f/image-9.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 42.35294117647059%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAABOElEQVR42pXRW0sCQRjG8f0q3cTaYdXVdVfLQ0VEV9FN0ecM1jLqM2gqSIJSVpaH1PXs7vpv9KIDUtnAj+d9Z2DmhZH6gyGPT1V+W9Pp8iTHcRlPbCa2I9KZ12NRz/qJOJul4yxP6g1GFEr3NK0+9ZZFvljirlwRdYdqoy2yy3+WNHamtPs2Lw2L51qLWquHNXToiL2JC43mG+dmCvPyWrjCTN1gXog+aQrJBdLIhmbXpVCukitWeHjt0BlC3bLnL6bTGVZWFdZ8OvKGD1kJIa8ryB5Z8CyQfhrddd15ZrI5FF8QfStBKBxDC0eFOJqmEQwGFkifPzn98PXCdDbPqprAGzlg09ifU4xdvKEo/kAINaB98+eEhdwtRxGVs70Ip8LJjsFxPMLhdhTdiOHXo6h6DNVIoGoG72aaA8DD+nxvAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;루트 로그인 활성화&apos; title=&apos;&apos; src=&apos;/dev-blog/static/018f92aefbdb30bd9a63176998b6089f/3414f/image-9.png&apos; srcset=&apos;/dev-blog/static/018f92aefbdb30bd9a63176998b6089f/e7570/image-9.png 170w,
+/dev-blog/static/018f92aefbdb30bd9a63176998b6089f/f46e7/image-9.png 340w,
+/dev-blog/static/018f92aefbdb30bd9a63176998b6089f/3414f/image-9.png 517w&apos; sizes=&apos;(max-width: 517px) 100vw, 517px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;루트 로그인 활성화&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;vim /etc/ssh/sshd_config 명령어를 통해 해당 파일로 들어가 위 사진과 같이 작성하여 루트 로그인으로 접근 가능하게 설정합니다.&lt;/li&gt;
+&lt;li&gt;사진엔 없지만 아래로 내리다보면 PasswordAuthentication 항목이 있는데 주석을 풀어 yes로 설정해두어야 아이디와 패스워드로 로그인이 가능합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 437px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/293b59cb9e9ce70e91669d150f38d64b/53eba/image-10.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.88235294117647%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABKklEQVR42p2Ry07CQBSG+y7yDGAkwYVsWEJCCSZs4CnUtSBUUZ9CfSEXRlIiNFZKqb3QC718lkETV4b4J38y/5nJd87MSL4foE7fCIKQrbKts4z/SkrSlDhJBCT7Bv7od07z/X0sBVGMOtfRFiafro/2seRFnTHVdJa2i+XlNWPFOoxE0zQf4C9LmzhG0xesbI9wk2A5nsjvhomTwzw/xLAcojjZ78phnOFG5FPYTGYGk7mB6W7w8pq1TnGDVBx8eHzisj/g9u6e4UihP7hiOBwxUq65GY9FPju/2AFtP0PVTJ5fZ8K6ucYJsxyY4IW7V1QUhVZLptft0ut1OW23Oa5UKJUOqVZPKJePKBQOkPb9vS2w2WwK1+t1Go0GsiyLda1Wo9PpUCwW+QLdje+zdAj2kQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;패스워드 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/293b59cb9e9ce70e91669d150f38d64b/53eba/image-10.png&apos; srcset=&apos;/dev-blog/static/293b59cb9e9ce70e91669d150f38d64b/e7570/image-10.png 170w,
+/dev-blog/static/293b59cb9e9ce70e91669d150f38d64b/f46e7/image-10.png 340w,
+/dev-blog/static/293b59cb9e9ce70e91669d150f38d64b/53eba/image-10.png 437w&apos; sizes=&apos;(max-width: 437px) 100vw, 437px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;패스워드 설정&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;마지막으로 루트에 대한 패스워드를 설정하여 해당 패스워드로 로그인할 수 있게 합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;모든 작업이 끝나면 service ssh restart로 ssh 서버를 재실행합니다.&lt;/p&gt;
+&lt;h3&gt;5. build된 파일을 실행시키기 위한 java 설치&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 586px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/50a65156fe6ed28feda8aa597cdc2a5c/52581/image-7.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 26.47058823529412%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA/UlEQVR42pWPy0rDUBCG8zhqwY2IG0EEFyJeFy5Cm019Bhcu2mpMpQit0kcLuFGCUkGllKS5nVyak8+TiDu7cOCbf2ZgbpoQCXPfZ5mVZfkvtCxf4PohIs0JIoE7D4iTtM5Fkv29oFKF/NXyhyrW4jRj8jElUs1T1+f1/ZOZF+CFMW4QIaWkKIpaK0qFckuoLlzALMx5epnw/PaFFxe4sUSVcRwHq99nNHrgbjDAujUZm12GvQ5j64ZHs1fr6LrDUHF/dYlWqMFJJtW7CWGckuQSkRX1e7Zt02y1MAwDXde5aLdpnp1wfnjA0d4u+ukx+zvbbKytsLXeYLOxyjd4CF5Rq3zTlQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;JDK 설치&apos; title=&apos;&apos; src=&apos;/dev-blog/static/50a65156fe6ed28feda8aa597cdc2a5c/52581/image-7.png&apos; srcset=&apos;/dev-blog/static/50a65156fe6ed28feda8aa597cdc2a5c/e7570/image-7.png 170w,
+/dev-blog/static/50a65156fe6ed28feda8aa597cdc2a5c/f46e7/image-7.png 340w,
+/dev-blog/static/50a65156fe6ed28feda8aa597cdc2a5c/52581/image-7.png 586w&apos; sizes=&apos;(max-width: 586px) 100vw, 586px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;JDK 설치&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ssh 설치가 종료되면 jar 파일로 빌드된 파일을 실행시킬 수 있도록 java를 설치해줍니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;6. 공유기 포트포워딩 설정하기&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/b4bc2/image-11.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 77.05882352941177%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACqUlEQVR42p1TWU8TURTmX6H4oizKFhewsglSFimyxNaoCKYxLg9G4xMxMUYSfTCGRBM1IZbNgthq1SiCCRgffCilM22HSqHTWT/PvdNOW2Ni4iRfZu495373O+d8U+LoHkGP+xqGR2/B472DjkEvKo+f+W+UdA5dwdXb99HaN4bD7R7Un3TzwMETgzjE0PQH/raX3a90ECE7WN92FlWOARw41oeKxn6Osrou7KlxEjpRWn3qn9hb6+TnSipITXmDiy+YMvZml4w/eIKpmTeYml3C9OugjRn/O/hya3+QvgOYW3yPuxOTJIoIC+tnspmiicfPoWsKNiMRpHd3kXuSyS0sL3+GrusofAzD4O97DyeLCZkyJn0h8JEnaJoGnZI1IjBpnZAkrK6sQEzu4NeODDWTgaIoSKfTPH9uMZgnrGIKm4awr76rgJCITNNWoSgqDEXG+AcRbyMy31d02tcsxbP+APWQelbe6LL7WFrdQYSfeIKuG3ZZXC0pVelwRBAR/74Cc1uyYtm8eaawtmUYjp4RNPVeQo/nOhqc5xEIfeEJsVgMqVQqS65bhNnDwqObSM4/tWKynCds678MNxm6fcCLbjJ4i2sM/qUQRCEKn8+HtfUfkLYz+BkWEI2nkBK3YFBM3NiAlEhYhBklT9hKBKfP3SAvunnJbMqLQavkUCgEiQYhU/PDRLBLzU9sJSGEwzxuZtuhKwWERzo8cHRfRE3zMDd3WZ3T7qGiqnYP7ZKpYpP6CQZmF0JO4dwCDYUNI/eHMNuU1eYJ2SDYdNmk2TeziKabNBgDKk1czViQ5QJCbhlHsbFfvFqwVBlGkYEZsUl7uUsYDJNdoPH4s5fTxcZmJe8/2oc21yi+fltHPCEhKsQgiHELsThfF2IzKiIWl7C8uobm3gv4DelokJCKCTm2AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;집 네트워크 환경&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/ca1dc/image-11.png&apos; srcset=&apos;/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/e7570/image-11.png 170w,
+/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/f46e7/image-11.png 340w,
+/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/ca1dc/image-11.png 680w,
+/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/02d09/image-11.png 1020w,
+/dev-blog/static/e917d3f86054c2c42b51848a2f0fb187/b4bc2/image-11.png 1310w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;집 네트워크 환경&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;집에 있는 NAS 서버이기 때문에 공유기를 거쳐서 집안에 있는 NAS 서버로 접근하게 됩니다.&lt;/li&gt;
+&lt;li&gt;NAS에서의 SSH 접근 포트를 2233으로 설정했었기 때문에 공유기에서는 NAS의 2233 포트를 바라보아야하고 외부에서는 공유기에서 설정한 외부포트에 의해 접근할 수 있게 됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/cb866/image-12.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 20.58823529411765%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAABBklEQVR42h2L2U7CABBF+0tGRVGgtNUibaGlLC0FFCUoxLgR1PjiAgjhBUnALfFfjwMPk7lnzlxlMFsw/fxlsvhiNF/y8f3HfPnDcDrj8eWdp7fxeh6eh8Kjdb4fTOi9jrkT3xPuC6/yrXglbmSwSwFeWMNwi9hJDd+0OAki8hkLfV/FVA2iQplizsMSTsvP6jdXqaI7HlspHUeyF9ZRYgdHpGwX3fWJZx00KccyNolCiR25b4jfFE56RXbzPnu6SVo7RBVedRJWjm25qY6LJl7JNs4oXVxSv+qRbbaplSOCsEGz3SUUVxD2gzrNVodIfOAHVKrHRDd9wu41+dNzTGFXttfq8A/G8aaKxxhsjgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;공유기 포트포워딩 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/e7570/image-12.png 170w,
+/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/f46e7/image-12.png 340w,
+/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/ca1dc/image-12.png 680w,
+/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/02d09/image-12.png 1020w,
+/dev-blog/static/2fffe5be43144b32e7a4c6cc6acda5b4/cb866/image-12.png 1056w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;공유기 포트포워딩 설정&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;그래서 저는 공유기 외부포트도 내부포트와 동일하게 2233으로 설정하고 NAS 서버 IP에 대한 포트포워딩을 진행했습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;7. 외부에서 NAS 서버 접속해보기&lt;/h3&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/fe147/image-13.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 68.23529411764706%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACLElEQVR42m1T2bLSQBCdHxBZsky2yQoJkADCtUrwQb1W+eiTVfpDfvexT4dwr5YPh2ame3o5p2Oa7oAkzbFaLGATBz+MUdVrnI8nXH/+xvPXXxiiFc5pjSfXoA9TbFcWpzjHEGbYezEOkcMQpJIjgGm6Aa7uECYF8qpD7Go4sTat5LxBs9kjL1pE4vclWZLVilSSW7mbL0O8lUQK+W88CQqkAhGlJXybIZTqnlgvEtAv5yDKsQwSzKU7gv8XXqRJXsNkZYvd8T22wxPSfI2VBDbtgHK9A+no+rPaCXFWSfflmODe1V8J2ZkrN9rhm7mviORRGBdqE6GAdLAYkcio7JBxs4V/t8HjrWEAq7qqRZI3SIvxYSZFCPqjye9Gf15vhZ5KKeIbWnuH4Y8mkEA62BkTURwG0/IxO42zWmMYS2o44nwVCZex8kkY3zodyY9GO4pTqRi8U1inovCOidmxJyvDYgQTzyaVR4XzMSkVFssugnsym5SqMlWn1QbiQq1NC6VrIZw+ElK59faoCtZtj+lcy/5R6VoU51216WUTLnK3Vz7LZqeo1r1SQwqY1LB9ts0urXaWayccexqJe0n+0mIzrsyrdZn9szpGFZOk3EeKw3FdOSrK8Vm9kBjdUeFwpKR6fClUnUX1q5HRzfRYFSQfotTSF9X8+PGf4/DMB5Oay7t/ipu+GnO6fcG7j884fPiE0+0zvn3/ge58HXG5or3c0D7Otxff/3C54Q/tanmyVrli5gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;서버 접속 화면&apos; title=&apos;&apos; src=&apos;/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/e7570/image-13.png 170w,
+/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/f46e7/image-13.png 340w,
+/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/ca1dc/image-13.png 680w,
+/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/02d09/image-13.png 1020w,
+/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/9d567/image-13.png 1360w,
+/dev-blog/static/44bbbf8ba8c9a95affa149f62f6c0cf3/fe147/image-13.png 1604w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;서버 접속 화면&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; root@서버주소 &lt;span class=&quot;token parameter variable&quot;&gt;-p&lt;/span&gt; 포트번호&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;위와 같이 노트북에서 ssh를 이용하여 접속하는 경우 정상적으로 접속되는 것을 확인해볼 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Github Actions를 이용하여 빌드 배포 자동화하기&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; cd&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;dev
+
+&lt;span class=&quot;token key atrule&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;dev&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;token key atrule&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;deploy-to-ec2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; dev
+    &lt;span class=&quot;token key atrule&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ubuntu&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;latest
+
+    &lt;span class=&quot;token key atrule&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Github Repository Checkout &lt;span class=&quot;token comment&quot;&gt;# 코드 불러오기&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/checkout@v3
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Set up JDK 17 &lt;span class=&quot;token comment&quot;&gt;# 자바 버전 세팅&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; actions/setup&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;java@v3
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;java-version&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;17&apos;&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;distribution&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;temurin&apos;&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Build with Gradle &lt;span class=&quot;token comment&quot;&gt;# 빌드&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; gradle/gradle&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;build&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;action@v2
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; build
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Sending build file to NAS &lt;span class=&quot;token comment&quot;&gt;# scp를 이용하여 nas 서버로 jar 파일 전송&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; appleboy/scp&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;action@master
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_HOST &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_PORT &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_USERNAME &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_PASSWORD &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;build/libs/*.jar&quot;&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;/root/omg/&quot;&lt;/span&gt;
+
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; SSH to NAS &lt;span class=&quot;token comment&quot;&gt;# ssh 접속 후 스크립트 실행&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; appleboy/ssh&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;action@master
+        &lt;span class=&quot;token key atrule&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_HOST &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_PORT &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_USERNAME &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; $&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; secrets.NAS_PASSWORD &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token scalar string&quot;&gt;
+            cd /root/omg
+            nohup ./process.sh &amp;amp;&lt;/span&gt;
+            &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;추가 주의 사항&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;NAS 서버에 포트 설정시 ssh 접속을 위한 포트만을 설정했었는데, &lt;strong&gt;추가로 spring서버에서 사용하는 포트를 별도로 컨테이너 설정과 공유기에서&lt;/strong&gt; 설정해주어야 합니다.&lt;/li&gt;
+&lt;li&gt;도커로 올린 Ubuntu의 경우, 재시작시 ssh 서비스가 돌고 있지 않습니다. 일반 리눅스의 경우 systemctl을 활용하여 시작시 서비스를 실행하는 스크립트를 작성할 수 있지만, &lt;strong&gt;도커로 올린 리눅스의 경우 systemctl을 활용하지 못하여 재시작시 직접 ssh 서비스를 켜주어야합니다!&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;yml 파일에 설정된 환경 변수의 경우, Docker였다면 환경변수를 github actions를 통해 전송받아 주입받을 수 있지만 &lt;strong&gt;일반 EC2의 경우 별도의 환경 변수 주입이 어렵기 때문에 서버에 직접 설정&lt;/strong&gt;해두어야합니다.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;빌드 배포시 이미 실행되고 있는 자바 프로세스를 중지시키고 다시 시작시켜야하기 때문에 아래와 같은 스크립트를 짜서 해야합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;shell&quot;&gt;&lt;pre class=&quot;language-shell&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# &apos;java&apos; 프로세스의 PID를 찾습니다.&lt;/span&gt;
+&lt;span class=&quot;token assign-left variable&quot;&gt;pid&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ps&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-ef&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;java&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;{print $2}&apos;&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# PID가 비어있지 않은 경우, 해당 프로세스를 종료합니다.&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$pid&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;kill&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-9&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$pid&lt;/span&gt;
+
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Java process &lt;span class=&quot;token variable&quot;&gt;$pid&lt;/span&gt; has been terminated.&quot;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;And start spring server.&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;No Java process found.&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;nohup&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;java&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-jar&lt;/span&gt; /root/omg/build/libs/*.jar &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;위와 같이 dev branch에 코드가 병합되면 github actions을 통해 코드를 빌드하고, 빌드된 jar파일을 scp를 이용해 NAS 서버로 전달하여 실행하는 것 까지 해보았습니다. 현재는 자동화 되지 못한 부분들이 있는데, 빠른 개발을 위하여 추후 개선 과제로 남겨두도록 하겠습니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[OMG-4] 외부로 API 요청시 계속 Null이 나와요!]]></title><description><![CDATA[문제 Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다. GameService.java MapleStoryMRestTemplate.java CharacterBasic.java 위는 API…]]></description><link>https://hchanghyeon.github.io/dev-blog/10/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/10/</guid><pubDate>Thu, 29 Feb 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;문제&lt;/h2&gt;
 &lt;p&gt;Spring 서버에서 다른 게임사 서버로 API 요청시, 응답 값을 모두 null로 반환하는 문제가 발생했습니다.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;GameService.java&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getMapleStoryMCharacterInfo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; characterName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt; worldName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
