@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 04 Mar 2024 11:54:05 GMT</lastBuildDate><item><title><![CDATA[[OMG-5] dev 인프라 환경 ci/cd 구축하기]]></title><description><![CDATA[일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev…]]></description><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev 환경을 구축해보도록 하겠습니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 04 Mar 2024 13:57:55 GMT</lastBuildDate><item><title><![CDATA[[OMG-5] dev 인프라 환경 ci/cd 구축하기]]></title><description><![CDATA[일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev…]]></description><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev 환경을 구축해보도록 하겠습니다.&lt;/p&gt;
 &lt;h2&gt;Synology NAS의 Docker로 Ubuntu 구축하기&lt;/h2&gt;
 &lt;p&gt;아무래도 dev환경은 테스트 환경이고, 개인 프로젝트이다보니 클라우드 서비스를 이용하기는 금액적으로 부담이 생깁니다. 그래서 저는 집에 연결되어있는 Synology NAS의 Docker 기능을 이용하여 Ubuntu를 구축해보려 합니다. &lt;/p&gt;
 &lt;p&gt;Synology NAS는 네트워크에 연결된 개인 스토리지 서버이지만, Synology사에서 만든 NAS는 다른 서버의 역할도 할 수 있도록 여러가지 기능들을 제공합니다. 그 중 하나가 Docker인데 Container Manager라는 앱을 통해 여러가지 서버를 구축할 수 있습니다.&lt;/p&gt;
@@ -1143,20 +1143,7 @@
 &lt;li&gt;
 &lt;p&gt;의지할 수 있는, 열심히 하는 동료&lt;/p&gt;
 &lt;p&gt;가장 좋았던 것 중 하나로 동료들이 정말 열심히 한다는 점이다. 열심히 할 뿐더러 모르는 것이 있으면 같이 머리를 맞대고 몇시간 동안 토론하기도 하고, 자기가 정리한 내용들을 공유한다든지 공부하는데 정말 도움이 많이 되었던 것 같다.&lt;/p&gt;
-&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
-    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
-      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
-    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 51.764705882352935%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABxUlEQVR42lVS2ZKjMAzkMwKBGHMYbHMZwhHCJJvMbG3t/39Qr2ySqdmHLrVk3JZaeNdLj3W7Y5xXlKpBbwxU1aKQjct1bZDmEuEpIXAcI+54xFIHy23tDc8W67ZH0w0ww4xpmmG6Fj1xM0w4Txf05xmtGak2om1qFxvKRVkhTgSCMP5+0LOkNWfopned2a6UqiA1dalqinunNrfQVedgeV4oZGKHFedpsQvazobhjIKKpSQREhD0sSi0+7CQFrXjOdXco/R43Q4OXT+SNZ2zhkZOoJoRXw+Dzy3FIcpw4jkiLna8vPrp2c/8FGcO7zMvCBlURx5tX6jXO+R0QyQNDqKFLxr4AfvPdAvrmcXxFR1/LyU4MkhDgtdPVMsDerxCjR/Qyy+UZoGgUYMohf+66B/3ywHBD/cYRPE39yxpdIXnumCbRjz7Hr/HM/7cVvx93vC4XpDwBDHLwGmjCRlvR2M0JufcRUYWJUmCEyPBU5zC2H/vtdFcSGRJjrLU0LJEXQrUMofKNCoyvu168kygpKW1MoXMJE1Roat2USe4rSMe9w3zsiAqO0SZct0wWsrhyAl2JEbjMuK7p9YCe+a/bLA8CDn+AQE9I/TC0UdUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;정리한 글 공유&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png&apos; srcset=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/e7570/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 170w,
-/dev-blog/static/c2266d63812328f1be80ff991d5c8689/f46e7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 340w,
-/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 680w,
-/dev-blog/static/c2266d63812328f1be80ff991d5c8689/02d09/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1020w,
-/dev-blog/static/c2266d63812328f1be80ff991d5c8689/9d567/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1360w,
-/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202024-02-17%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%204.45.16.png 1888w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;정리한 글 공유&lt;/figcaption&gt;
-  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;image-16.png&quot; alt=&quot;정리한 글 공유&quot;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;그런 공유 문화에 적응되어, 나도 내가 트러블 슈팅한 내용들을 공유하여 다른 교육생들의 다양한 생각도 들을 수 있었다.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1197,8 +1184,41 @@
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;나 스스로는 많이 부족하다고 생각하는데, 팀원들이 항상 좋은 리뷰를 해주며 용기를 주어 매번 잘 이겨냈던 것 같다. 무사히 수료할 수 있게 도와준 나의 모든 팀원들에게 정말 감사하다.&lt;/p&gt;
 &lt;h3&gt;배운 점&lt;/h3&gt;
-&lt;p&gt;데브코스를 통해 가장 크게 배운 점은 &lt;strong&gt;코드와 기술에 나의 생각을 담을 수 있다는 것&lt;/strong&gt;이다. 전에는 정말 아무 생각 없이 사용했던 기술과 작성했던 코드를 이제는 근거 있는 코드와 기술을 사용하려고 노력한다. 그리고 &lt;strong&gt;멘토님께서 무엇보다 사람이 중요하다&lt;/strong&gt;고 말씀해주셨었는데, 협업을 하며 팀원들에게 조금 더&lt;/p&gt;
-&lt;h2&gt;현재의 나&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[소셜 최초 로그인시 회원가입 추가 정보를 받는 로직에 대한 고민]]></title><description><![CDATA[고민 배경 제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다. 일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 회원 가입 을 하게 됩니다. OAuth…]]></description><link>https://hchanghyeon.github.io/dev-blog/6/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/6/</guid><pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;고민 배경&lt;/h2&gt;
+&lt;p&gt;데브코스를 통해 가장 크게 배운 점은 &lt;strong&gt;코드와 기술에 나의 생각을 담을 수 있다는 것&lt;/strong&gt;이다. 전에는 정말 아무 생각 없이 사용했던 기술과 작성했던 코드를 이제는 근거 있는 코드와 기술을 사용하려고 노력한다. 그리고 &lt;strong&gt;멘토님께서 무엇보다 사람이 중요하다&lt;/strong&gt;고 말씀해주셨었는데, 협업을 하며 사람이 중요하다고 굉장히 많이 느꼈다. 개발은 혼자하는 것이 아니다. 각기 다른 직무를 가진 여러 명의 사람들이 모여 하나의 서비스를 만드는 것이다. 하나의 서비스를 만드는 팀원들의 의견은 모두 소중한 것이고, 존중받아야한다고 생각한다. 그런 문화를 만든다면 어떠한 문제가 생겨도 다 같이 머리를 맞대어 좋은 서비스로 개선할 수 있는 그런 팀이 될 수 있을 것이라 생각한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;데브코스 이전의 나는 코더였다면, 지금은 스스로 생각하는 개발자가 되었다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;현재의 나&lt;/h2&gt;
+&lt;p&gt;데브코스가 끝나고나서는 아쉬운 마음이 크다. 열심히 한다고 했지만, 다시 되돌아보면 정말 죽을만큼 열심히했다라고 볼 수는 없을 것 같다. &lt;/p&gt;
+&lt;p&gt;데브코스 기간동안은 국민취업지원제도와 부트캠프를 통해 받는 돈이 있었는데, 이제 또 들어오는 수입이 없으니 알바를 시작해야 했다. 취업 준비에 지장을 줄 것 같아 최대한 오전 일찍 했으면 좋겠다고 생각했는데 때마침, 헬스장 오픈 알바를 찾아서 평일 새벽 다섯시에 일어나 두시간동안 근무하고 바로 운동을 하고 집으로 간다. 그 이후에는 CS스터디와 알고리즘 스터디를 하고 나머지 시간은 쭉 공부하고 있다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/9b76f/image-17.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 74.70588235294117%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAABF0lEQVR42o1SSQ6EMAzri+FHPAn4AXDggtj3PSNHimDK1kg+UBrXTqy2baM37PtO4zhSnufUdR31ff+HYRioqioqy5K/lQnhNE3Uti0T68C/pmmYbJ7ng3BdV8YdIS7HcXxRB8WiPooiKoriIFyWhXGnEuewBgVy7wyoxAMgN7IMsiRJeFaop3uAErvymm5bCOu6fnUhUDI7NMrrZ1IUyDAnWIYtI0JsEUCTTgiraZryrKD2lRDK0OB5Hrmuy0pQQopCLJAzWcCnwvO8dMuSQ2zxKVq3lnXoM8yyzGyGoggqAF2BECK0sGxEKI0osf2k8HMpaPB9n2zbJsuyeDkoyZsem8+loCEMQ3IchxEEwWXLiBOSYLLlHyDDk+fP28FWAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/ca1dc/image-17.png&apos; srcset=&apos;/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/e7570/image-17.png 170w,
+/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/f46e7/image-17.png 340w,
+/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/ca1dc/image-17.png 680w,
+/dev-blog/static/3a076864cf6c5e7e1b3607583b7ec66c/9b76f/image-17.png 978w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;데브코스가 끝나고 공부했던 습관들을 잃어버릴까봐, 최대한 도움이 되는 것을 찾아서 적용하려고했다. &lt;br&gt;
+틱틱이라는 앱인데, 뽀모도로라해서 45분 공부하고 15분 쉼을 반복하여 집중도를 높이는 기능을 제공한다.
+처음엔 별 생각 없었는데 실천해보니 생각보다 효과가 좋았다. 습관을 적어놓고 체킹할 수 있는 기능도 있으니 궁금하신 분들은 사용해보는거 추천한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그리고, 데브코스에서 했던 프로젝트에 아쉬움도 많이 남아, 같이 했던 팀원들과 주에 1번씩 오프라인으로 만나 13시부터 22시까지 같이 리팩토링하며 의견을 나누는 시간도 갖고 있다. 그동안 프로젝트를 하며 리팩토링을 해본 경험이 없어서인지 리팩토링의 필요성을 느끼지 못했는데, 이번 프로젝트를 리팩토링을하며 의존 관계나 조금 더 나은 소프트웨어를 만들기 위해서 어떠한 노력을 해야하는지 느낀 것 같아서 좋았다. &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;더 나은 소프트웨어를 만들기 위해서는, 리팩토링은 선택이 아니라 필수다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;현재는 위에서 말한 것 처럼 일 -&gt; 공부 -&gt; 일 -&gt; 공부의 연속이다. &lt;/p&gt;
+&lt;p&gt;취업이 생각보다 너무 어렵게 느껴지는데, 내가 할 수 있는 최선을 다해서 꼭 취뽀해야지!
+이 세상 모든 취업 준비생분들 화이팅!!&lt;/p&gt;
+&lt;h2&gt;마지막으로&lt;/h2&gt;
+&lt;p&gt;긴 내용을 작성하다보니 계속 끊어서 쓰게되었다. 그래서인지 글의 퀄리티가 굉장히 낮게 느껴지는데, 이 글을 적으며 내가 어떠한 가치관을 갖고 살고 어떠한 일들이 있었는지 다시 복기할 수 있는 계기가 된 것 같아서 스스로도 너무 좋았다. 29살에 신입 개발자로 취업해서 20대때 개발자로써의 목표를 세우기엔 너무 시간이 많지 않아서, 30대의 개발자 목표를 정하자면 나는 커리어리나 링크드인 등 개발자 커뮤니티에서 나름 유명한 개발자가 되는 것이 꿈이다. &lt;/p&gt;
+&lt;p&gt;물론 허세 가득하고 겉으로만 잘해보이는 그런 개발자가 아닌, 나의 생각을 공유하여 그 생각을 통해 여러 개발자들의 어려운 고충을 해결할 수 있는 그런 개발자가 되고 싶다.&lt;/p&gt;
+&lt;p&gt;굉장히 좋지 못한 퀄리티의 글인데, 여기까지 읽어주셔서 너무 감사드립니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[소셜 최초 로그인시 회원가입 추가 정보를 받는 로직에 대한 고민]]></title><description><![CDATA[고민 배경 제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다. 일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 회원 가입 을 하게 됩니다. OAuth…]]></description><link>https://hchanghyeon.github.io/dev-blog/6/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/6/</guid><pubDate>Fri, 12 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;고민 배경&lt;/h2&gt;
 &lt;p&gt;제가 했던 프로젝트에서는 소셜 로그인만 가능하게 두어서 소셜 로그인으로만 회원가입이 가능합니다.&lt;/p&gt;
 &lt;p&gt;일반 회원가입 로직과는 다르게 OAuth로 최초 로그인시 백엔드 서버에 회원 정보가 없을 때 &lt;strong&gt;회원 가입&lt;/strong&gt; 을 하게 됩니다.&lt;/p&gt;
 &lt;p&gt;OAuth 제공자인 카카오에서 주는 &lt;code class=&quot;language-text&quot;&gt;oauthId&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;email&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;nickname&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;profileImageUrl&lt;/code&gt; 로 간편하게 회원가입할 수 있다면 로그인 요청시 바로 회원가입을 진행하면 되지만, 현재 진행하고 있는 프로젝트에서는 회원에 대한 추가적인 정보(&lt;code class=&quot;language-text&quot;&gt;position&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;address&lt;/code&gt;) 를 받아야만 하는 상태입니다.&lt;/p&gt;
