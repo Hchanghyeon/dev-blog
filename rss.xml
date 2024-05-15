@@ -1,4 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 16 Mar 2024 01:36:06 GMT</lastBuildDate><item><title><![CDATA[[OMG-6] 나 백엔드인데 프론트(?)도 할 수 있다.]]></title><description><![CDATA[우선 MVP를 먼저 만들어서 1차 배포를 하려고 합니다. 백엔드의 최소 기능은 벌써 구현이 되었고, 이제 프론트엔드를 구현해보려고 합니다. 기술 선택 사실 처음에는 타임리프를 이용해서 처리하려고 하였으나, 아무래도 Single Page…]]></description><link>https://hchanghyeon.github.io/dev-blog/13/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/13/</guid><pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;우선 MVP를 먼저 만들어서 1차 배포를 하려고 합니다. 백엔드의 최소 기능은 벌써 구현이 되었고, 이제 프론트엔드를 구현해보려고 합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 May 2024 06:07:51 GMT</lastBuildDate><item><title><![CDATA[[OMG-7] 일일 캐릭터 조회 랭킹 구현하기]]></title><description><![CDATA[저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input…]]></description><link>https://hchanghyeon.github.io/dev-blog/14/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/14/</guid><pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input 값을 입력하면 캐릭터가 조회되며 캐릭터에 대한 상세 정보를 보여주는 기능을 만들었었습니다. 이번에는 사용자들에게 조금 더 재미 요소를 추가하고자 하루동안 검색된 캐릭터들의 횟수를 구하여 메인페이지 조회시 랭킹을 보여주려고 합니다.&lt;/p&gt;
+&lt;h3&gt;랭킹 기능 아키텍처&lt;/h3&gt;
+&lt;p&gt;현재까지 구현된 캐릭터 조회 기능만 생각해보면, 데이터베이스 없이 게임사 서버로 부터 받은 데이터를 정리하여 클라이언트에게 보내주기만 하면 됩니다. 하지만 새로 추가될 캐릭터들의 조회 횟수 랭킹을 구현하려면 사용자들이 조회한 캐릭터에 대한 정보를 데이터베이스에 기록해두어야합니다.&lt;/p&gt;
+&lt;h4&gt;변경 전 아키텍처&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 624px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/a3f182a8bc0f3b91b0e32057376efc8b/08d47/image.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 55.88235294117647%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAACVUlEQVR42oVS7U9SURzmn6qltdIkiJzhG2kvImISBjoBnbYSe3WpgbQAUXINe9l0a6svuT71pQ+tLa0PWSDomm/cTAcXuCD3Xp7OOehyrZezPfd3zu/c85znPL+fQt3QAUvfEHStvaioa8cJnQXKeguLqjPWP0JZf/mvUGgaO2HtG4bJcQcnCflRrQlKQnyk6iIOaQwoOdWCw5VGlJJI56VkXlH3D0L6Ka8xM3VlJLZY+/HapsQznxsPQi8ReDSD0YfT8E7OIDj1HLdcQaL+P4T0eZRQc7YTX8JRrL9/BWErDjYKBXjn01hJyXTBUjdGxpla+qL91vwi3FVZY+jGBrfJDomShFxeRF6SMTv3Aps8B1GU2d798ac4oNKjvNbMLKI2UBwna0aoIrfQRa2hB/HvP3aFFSARZHM5vP08i42tVZajwz32BAfVzdC3X8G5Ngd6rnvQTVB1wQZF5fkuXHIMwth1E/arLsxFFuD8EMTC+jek0jkkMzxi0RXwyRRRm2eEo0ShVm9HOLyITx/niXKJ5QeGxqA43WRnFaYe6oy9iCwv4030HbjtbaSFHSRSCcRiS1hdWwOf4iEXZPgmp9FKBPB8GhzHYTEaY4S3XRNQUP80jR0oqzahutmBOEeeLBUgyzLzL5PLQhDSyAgCsjtZdnDEGyL/tyFBVItiHslkslis4UDRQ9pXVKG6wYqvkSW2SQl/H3seOu/6WREcTjdpowlW9QGS0zbZioR7rXOMqNRb+uEJPIbbX4TLP8VwzxeCh3h3bdBLLjezM7T5S/Y1PK3yT/ehWipmiwF1AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;서비스 아키텍처&apos; title=&apos;&apos; src=&apos;/dev-blog/static/a3f182a8bc0f3b91b0e32057376efc8b/08d47/image.png&apos; srcset=&apos;/dev-blog/static/a3f182a8bc0f3b91b0e32057376efc8b/e7570/image.png 170w,
+/dev-blog/static/a3f182a8bc0f3b91b0e32057376efc8b/f46e7/image.png 340w,
+/dev-blog/static/a3f182a8bc0f3b91b0e32057376efc8b/08d47/image.png 624w&apos; sizes=&apos;(max-width: 624px) 100vw, 624px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;서비스 아키텍처&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h4&gt;변경 후 아키텍처&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/a54a1/image-1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 75.29411764705883%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC7ElEQVR42o2U+0uTURjH909lUC5kN6/Tbc6W81JNne4+yEtpahZRePmhCKIgKIQUSV0JKpT+0E8FEeKl5h1Nm9O5TZuie9/t23PO9pZBRoc9vOec9zyfPef7PM8ryzd7UG5vRV6pB4piGzQXHcgusSP7ohPZphOWXmvoqaL3KuPfTVZS1YTG2w9hvXYXmhIHlEYn5CVeyHV1uFBk5ZZZWAN5ep6lq+Vg9SlQmTTJMbmgIJjBbMPzGgVuNLXB0dwNT3MnGtu64G3phKelGxZPBxSGulSk/wKyQ4WV9fgyM4vd0QcQ93fARjKZxIu5Q2z+ECGNjq4nkFPUTB7mq6abMeNAFjp7kaW3otx2E3FBRPjwGHExAfpBEJPwTX3G1l4EiUSSA/sGR3Euz0JXd6WDsXHjQJYIFp1cW43S2mYekTSERAJJgr6b7cVmeJnCTe2/fEXAfAvURhuUhhoUlHm5qYgl012uR4WjFYarDXBf78K3aAADyxM4OI7jKC7iWDhCKBRFJLJHEYvpCMdwNucK3oxNYtj3GvNLqwhH9/DoWT9kZbZW2BvvI8/shr3+HuaDK+j+2ItAKITofoypiFjsAOvrG9gNhzlwcOQttOVebHwPIhLeRSAQ4Pu+0UnImA65pW5kFlTDXNcCIS7gkADs6nFB4FHFYjEEg1vY3tnmjv1DY3S+CpuB1DoajfwGKotTYrL6MpOGAkGkIckpiiI3KSm9AyM4o65A//A4pmb8+PBpGtNzC7jT8zRVNuoTqe8bGsfq2gbmF1e4NovLq/jqX8CcfwkLy2scYHG380Sep8RkaCqQkV3Jnyyxv+pQArKraCh7bK7TV0OptVJ5NKCA5mytKqziHSO1IZMs1Z4uXn5/AFm/cjCrLZLCaLKh47EPPb5pjE+8Ry7t5ZCpyVEq6lM7hZnUTqzYGdBATn7/IqtIrJAM+kv0p/paAjr/DyhFycDMSUs6ub230NrWA5enHUUGK3LpjMbkPPVr8xP7HQ8SDYOdrwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;서비스 아키텍처&apos; title=&apos;&apos; src=&apos;/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/e7570/image-1.png 170w,
+/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/f46e7/image-1.png 340w,
+/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/ca1dc/image-1.png 680w,
+/dev-blog/static/746431b0eb7a4c3230997c9ee8855be8/a54a1/image-1.png 901w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;서비스 아키텍처&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;그러기 위해 RDS를 추가하고, 캐릭터에 대한 조회 정보를 데이터베이스에 기록하기로 결정했습니다. &lt;/p&gt;
+&lt;h3&gt;dev 환경 MySQL 구축하기&lt;/h3&gt;
+&lt;p&gt;현재는 운영 환경 서버가 구축된 것이 아니기 때문에 개인 NAS 서버에 있는 Docker를 활용하여 MySQL 서버를 구축했습니다. &lt;/p&gt;
+&lt;h4&gt;레지스트리에서 MySQL 선택&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/0b8c0/image-2.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 25.294117647058822%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAvElEQVR42n2P4Q6DIAyEff9nXGKWqZtTJzARpIVbZWq2HxvJF5rC3bVF2SpoY6C1gV8WJACcVlKuIfdPPt45EJgIxTRNcN5jPyR137To6ivcqDZN+g8zrPy3VSOGdoaS6dKWGL1De67EtMbc92COAoMk/Q1n9l7WrdL0Di7sZGVdfYweY0R9H3B7jNAy/RKCQAd+CZm9JgmM68obRVc2qE4XjM0ALbjnnA2vnRJTBWMdjAsHc4jfUISjdPACkd6GP69jzZYAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/ca1dc/image-2.png&apos; srcset=&apos;/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/e7570/image-2.png 170w,
+/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/f46e7/image-2.png 340w,
+/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/ca1dc/image-2.png 680w,
+/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/02d09/image-2.png 1020w,
+/dev-blog/static/ee703a72a10af1acdf2fac990191dd5c/0b8c0/image-2.png 1043w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt;
+NAS의 Container Manager에 들어가서 레지스트리 탭을 선택 후 MySQL을 선택하여 클릭합니다.&lt;/p&gt;
+&lt;h4&gt;이미지 실행&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/a27c6/image-3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 50%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAABrElEQVR42p1S227dIBD0/39cVSkPfWmj5Fx8A8zdYGw8HY6SHLXqU1dagRaYZWa2+/Ym8TooGGMgFw0hFY7jwP9Gl7aCsCbUWlHP87GeXFu46x36/YZFGwhjYcMK7QOU8RjlAqEtVw0b18c+pIzOeY9bPyDl7dnmE7CfoC93Aloo67HmAh8TtA0QioxY18YhEcixUeJ5t+87XAiwLPwd7cepVJRSkHNmbl9yNBYba6kc8PlEKMC2V3Q5RshhgpGSle2ZbNQAl0TQlCCVgrWOR08m1loIu2IKFSIcCPlAt1xn/Pw14HoRUCpCiIB5Dojzgp0/WmaLqDSWYcbuIooL2Eh/I1XH/bodKMf5lZ2fJKbbCNULOGmxUvCwOD6mDNLh7WrRjxbvbCjUilnExyp6jctlwo8x4Xu/42XY8SqpYdNHkq4UEvWhz/mRwEHaxdEMuizvPX/ZGo/YqfdJZx3PCu98+tgk6jYCao5EXNc/DDk/hG+7ZlwzzXAiDEHaaLWIMUDajMFVTL7CJ2rYXPO8/K9hrvWETZUPIwwNaMCNUWvUMoSm4Y5Yzkc2l38DhLcG4mJa71QAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/ca1dc/image-3.png&apos; srcset=&apos;/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/e7570/image-3.png 170w,
+/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/f46e7/image-3.png 340w,
+/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/ca1dc/image-3.png 680w,
+/dev-blog/static/e6f2a1eb0b8338989acc65a66b990eb9/a27c6/image-3.png 700w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt; &lt;br&gt;
+이미지 탭에 들어가서 MySQL을 실행시킵니다.&lt;/p&gt;
+&lt;h4&gt;이미지 설정&lt;/h4&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/660ed/image-4.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 77.64705882352942%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5ElEQVR42q2Sy27UMBSGIySEYMcaFiDxEqx5Ct4AseRSkGBRFixaFbZsWfIIU3gOFpBFaCnTmUzs2InjJLaTn2NPQoeZUVUqLH3Kxceff58kunvAcGuP4fY+w713DDffZri2u8D1NxfnBnF1l+HBhyNEd/azILryMkW0Q7wYmW8h3UpY+zTD/fcJoldfKrwmnk/UXzw7pHeHOuDvw/NazcjOpMSTicbe5ymiVit0zmJ92EpC8zlMJfzTwPbR9324phlDxHOJBctRVRqu6+Fooq1azL4lOPme4DROMI1/oPh5ilI7FE0fKFeQdYfKAIzniJzrUJQKC7LnQi537DpK1sDULSxhdBMIG1KYQHeGdcuEPOeIfFxjTKAjURASxjkqdKjajha5IGvbNhxvrFs/MueDUNc16oYSkGCYQ216VA3JKIKv8ShKXagapVJ/JBtCax0yxqmPDLMFg6oNLKV1aynOG6NQCLHsoZAF8lzQC0n3knbKIdTQM99Pa0NSjw+wmm5VKGltOLINC84K/YXLElleQpY6HLVuLHRj6Es31MNzhOsTY9OF0shIqugrX/TIG8LLDO8aE/8X4WYPh//uXxhbqKVCfCQQH0scT0vweXo5oRsSfY0ZHn6c4dGnFI+JX8kJfgPLIJwCiAN1PwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/ca1dc/image-4.png&apos; srcset=&apos;/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/e7570/image-4.png 170w,
+/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/f46e7/image-4.png 340w,
+/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/ca1dc/image-4.png 680w,
+/dev-blog/static/d9555fb1b44c6f886b8d0924fff51122/660ed/image-4.png 741w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt; &lt;br&gt;
+MySQL 버전과 컨테이너 이름을 설정해줍니다. &lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/64252/image-5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 30%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4ElEQVR42q1QW27EIAzM/W9XqQfoartJmkAIkAePwOyYSivtd2vJ8mCPxzZdqcAaKn62ilzwZ+vOENHPGoMyUGaFdR7GWrqDNgZmtdCLwcq3YKWXxmk88iUveCG+rgtd8B7T7QZ1/4afZmTnkCiY/IYzBOSckWJCSpn4QiSOMbbmlJiXOmuBixWe2xVOzI8BRS2oSjPqFgNzShs2FlR+i5AlBgp6v7/lhKPthkjhLk4K48cn9q876jCi9ANq3+N4jDzDtum1/DaLy4b7cb4ExUXQbieSnBx5Rj8vcPuB/7AnOvzTv5zLF+oAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/ca1dc/image-5.png&apos; srcset=&apos;/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/e7570/image-5.png 170w,
+/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/f46e7/image-5.png 340w,
+/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/ca1dc/image-5.png 680w,
+/dev-blog/static/8ae5ecf2e57ae55ee21420cbb6061ca2/64252/image-5.png 696w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt; &lt;br&gt;
+다음을 클릭하여 포트를 지정해줍니다. 이때 왼쪽은 컨테이너 밖의 외부 포트이고, 오른쪽은 컨테이너안에서 쓰이는 내부포트입니다. MySQL의 포트는 기본적으로 3306 이기 때문에 별도로 설정하지 않는 경우 오른쪽 내부 포트는 그대로 두면되고, 외부에서 접속하는 포트를 변경하고 싶을 땐 왼쪽은 다르게 포트를 주면 됩니다. &lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 335px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/b0ad61f555972abc0d8c0e6220f246c2/56823/image-6.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 33.529411764705884%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABX0lEQVR42nWQ627aQBBG/f5vlKqJmpaqTS9Sq7bEGGwutjE4QMDeXa+9Xp8MVMoPqo706VtpZmfOTBDd3BGOvrD8+oPi55hft++ZP3zHLnNUvETPM/QkQT1O2RxrokVG+VxxqLTIUBmH7jzGDRcFu6JkLcn14URZa7L9MzvxDrDDQCPe9A6zyjiqhuLpwFHyJ3mfpa2j6aTO/VWQjkOSVUpRFJTlE3GyYBYnRFFMOJli2xb6Hic1prFo02CspW0dvfdcR1DlBZUW9FpRK/XqSgtFVWO7Dt92uCzDnRuLepGXZl42GK4UrP6ExIsVqzQjXxdCN6fYbNlst0yiGY9CedofGPL1hTAVgFYGdJ270Hp/1VDt9iiZaGQ1K17JOlXTiCxGPjlZoxf3eS50HqX0K+GZ9h/C+OYt4f2IZPSJ9OEb0/sP/H5zx/j2HfOPnxFs/CxhkLsaIVvILduu43/xAthxE+Tmmp0iAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/b0ad61f555972abc0d8c0e6220f246c2/56823/image-6.png&apos; srcset=&apos;/dev-blog/static/b0ad61f555972abc0d8c0e6220f246c2/e7570/image-6.png 170w,
+/dev-blog/static/b0ad61f555972abc0d8c0e6220f246c2/56823/image-6.png 335w&apos; sizes=&apos;(max-width: 335px) 100vw, 335px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+  &lt;/figure&gt; &lt;br&gt;
+마지막으로 컨테이너 안에서 실행될 환경변수를 설정해주어야합니다. 위 사진처럼 총 4개의 환경변수를 세팅하여, 실행시 해당하는 정보로 설정되어 실행될 수 있도록 합니다.&lt;/p&gt;
+&lt;h4&gt;컨테이너 실행&lt;/h4&gt;
+&lt;p&gt;마지막으로 컨테이너 실행을 시키면, 정상적으로 컨테이너가 올라오게되고 외부에서 접속하기 위해 공유기에서도 포트포워딩을 해주어야합니다. 저의 경우 이미 해당 NAS 서버가 DMZ 설정이 되어있어서 건너뛰도록 하겠습니다.&lt;/p&gt;
+&lt;h3&gt;랭킹 기능 테이블 설계&lt;/h3&gt;
+&lt;p&gt;우선 랭킹을 위해 저장해야하는 정보는 &lt;code class=&quot;language-text&quot;&gt;게임명&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;월드명&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;캐릭터명&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;생성시각&lt;/code&gt;,&lt;code class=&quot;language-text&quot;&gt;수정시각&lt;/code&gt; 총 5가지입니다. 카운트 컬럼을 따로 두어 해당 캐릭터가 몇번이나 조회되었는지 체크해서 랭킹을 산정할까도 고려했지만, 일일 단위로 조회 개수를 판단해야했기 때문에 해당 방식으로는 구현할 수 없었습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;table&lt;/span&gt; game_character_search_log &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    id &lt;span class=&quot;token keyword&quot;&gt;bigint&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    game_type &lt;span class=&quot;token keyword&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+	world_name &lt;span class=&quot;token keyword&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    character_name &lt;span class=&quot;token keyword&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+	created_at &lt;span class=&quot;token keyword&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    updated_at &lt;span class=&quot;token keyword&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;primary&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;engine&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;InnoDB&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;랭킹 기능 쿼리 작성&lt;/h3&gt;</content:encoded></item><item><title><![CDATA[[OMG-6] 나 백엔드인데 프론트(?)도 할 수 있다.]]></title><description><![CDATA[우선 MVP를 먼저 만들어서 1차 배포를 하려고 합니다. 백엔드의 최소 기능은 벌써 구현이 되었고, 이제 프론트엔드를 구현해보려고 합니다. 기술 선택 사실 처음에는 타임리프를 이용해서 처리하려고 하였으나, 아무래도 Single Page…]]></description><link>https://hchanghyeon.github.io/dev-blog/13/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/13/</guid><pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;우선 MVP를 먼저 만들어서 1차 배포를 하려고 합니다. 백엔드의 최소 기능은 벌써 구현이 되었고, 이제 프론트엔드를 구현해보려고 합니다.&lt;/p&gt;
 &lt;h2&gt;기술 선택&lt;/h2&gt;
 &lt;p&gt;사실 처음에는 타임리프를 이용해서 처리하려고 하였으나, 아무래도 Single Page Application 느낌을 내려면 돔 요소를 직접 추가하고 삭제하면서 많은 코드 작성과 생산성에 있어서 좋지 못하다고 판단하여 React를 사용하기로 결정했습니다. 또 예전에 React로 페이지를 구현해본 경험이 있어서 금방(?) 잘 할 수 있을 것 같았어요! 하지만 구현과정에서 너무 헤매다보니 이 생각을 후회하게 되었습니다...&lt;/p&gt;
 &lt;h2&gt;프로젝트 구조 잡기&lt;/h2&gt;
@@ -200,7 +311,37 @@
     &lt;/span&gt;
     &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;NAS 설정&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;제가 사용하는 NAS에는 역방향 프록시를 지원하는데 클라이언트에서 백엔드 서버로 요청을 할 때 HTTPS로 요청하는 경우 NAS에서 HTTPS 요청을 받아 로컬에서 돌리는 웹서버의 포트로 HTTP로 전달할 수 있게 해줍니다. 이렇게 하면 클라이언트에서 백엔드 개발 서버로 바로 요청가는 것이 아닌 클라이언트에서 NAS 서버의 역방향 프록시를 타고 백엔드 개발 서버로 가는 것이기 때문에 해결할 수 있습니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[OMG-5] dev 인프라 환경 ci/cd 구축하기]]></title><description><![CDATA[일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev…]]></description><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev 환경을 구축해보도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;제가 사용하는 NAS에는 역방향 프록시를 지원하는데 클라이언트에서 백엔드 서버로 요청을 할 때 HTTPS로 요청하는 경우 NAS에서 HTTPS 요청을 받아 로컬에서 돌리는 웹서버의 포트로 HTTP로 전달할 수 있게 해줍니다. 이렇게 하면 클라이언트에서 백엔드 개발 서버로 바로 요청가는 것이 아닌 클라이언트에서 NAS 서버의 역방향 프록시를 타고 백엔드 개발 서버로 가는 것이기 때문에 해결할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;잘 정리된 글은 아니지만 이렇게 프론트엔드 구조부터 구현, 배포까지 해보았습니다. 아직 일부 페이지를 더 손보고, 꼼곰하게 작성할게 남았지만 아무래도 저는 백엔드 개발자이기 때문에 백엔드에 조금 더 힘을 실어보도록 하겠습니다.&lt;/p&gt;
+&lt;h2&gt;추가 내용(2024. 03. 21)&lt;/h2&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 494px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/034306ec0db2f34c5d8ffc3a73b68e35/7f4de/image-5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 147.64705882352942%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAACXBIWXMAAAsTAAALEwEAmpwYAAABI0lEQVR42u2W22qEQAyGff+XErxQWQW9UBEPd52F4rmi9fy3STuw2ELZ7W7phYGQmTj5JjiTMMrUZOjPMbpzhOX1BSzbhmtkGAakaYpxHKHMfYOxfkYnIkxtcRNwnmcURcFWwZ3lHbh9ZHRlVnvZPuMfkeEB/NdAOvp1XVnl+NK3/ybHj89Q7uL7PnRdh23b8DwPhmEgiiKoqsr+JEmgaRrCMEQQBHAcB1mWfb3YckKLTNNkUBzHbAlCga7r8vh0OrGlzS3LgngSf1gp+59NbalpGu4iJMuysN58KH3fQwjBYJJpmhj4q3sos7nM7ii9A3gA7w6kRkBvFNI8z1FVFeq65qeGnFNNk1JJ/gikhW3boixLDqZuQ0pAsuSnDbqu+xb4BkQXQQjnMbJNAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;메인 페이지 개선&apos; title=&apos;&apos; src=&apos;/dev-blog/static/034306ec0db2f34c5d8ffc3a73b68e35/7f4de/image-5.png&apos; srcset=&apos;/dev-blog/static/034306ec0db2f34c5d8ffc3a73b68e35/e7570/image-5.png 170w,
+/dev-blog/static/034306ec0db2f34c5d8ffc3a73b68e35/f46e7/image-5.png 340w,
+/dev-blog/static/034306ec0db2f34c5d8ffc3a73b68e35/7f4de/image-5.png 494w&apos; sizes=&apos;(max-width: 494px) 100vw, 494px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;메인 페이지 개선&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/3fbc2/image-6.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 99.41176470588235%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB9UlEQVR42o1U226CQBDl2/sBfe639NHEmL6YRowGQRPjFZWLoAgInHLWjq2I4ibD7O7szJ6ZM4uGIkcWbJAnETiKouAXtYO2ot52OByQZRm0zWYDy7Iwn8+VbhrFo/3fi7Q8z8Gg7XYbvusg9mwkBx/cLypozlGINHSQJSdlrxsaP8agh4/3N0zGFqzREPZqAV3Xr04S2BwZ6H93YZkjrG37xnYTMNj76H19YjGfYTKZKMSdTgdhGKq6iJOu99FqtdDtdjEejx8HjE8nBN4WnudhOp0qPRwOMRgMMJvN4DiOclyv1zifz1gul6rmtQG5cRHgb345lKapYk/keDwijuObc1XR7LIWRGIYBkzTvJJxQ0rFiTax3wWUA6wV06kb7NG8ZLYuxdoa/jeSiCAIrinu93u1F0WRutD3fbWmjWuW5WlAloDFpyY5ZJxral6yWq0UKbJOkuQ1hIKCiCjcIyG8ROynsjuqZdKanprrugoNNdOuplj7Uppebh5HyOIj8n8t9RIpHEyJaJiKpMjGTstaZWU3cC69+BIprJekR2EArlkzBtrtdop5afZGUniYQUgIi06EnucqzYC0ySW8vBEhHYmCTDIgHbmmM9Fwvt1ur315h7D6dIhC0FGYFlFTZF80z1af4FOWeZhIGICBOX/0YxWEPzIPFYYWxN11AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;캐릭터 조회 결과 페이지&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/ca1dc/image-6.png&apos; srcset=&apos;/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/e7570/image-6.png 170w,
+/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/f46e7/image-6.png 340w,
+/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/ca1dc/image-6.png 680w,
+/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/02d09/image-6.png 1020w,
+/dev-blog/static/e2b9a560c1ec0e089c6cc366a48b3053/3fbc2/image-6.png 1045w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;캐릭터 조회 결과 페이지&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;메인 페이지에서 여러 게임을 선택할 수 있도록 개선했습니다. 게임 선택을 하면 해당하는 게임에 맞춰 캐릭터 조회 Input 값을 받게 됩니다.&lt;/li&gt;
+&lt;li&gt;메인 페이지에서 게임을 선택한 후 캐릭터를 조회하면 조회한 결과 값이 /result 페이지로 넘어가서 캐릭터 조회 결과 페이지에 나오게 됩니다. 두번째 사진처럼 캐릭터 조회 결과 페이지를 구현했습니다.&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[[OMG-5] dev 인프라 환경 ci/cd 구축하기]]></title><description><![CDATA[일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev…]]></description><link>https://hchanghyeon.github.io/dev-blog/12/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/12/</guid><pubDate>Fri, 01 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;일전에 기획 단계의 글에서 QA를 위해 dev 환경과 prod 환경을 구분짓기로 결정했었다고 했습니다. 아직 운영 단계까지 가려면 시간이 걸리기 때문에 prod 환경은 나중에 만들기로하고 우선 테스트를 위한 dev 환경을 구축해보도록 하겠습니다.&lt;/p&gt;
 &lt;h2&gt;Synology NAS의 Docker로 Ubuntu 구축하기&lt;/h2&gt;
 &lt;p&gt;아무래도 dev환경은 테스트 환경이고, 개인 프로젝트이다보니 클라우드 서비스를 이용하기는 금액적으로 부담이 생깁니다. 그래서 저는 집에 연결되어있는 Synology NAS의 Docker 기능을 이용하여 Ubuntu를 구축해보려 합니다. &lt;/p&gt;
 &lt;p&gt;Synology NAS는 네트워크에 연결된 개인 스토리지 서버이지만, Synology사에서 만든 NAS는 다른 서버의 역할도 할 수 있도록 여러가지 기능들을 제공합니다. 그 중 하나가 Docker인데 Container Manager라는 앱을 통해 여러가지 서버를 구축할 수 있습니다.&lt;/p&gt;
