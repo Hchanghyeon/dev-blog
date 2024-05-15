@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 May 2024 06:07:51 GMT</lastBuildDate><item><title><![CDATA[[OMG-7] 일일 캐릭터 조회 랭킹 구현하기]]></title><description><![CDATA[저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input…]]></description><link>https://hchanghyeon.github.io/dev-blog/14/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/14/</guid><pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input 값을 입력하면 캐릭터가 조회되며 캐릭터에 대한 상세 정보를 보여주는 기능을 만들었었습니다. 이번에는 사용자들에게 조금 더 재미 요소를 추가하고자 하루동안 검색된 캐릭터들의 횟수를 구하여 메인페이지 조회시 랭킹을 보여주려고 합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 May 2024 06:14:16 GMT</lastBuildDate><item><title><![CDATA[[OMG-7] 일일 캐릭터 조회 랭킹 구현하기]]></title><description><![CDATA[저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input…]]></description><link>https://hchanghyeon.github.io/dev-blog/14/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/14/</guid><pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;저번 글까지는 클라이언트가 게임을 선택하고 그 게임에 맞는 Input 값을 입력하면 캐릭터가 조회되며 캐릭터에 대한 상세 정보를 보여주는 기능을 만들었었습니다. 이번에는 사용자들에게 조금 더 재미 요소를 추가하고자 하루동안 검색된 캐릭터들의 횟수를 구하여 메인페이지 조회시 랭킹을 보여주려고 합니다.&lt;/p&gt;
 &lt;h3&gt;랭킹 기능 아키텍처&lt;/h3&gt;
 &lt;p&gt;현재까지 구현된 캐릭터 조회 기능만 생각해보면, 데이터베이스 없이 게임사 서버로 부터 받은 데이터를 정리하여 클라이언트에게 보내주기만 하면 됩니다. 하지만 새로 추가될 캐릭터들의 조회 횟수 랭킹을 구현하려면 사용자들이 조회한 캐릭터에 대한 정보를 데이터베이스에 기록해두어야합니다.&lt;/p&gt;
 &lt;h4&gt;변경 전 아키텍처&lt;/h4&gt;
@@ -1486,7 +1486,20 @@ MySQL 버전과 컨테이너 이름을 설정해줍니다. &lt;br&gt;&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;의지할 수 있는, 열심히 하는 동료&lt;/p&gt;
 &lt;p&gt;가장 좋았던 것 중 하나로 동료들이 정말 열심히 한다는 점이다. 열심히 할 뿐더러 모르는 것이 있으면 같이 머리를 맞대고 몇시간 동안 토론하기도 하고, 자기가 정리한 내용들을 공유한다든지 공부하는데 정말 도움이 많이 되었던 것 같다.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;image-16.png&quot; alt=&quot;정리한 글 공유&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/image-16.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 51.764705882352935%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABxUlEQVR42lVS2ZKjMAzkMwKBGHMYbHMZwhHCJJvMbG3t/39Qr2ySqdmHLrVk3JZaeNdLj3W7Y5xXlKpBbwxU1aKQjct1bZDmEuEpIXAcI+54xFIHy23tDc8W67ZH0w0ww4xpmmG6Fj1xM0w4Txf05xmtGak2om1qFxvKRVkhTgSCMP5+0LOkNWfopned2a6UqiA1dalqinunNrfQVedgeV4oZGKHFedpsQvazobhjIKKpSQREhD0sSi0+7CQFrXjOdXco/R43Q4OXT+SNZ2zhkZOoJoRXw+Dzy3FIcpw4jkiLna8vPrp2c/8FGcO7zMvCBlURx5tX6jXO+R0QyQNDqKFLxr4AfvPdAvrmcXxFR1/LyU4MkhDgtdPVMsDerxCjR/Qyy+UZoGgUYMohf+66B/3ywHBD/cYRPE39yxpdIXnumCbRjz7Hr/HM/7cVvx93vC4XpDwBDHLwGmjCRlvR2M0JufcRUYWJUmCEyPBU5zC2H/vtdFcSGRJjrLU0LJEXQrUMofKNCoyvu168kygpKW1MoXMJE1Roat2USe4rSMe9w3zsiAqO0SZct0wWsrhyAl2JEbjMuK7p9YCe+a/bLA8CDn+AQE9I/TC0UdUAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;정리한 글 공유&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/image-16.png&apos; srcset=&apos;/dev-blog/static/c2266d63812328f1be80ff991d5c8689/e7570/image-16.png 170w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/f46e7/image-16.png 340w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/ca1dc/image-16.png 680w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/02d09/image-16.png 1020w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/9d567/image-16.png 1360w,
+/dev-blog/static/c2266d63812328f1be80ff991d5c8689/06a01/image-16.png 1888w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;정리한 글 공유&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;그런 공유 문화에 적응되어, 나도 내가 트러블 슈팅한 내용들을 공유하여 다른 교육생들의 다양한 생각도 들을 수 있었다.&lt;/p&gt;
 &lt;/blockquote&gt;
