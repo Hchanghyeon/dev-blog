@@ -6,6 +6,7 @@ update: 2024-01-12
 tags:
   - OAuth
   - 회원가입
+series: "Pickple 프로젝트 트러블 슈팅"
 ---
 
 ## 고민 배경
