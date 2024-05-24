@@ -7,7 +7,7 @@ module.exports = {
     github: "https://github.com/Hchanghyeon/",
     linkedIn: "https://www.linkedin.com/in/%EC%B0%BD%ED%98%84-%ED%99%A9-3a9433267/",
     email: "mailto:changhyeon.h@kakao.com",
-    resume: "https://docs.google.com/document/d/1DZwqAEXqHqtVyy6PAt5TgamKgIqiRkDCocXBpwJ3lfo/edit?usp=sharing",
+    resume: "https://docs.google.com/document/d/1rujAM8smMXr1kGjzhu4nFqu-Kp7xwO1GSFnssAOe4b4/edit?usp=sharing",
   },
   utterances: {
     repo: "Hchanghyeon/dev-blog",
