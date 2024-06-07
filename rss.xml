@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 07 Jun 2024 11:37:20 GMT</lastBuildDate><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;1. 랭킹 서비스에 대한 이해&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 07 Jun 2024 11:42:15 GMT</lastBuildDate><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;1. 랭킹 서비스에 대한 이해&lt;/h1&gt;
 &lt;h2&gt;1.1 랭킹 서비스 개선 전 플로우&lt;/h2&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/b92d202059ee7f2148c96620af1d1d34/200fa/image-20.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 78.23529411764706%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC7ElEQVR42m1S7U9SURjnT3HT8HLhwgWEG8KFe4XLS4JcXlQUwRQTLuAL+LZA2sppy+XWB1urrZqtzdmn8kvrWx9rtbbWp7Za6lxby3IpIu+3By0j6+y3s7PnnN/zPL/feQTDkwuRqauOvgTbP8l0xkzeaD3MXo7wX3EOpthA4tQVQOAZnPZHMz3hVE8kbemOGz0cRCELnHWOoWTm+tPXG9+zhd3db85ggnZF6gsI2twRig1TrjDtCp9EKXYYgoT1/FBibntr68PG5otXr8754m1ujqmvzHRGj3ESgnRdoZlg7FIfN+uPpP1c+kLicoCb9QxMwdVfbf+RV+uH09pD8ZnFnf0vLzefFYqFcqV8kMvt7u4XS8Ufe3vBWMbgHD7pvEYGJaA8ND4HnmnbB2cXbvJ88eOnd9VKhef5g3z2zfbzUqnE89Wx9CIYYe6qI4MScNs9MMX2TziDydT8MnAqR0xYh4Xc+89vy+VytVoZTV37lxzpCCQD0YwzOOEIJJduPShXil93drLZbLFUyucLh7l8GQSUS+P/qxyBhv1cBlKAK3NLd6DgUakqX7eqfDU2PU92DJnB3dqPckdkD9feOwZte0Mz3tBFe2Bi+e7ayqP1+6tPjnFv9fHK2vqN2w+tvlFTZ5zpGgHA4ZdhQAPDYDBIW2+ryasgWYXeJSdZpd6l0LMKXUdt17Nas4+09sAbncVHOfprZKMnCjKs3SMwJ2KpQiQSohIMkynEUrlIjAEQESqSYIhEioixMwja2Iw2NDbKNW2//9nDGSGLO4xq2yR6g85s05odGquTsLJyxk4wdg1jV5osGGVCSRrRGoQaXYvZJaibmBiQJaQJM9B6q01jc7VaXBqr5yzTjlMMZmAwmhGRNAA1mBCSUlk8p8kighRrWnGCaFaoRfIWBFcjclWjrKVJphBKcSGubMaVTRjegKC4zlJPBvGcUmvBCboGFSVTUxI1LVEZMbVRqoKIAVfTcoKWKvWoVKOm2J/zc4xymuQb0gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/b92d202059ee7f2148c96620af1d1d34/ca1dc/image-20.png&apos; srcset=&apos;/dev-blog/static/b92d202059ee7f2148c96620af1d1d34/e7570/image-20.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;기존 랭킹 서비스&apos; title=&apos;&apos; src=&apos;/dev-blog/static/b92d202059ee7f2148c96620af1d1d34/ca1dc/image-20.png&apos; srcset=&apos;/dev-blog/static/b92d202059ee7f2148c96620af1d1d34/e7570/image-20.png 170w,
 /dev-blog/static/b92d202059ee7f2148c96620af1d1d34/f46e7/image-20.png 340w,
 /dev-blog/static/b92d202059ee7f2148c96620af1d1d34/ca1dc/image-20.png 680w,
 /dev-blog/static/b92d202059ee7f2148c96620af1d1d34/200fa/image-20.png 913w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;기존 랭킹 서비스&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면&lt;/p&gt;
 &lt;ol&gt;
@@ -26,13 +26,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/51f47/image-19.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 78.23529411764706%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACjUlEQVR42o1T20/TYBTvf+STiVxMgMllFC9sjLGJyjZwl3JRIYIOFh0scQKGKLdJGCIOYUQHMSYE5AkTA2/yQEiUPUDatR2TDGq3dm3naWt0BGM4PTnp+b7++jvn950Pwbr8JrtbW9eKmtqq6u+i5rZLNa4zOmK709vQ8ugG5ql39kA0O9ylBuys4KJr9qJqe4nOodE7i6sdJTpnWW1zWS2mxP95qcGF5P4JODU1rgLUVog25WktuZ6PWvMrrbkrwHQCDOQVxhb/SHD4zXQwtBicjQRDsk+GImOvwoHXC7AyGXo/9XYRUl1Dx18wVJKPWp4+n2E4+svuUjableBRjEunYtHv8RiupoIgQpxfXD4Bzqu0jk6Fs5LIHB7DF6IoibJJOEHsbG/je3upVFqSsjwvAHh5bR1RW1UVvqC1DAfnYAMAisloSKPR6NetrR+Hh6KSqszLa5+RYp3DbHebHd0GWxfgx6bDDJOkKTpOUeT+Pp1ICKJ0EI/jOJ5MJgVBOAGGQ6pt7NJb7mtNrYWXG1VmjuMyQobjeGJzI0VTLMfFEwmWZdNpjuf5TCYjgz+tI6B43e2H153d1Q0doPb49AJsxGIkRVLHLPttfJTc3GQ4jt7dZRiGpA+Ojn8C/nfPwFxj6zQ2Pbh6sx1a6HkyokoqyUqLyaNkRikVVFQWRSkrqmVPzUaQPyesDhnEds+g79mEt3/MMzTjG53zD014BwKPBwLe/nF4Ae8bfOn2vagwYsjpiYXOz5ff0hqxwPzq6sYOjhP29r5zxaaCKltepUVxKwycRu/6B7jc2FyidxpsnSRB8CwDFQInAEDR3NmWL8ZpcKnShbauJby08u7DytLH1aZ7vRevNJ6+bb8AC14d1UQTEzMAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/ca1dc/image-19.png&apos; srcset=&apos;/dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/e7570/image-19.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;개선 후 랭킹 서비스&apos; title=&apos;&apos; src=&apos;/dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/ca1dc/image-19.png&apos; srcset=&apos;/dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/e7570/image-19.png 170w,
 /dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/f46e7/image-19.png 340w,
 /dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/ca1dc/image-19.png 680w,
 /dev-blog/static/4e1fd1d17ff54f7a65978b72c077a098/51f47/image-19.png 892w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;개선 후 랭킹 서비스&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;이 구성은 개선 후의 랭킹 조회 서비스이며 플로우는 아래와 같습니다.&lt;/p&gt;
 &lt;ol&gt;
@@ -59,28 +59,28 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/768fbb79efe636c686c06beff65db3c9/fcbeb/image.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 37.64705882352941%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFklEQVR42n2Si3KFIAxE/f/f7K2dVjEIiMhru/iYXvtiZg0wyWGTsbPOwXuPWityqUin/lstd89fFiRjUciIjGEa0a1bRGZ90zwovL70kPcB2a8s8D9lHUpMO3ibZ6wiKAQX5tuPAZ0YvtKATFjGEarv4cc3Jhskaw+ZMxKWeF9TQr1b3sMoFp3TLFwDctjg6UCJhrWCEPgqW2+6Wrx03OEU9+1M4KQJfDwGTMrBygJPBw0oWsMZhZQyci57TPnYZ8ZEh3codqB2AV2gu2t5zmGaBHq2MEaQYvhy8eTs6vK75mVDV2u9ARWBwjEsThBjpNJNpZRfYEfLpjl8nq1fV4xK6E4jbscMW4sN0tpt8Y8faf8OJuAT1kty3AQMjMsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/768fbb79efe636c686c06beff65db3c9/ca1dc/image.png&apos; srcset=&apos;/dev-blog/static/768fbb79efe636c686c06beff65db3c9/e7570/image.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;레지스트리&apos; title=&apos;&apos; src=&apos;/dev-blog/static/768fbb79efe636c686c06beff65db3c9/ca1dc/image.png&apos; srcset=&apos;/dev-blog/static/768fbb79efe636c686c06beff65db3c9/e7570/image.png 170w,
 /dev-blog/static/768fbb79efe636c686c06beff65db3c9/f46e7/image.png 340w,
 /dev-blog/static/768fbb79efe636c686c06beff65db3c9/ca1dc/image.png 680w,
 /dev-blog/static/768fbb79efe636c686c06beff65db3c9/02d09/image.png 1020w,
 /dev-blog/static/768fbb79efe636c686c06beff65db3c9/fcbeb/image.png 1206w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;레지스트리&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/li&gt;
 &lt;li&gt;Redis 이미지 클릭
 &lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/568e1b881f38b12526185e7e861f40fc/78ab2/image-1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.88235294117647%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABVElEQVR42jVRy27DMAzL///Ybttl2A7F2m1t00eSxolt+W2OTjEDgpiYomipe3l9xzA9MDK0MVjGCTOxWg1DY15WWDFwjuEtcvKoOaBs4ZGiR0kBMToEL+gOhx/kUlDxPKJWCiosRmDEY2UelcZiiSUgkZty3vilVjZzFMsopaLyu9vt9lgWgxgSckyIuSKQYK3A+7CRrAuYpUACiyjo2KhkmqCIDwFC0RAiuUD3+faBoZ/wuCnoQSElFvqIaVYUjpvAtFhc1gLl2ksqR2M3d82ldR6LNszuKfi1/34SWNhOYudAR4lEtFHQtSdurjMD7V4ENT1x5J1jfaDL1qE7nvoNtKe1o2ZBf+aS7pwj8TxqXC4zzleD252Lehj0p4FzbpjOzyOOvzdcmbXx6G73YRP6F/Q+Qa8C4TIisecixDgkjiEygoswq93+N2y1YOXSWm7L+QNphx5XcpLEhwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/568e1b881f38b12526185e7e861f40fc/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/568e1b881f38b12526185e7e861f40fc/e7570/image-1.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;이미지&apos; title=&apos;&apos; src=&apos;/dev-blog/static/568e1b881f38b12526185e7e861f40fc/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/568e1b881f38b12526185e7e861f40fc/e7570/image-1.png 170w,
 /dev-blog/static/568e1b881f38b12526185e7e861f40fc/f46e7/image-1.png 340w,
 /dev-blog/static/568e1b881f38b12526185e7e861f40fc/ca1dc/image-1.png 680w,
 /dev-blog/static/568e1b881f38b12526185e7e861f40fc/02d09/image-1.png 1020w,
 /dev-blog/static/568e1b881f38b12526185e7e861f40fc/78ab2/image-1.png 1201w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;이미지&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Redis 설정&lt;/p&gt;
@@ -88,25 +88,25 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/660ed/image-2.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 77.64705882352942%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB80lEQVR42q2Ru4oUQRSGC0HEzdxQfRYfwMTcyMBZQTYUL5i4qIEubCgYmBnOosI8iJmB4H17eqa7uruq+lq331PTs0uPuLOMeOCjq7pO/ef8p9jlFxyXnqe4us9x5WWKrb0EFzdka2+O8084rr/+Crb9LMU2CV54nIDdn4M9GPAwkJzJuUeUd4/j2sFnsN1Jid2Jwp0PEqP3S94J7BwWGB3muD3OMBrna9mhnFtjiaeTb2BWd3DWYiWqEkZwGJkBugK69fjwVQWS6RRMyBIFUVY1vAcc6VkhkecCaZqjKCS61sBoCz3ADNDG0R2FeRSBGWOhFImSSMA4kmxbmEIQBTRhpYRT6lTCOUgjiWMwaooqanRdR5XMiWtt3YJaU3UX8LS3CPk+WBnE8T6azkiQNi2JBSwJuGVuYzxUsEoOHP30RFk1kGWNqm6wmM8SH1xRxDMSDNWF7O3yLEeuyK7tu1rtY9gS/tphmqZgji6GGQqpkNPcwlfRXDJZoaUuw3mw2tvux+BPEeScg4WFJVuWLjnvThIKUSET9FiqgqpaNGS/bjQkrZ3z6wX/OCVhElQNeFEuBM6K9YKbRHgQ349lIRhmiP8QKx36ZZVNCU9dly1+RhJHscRsXmE+jf+tw+M3+fgpwY1XP3DzzS/cfXuE6Mt3/AakF5jIS/4qrgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/ca1dc/image-2.png&apos; srcset=&apos;/dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/e7570/image-2.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;일반 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/ca1dc/image-2.png&apos; srcset=&apos;/dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/e7570/image-2.png 170w,
 /dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/f46e7/image-2.png 340w,
 /dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/ca1dc/image-2.png 680w,
 /dev-blog/static/c98e0a6a4bfccd1ccc085f9218cb1efc/660ed/image-2.png 741w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;일반 설정&lt;/figcaption&gt;
   &lt;/figure&gt;
 &lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/134e0/image-10.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 77.64705882352942%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAACI0lEQVR42p1SO27VQBQ1DeHTQUk2wAZYCCUNK0AUEQQJKBKJBjo2gUSBxHcjVHSB5+Thv+fj8Xg89uHMvDwSUBJIRjqa4+u5536TzZcVbrwosfmqwi3y67sFruwUuHoOXCM2dirceb1AsvG8wE0KXn5aIHmcI9k+Py5tZ0gelbi9+w3J1meJJ18Etj61ePjhomjw4KPCs/d7SCBaDF0PqzvMvgcmS/Qnw5s/+SHmifegUe2zZJmXWFYCeS3RSI2ykSjbFa+EQi00hDbRFm7B4JF3Brq3aFWHhoAbcbD3A4nKSmRlg6ZVyKs28qxsIek8DANGPgxwh7e1A+0ucj/6eJt+YNI9ijRFIooGi1JBuwkODDQze8JYBzsECzDj6PQMMs1ztEWQG4qGtsmcg+2WOZaLDIqZTeyjVzpi7lgGMWv9F06whbdSoi0oODqPXDjU0sEzErzHNLIcZudDNs5FzLSdhvCfqUIIgcTSqWo4lLLmICTqVhCSPewglIKQRMh6mnDaCWWHEwUNm5z+LHGQU1AZpFnF74r9G38/Xjv8l6AnV8OMs12OO/9DcGAPa2k5essZmLgWPXlvLVeF6zGOR47HBNYIE1+3YyXIHgZiDMfOXhkThFe8blpCrAJwz0K/OwY8u2Sqh31blxLugJCZoUgIEKCZfR+yZ2+Djxsd92/C98Zj0Y7Yl3McaIILHNlZVHWDr0uLu28k7r0VuP9OIy0EfgETyZOVpOjrywAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/ca1dc/image-10.png&apos; srcset=&apos;/dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/e7570/image-10.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;고급 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/ca1dc/image-10.png&apos; srcset=&apos;/dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/e7570/image-10.png 170w,
 /dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/f46e7/image-10.png 340w,
 /dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/ca1dc/image-10.png 680w,
 /dev-blog/static/ecfd5b1908bdbf7eb5446d92cbcde8ff/134e0/image-10.png 744w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;고급 설정&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;포트는 첫번째가 외부이고, 두번째는 컨테이너 내부입니다.&lt;/li&gt;
@@ -116,12 +116,12 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 453px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/dac06/image-11.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 106.47058823529412%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAAAsTAAALEwEAmpwYAAADGElEQVR42oVV23aiQBDk/z8pH5Dk7CYqgqBy8S4IysW7gNZWj+K6Jif70GeGHqbo6q5uNN0fwR7PEIUB+v0+fN+H4zjo9XoYDAbKPM/DcDhEmqZYLpeYTqeYz+cIguCLac50Dn8eIl2tFNhkMsF4PFb72WyGMAzpm6p1t9ths9movQCveOfZtGQZYzwa4nQqGI2P7XaLPM+xShJczmeUZYmqOtMqFEVBO9FX3PYF751wPB7vpu33e+TrNbI0Q5Zlak0JltCE4nq9UfuMezlPs+u52tMndx9BtShawLItmKYJo22gz/xJzkajEWkPmKvgmsPBEI7rKN9wOFKpcT0X8yBU0QuYAGtZlmLGBEdRjICFERpnUpVV6NbrsxVFeT8XoNq0a5IXWNCWy5UqRJKkwOWC0/H0z8t/c1X7jvfI7oBxFEFvt2ktWM0WzJcX9F/f4L6+YuO6KBjF6enST6aJFJK6CJTCmnpLKJnQ7mJPeZyeKP0XMM8zpTtJvGjvQDolc1hdzl/AanrHHyLW4jiCRyDX6SNgRcuHZF8LUtx9Jat5XcufKG+ptTVy6ipf55DnOI6VuMUvRatbTvyiv9VqicPh8D2g6LDT6UBv6dSjjSG7RqceRWcB5STPoknX8RQT6WPp881mi+Ib+tqakcyk2SnQkM29WETYbXdKNudby4kuz1wvN588Vzc9qpb8osPFgqAzTAgsOhyNxgReqGJJdHP6xozY9z1+NIRHOcn7MnGkmBv2fy1wRVnGlWixreuk00e32+WLLn79+g2L6Wg0GmjpbRhGGzbl9P7+ho/PBiLmNKKOZR7cAVdMtm2xlzsWwbpqJhqmoSIzDF19TKKTISFs1AC5FbB4qPi9lw+HvRpZu91ezTvZ7+mTy1eAXK1SVblUVde8PUpLWVnWOowVRZtmMdIWq62T+sfnB7qsZpcUTbODT1K0LBsxGUkziKzk4ypa7sUU4JID1jRMNJtN0nUwYSFcJlpyKKvkSHw9nrkshoDKIJaz4DbaZJVfhAxpTQanaE6kk3K4VmX1NKaKb0eYjK9nv0T4B/A2MRhN8skkAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/dac06/image-11.png&apos; srcset=&apos;/dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/e7570/image-11.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;redis.conf&apos; title=&apos;&apos; src=&apos;/dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/dac06/image-11.png&apos; srcset=&apos;/dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/e7570/image-11.png 170w,
 /dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/f46e7/image-11.png 340w,
 /dev-blog/static/8504343fb9c9a28bea221ccdc0f4cb48/dac06/image-11.png 453w&apos; sizes=&apos;(max-width: 453px) 100vw, 453px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;redis.conf&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;그리고 Redis에 대한 설정 파일을 미리 만들어서 넣어주도록 하겠습니다.&lt;/li&gt;
@@ -138,13 +138,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/f5f2a/image-12.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 71.76470588235294%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABmElEQVR42p1TSW4bMRDU93LOK/yh3Iy8JW8wEMRLEimWRjMmORt3DslKk7JkwQdbUAOFHg6axept5UNAWBa8t3whjpZyrjwr4xeIUUEaD+0j1rsOgzRIKSFoDdCD2fuK5BwWY4Czs5MS0Vpkii93Vj4saFmPF95DagsxzNAuwCuD9n6NzeMWzZ8GoqGYZ4bNwz88P23Btryef//8i82vNdhOQAZglUkqYxz7toN1vspfYoQzFp6UqknBkHfawSpbcTwXlG89K1j6DokIC4En+cM4QVM6pS6B0iz/rrFK6KgWTfuCcZIHhVTcE2FOn3Qmv+KMsFyephmWilssUspF5VUKNU3MfnDYcgVy4CZhIJQxuIow0j1pHHYdB+8lOj5iog5fazXlhdLrRQ/RD5hneRrsSy2fZXOqYdsxNPsO6lVdvjDlY1g+b0rwAZwUFoSwvAVcsHPl4eP6lmYeFNJAM34gVErXoJQ+RowJkbwZJUTL0HeCpsQdCOty0x6WFyL5z9KztP8NGyBmi5vvG3y97fDlW4Mfdz3+A77bR4VUyD/8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/e7570/image-12.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;NAS 공유폴더&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/ca1dc/image-12.png&apos; srcset=&apos;/dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/e7570/image-12.png 170w,
 /dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/f46e7/image-12.png 340w,
 /dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/ca1dc/image-12.png 680w,
 /dev-blog/static/c57edbc862553d19dc1952fcc4d69dd5/f5f2a/image-12.png 695w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;NAS 공유폴더&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;NAS 서버의 공유 폴더에 해당 config 파일을 넣어주고&lt;/li&gt;
@@ -153,13 +153,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/bf436/image-13.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 77.64705882352942%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAACU0lEQVR42p1UPW8UMRBdutQEREEbSv4Fv4APRTTQU1ASKoQESYEENf/gCBIlf4MaiQIEdwe3tx/2rr173rX9eOO7hCQgQFnp3djjndmZ98aX7bxa4uqLHDsvc1zj+spBju39HJc2uPhscbw+6Tvpvyy+50vceP0V2dbTAtsHBbaeLJE9ztfY+wfOvHdhb4HsUYHr+x+R7R42uP9O4+5bjVsTjdvnwJ2Jws03Bg8mn5BFAHaIMA6IsjnHEzeB8/kcme1WmOclFqVCrRsUZY2yUlC6TftatWhag6rWtBatsShrhYbWdj1U00IT8kynTLhaOZRlhZZBtdIMZDJaYzvI2TCMGEdPO9COcPS5tPbw3qfzrl+lhLP5d2QDnQWrGXw41YZzA1ZEaum4NaB3DoGLuPHLyvQuxWulkPVVjcW3OdplicgqA8sXRGMIm3yn8CcfAWtR5ZyU0fbITUDVjghSZQiIAi/w/4UQPFsaUE5n5JDZlekSf0K+MWviBXpDuPh9CMeKxjPjkHbktJCEnoTWDCrYesmkBRU2rLojL5WIRNTk2JF8CWx5ZhkTuBF4/jQdheK0pAp7JpjOfhALVJWm9Ot1z6ojBfBUNRBRBKK64ovDep0gIont+3XCwPEwNYnml8XJzyNyvpDQJUQrsL8hEJ7UBAoo76uqROak99alcZBWpDUZF9k7mTue/xqRv9+UkrRlA4M6VmFZRdO2yRp+WazcBBnaIyGOMHICZLCtC/hcjfhSj5g1EcuCFZ7n7mpLIXmjPkwddg817vHP5eF7i7xU+AlaQZBeBDTVZgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/e7570/image-13.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;볼륨 연결 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/ca1dc/image-13.png&apos; srcset=&apos;/dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/e7570/image-13.png 170w,
 /dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/f46e7/image-13.png 340w,
 /dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/ca1dc/image-13.png 680w,
 /dev-blog/static/2152069ff86e678abf2e2202e9cc3eea/bf436/image-13.png 745w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;볼륨 연결 설정&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;해당 공유 폴더와 컨테이너의 볼륨을 연결하여 사용할 수 있도록 합니다.&lt;/li&gt;
@@ -168,13 +168,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/e6e18927194a1dc14500e183669ede93/04883/image-9.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 78.23529411764706%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAAsTAAALEwEAmpwYAAACBUlEQVR42pVUy47TQBD0B8AJcUCLED8FHwQSiGVvfAE3xJdw4wZH2Gg3mxDH9tjj8WOmp6geO2ETWJQdqex59HRXV7ednZ1v8exii6fvczy/yPHkXY6z8xyP3+Z48GqDh6/zk/HoTY5sUQl+loJvqwHf10OaL0zEpYJnl/P5qcjAMXpB2Xr0PgAxIAoRPKDvKLjPyCQCdWPR2AZt62DqBobrsqqRF1Wa0wRqF/g4hu7fRmJoTA3btkexYnLuuh4hCLxXtnGPEAJE/maf6WHHS63rkuFuBBorcw1kbcsM7MH5nSnPZGbEPYQMqpIp13WSou97aisHNvhHgCzSWEwDbyxCTRbNBE8ZXL6dsC0QyXR3lkDWwoBxGI4c8mI/CDYNGbmJwU6niQWO1n+YiZJxbk4uzlVmSip+rRFviayFqKxDRTYVmVvXT5VWOTSAOumoO/Xfl5H7mRiDuighpB69T2BJMQ4jrhdrXC1z3GwM5yssL29w/WOJomSQLmCgVKzo3qHnvQx05Cr2Ycm2If0E1YtVFTIXMhRlr3PKEwhpONeqcw/6MRw45Kg1NW0NOjM0tmwhOaFFpoafJeBiHGeH603BtIq0oVG0aWdRplu763e0ygFDFbKno27we1a7qv0PwzgFXtvAH0hIP5FfzczwvkPjrrba8BYfvji8/Gzw4pPBx689fgPSXse7azKCUgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e6e18927194a1dc14500e183669ede93/ca1dc/image-9.png&apos; srcset=&apos;/dev-blog/static/e6e18927194a1dc14500e183669ede93/e7570/image-9.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;실행 명령 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e6e18927194a1dc14500e183669ede93/ca1dc/image-9.png&apos; srcset=&apos;/dev-blog/static/e6e18927194a1dc14500e183669ede93/e7570/image-9.png 170w,
 /dev-blog/static/e6e18927194a1dc14500e183669ede93/f46e7/image-9.png 340w,
 /dev-blog/static/e6e18927194a1dc14500e183669ede93/ca1dc/image-9.png 680w,
 /dev-blog/static/e6e18927194a1dc14500e183669ede93/04883/image-9.png 737w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;실행 명령 설정&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;컨테이너를 실행할 때 해당하는 config 파일을 토대로 실행할 수 있도록 합니다.&lt;/li&gt;
@@ -187,14 +187,14 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c7679283ab71b52f7456d948d0b069e0/c2a07/image-4.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 42.94117647058824%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWklEQVR42l1R2W7DMAzz///iHjasxYB1Ser4vjnKabpDCO1YtGSJUi+vF7y+veNy/cCybLgtK25fK74Et2XuZt/RsiXMsRd77Inn4uZ/fUCllHDaIEzIsISLBcYn5NoObhy8oHNpXM6zIOUyfepz0Yi5gR9q7djXBWHb4Fhdut/RnUO+a4R1xfB+ou4GWevJDU9e7/O++NV1cdh8xxoGQh5I7o5sDAxbDQxCjCjGwlKKsJFj0KBvBEEgHybv1oNTxlKL1p9t+xYRS8JuHHbLanpHqRWaQcZ5WB9RW3u2KpbJCxdThtLMWuk4LVQmzBlaGzheEu1KqXzAIjGgUyfB1PSRUXjLx2UeKsafoZwJcylMFrjXWUXlYKx1M/A5oP8JnZ8PqnF6HybtpUeFG4fhfZgBmsJnTlLsd4UCkUzuiBQK/yz3zKQFgaIfgWNWKO2Xelb4t4jGRNKp8N/wfb7MPEV1nQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c7679283ab71b52f7456d948d0b069e0/ca1dc/image-4.png&apos; srcset=&apos;/dev-blog/static/c7679283ab71b52f7456d948d0b069e0/e7570/image-4.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;컨테이너 실행&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c7679283ab71b52f7456d948d0b069e0/ca1dc/image-4.png&apos; srcset=&apos;/dev-blog/static/c7679283ab71b52f7456d948d0b069e0/e7570/image-4.png 170w,
 /dev-blog/static/c7679283ab71b52f7456d948d0b069e0/f46e7/image-4.png 340w,
 /dev-blog/static/c7679283ab71b52f7456d948d0b069e0/ca1dc/image-4.png 680w,
 /dev-blog/static/c7679283ab71b52f7456d948d0b069e0/02d09/image-4.png 1020w,
 /dev-blog/static/c7679283ab71b52f7456d948d0b069e0/c2a07/image-4.png 1053w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;컨테이너 실행&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;만들어진 컨테이너를 실행시킵니다.&lt;/li&gt;
@@ -206,14 +206,14 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/f3e6b/image-5.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 27.058823529411764%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAz0lEQVR42o1Qy04DMQzMp/KR3PgB/qFwgQOoqrRJ1onz8g6T3bbi0EMtjewk47En7vfiEeMKkYRaGzzrJUQE5lIqRm+wMdFh1o/a+h1FM6Qa5PSG9voCNwUkK2bYBixroliEpIxnoveBIIqaPZaPd7hLVJxjgVeDNkMfA4MwqpvZnjnnIWw73mqlE+Z0/oHL3C5ruU+UnJF4N4lz02ldab2wafIO6H7ebj2evKDwnye4VQT5annGTqYAroKe/5l4V1vD4Mb/cRNcl0CQ+/2FP8YOhbbMN4/nAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/ca1dc/image-5.png&apos; srcset=&apos;/dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/e7570/image-5.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;컨테이너 접속&apos; title=&apos;&apos; src=&apos;/dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/ca1dc/image-5.png&apos; srcset=&apos;/dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/e7570/image-5.png 170w,
 /dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/f46e7/image-5.png 340w,
 /dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/ca1dc/image-5.png 680w,
 /dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/02d09/image-5.png 1020w,
 /dev-blog/static/efdce980e01515c43817a6ec1c5c20b6/f3e6b/image-5.png 1288w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;컨테이너 접속&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -230,13 +230,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/30688117b4f7de94e4bc403309753418/b5dc4/image-6.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 61.76470588235294%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAABY0lEQVR42qWSX0+CUBjG+Sxe6FUC53BAQP6oaavu+hhOL+3LtvVHQaiWqzRFSZ5eKG+a5Rxn+42N7f3xvM9B+liukKw3WG9SJMSGyLIMx558ZLvdQlosE8zeF4ieXzB7mxc8BCHiOEIUTYnoII9xjJvbO0zCGNIqzRA+vSKezbFMUbzsXV6h2TqD1+7B9VpwXecHdy++74NzjtH1CNLmM8N8tUaSbovo9+MARrONE25B0UzITEBWGKFCluW9MMZQqVTQ7/ch7TrI98/PhNa1W+dQdRua6YGb9PX8abXBRaNI8htd11Gr1TAcDr+Fu0IL4SSA5XYoHQ0bNpiwwGgoT/EXQghUq1UMBoM9CXOh14Mi7CIR4/q/soPCMQkNp4M6daiSUGW8nHBKwguPbk4XaBkmLK6RtIQwDAJ0/VPYhgWnYcGgAbXsyg2vi7qWr2xC1ahDSlniUiZwHAeKohS/BDuywy8QUlTACbPIvwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/30688117b4f7de94e4bc403309753418/ca1dc/image-6.png&apos; srcset=&apos;/dev-blog/static/30688117b4f7de94e4bc403309753418/e7570/image-6.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;/etc/ssh/sshd_config&apos; title=&apos;&apos; src=&apos;/dev-blog/static/30688117b4f7de94e4bc403309753418/ca1dc/image-6.png&apos; srcset=&apos;/dev-blog/static/30688117b4f7de94e4bc403309753418/e7570/image-6.png 170w,
 /dev-blog/static/30688117b4f7de94e4bc403309753418/f46e7/image-6.png 340w,
 /dev-blog/static/30688117b4f7de94e4bc403309753418/ca1dc/image-6.png 680w,
 /dev-blog/static/30688117b4f7de94e4bc403309753418/b5dc4/image-6.png 915w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;/etc/ssh/sshd_config&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;PermitRootLogin의 주석을 해제하고 yes로 변경&lt;/li&gt;
@@ -247,13 +247,13 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/d342100de181ffa131e7b446df7edb41/c6456/image-14.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 44.705882352941174%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABV0lEQVR42p2Q706CUByGuRO/OZcLPYdzOGCWq602/ZiTzAuxLb0Iu8Yy/5ShKYEKvP0Ua9SytdiePWcMnr2geW8+guUKYRQhDCNE5P9e6zCE5vkB5p6PiTuD+7ogPMzmCyyXSwRB8Cc2zz6/TDGl9zV/FeFh5KI/djEPQgzHT2g0W7hsNFF3WqhftRI710Qz8eZew/mk4Tio1mro9e6gBesIk5mHub9GSLPv+wPoooyDoo180dyhkGcqOTOLLJA/LBD6Fl3Xkclk0G7fQPv4/jiOtx4MhlClCgzzCEIRprWjBCEVYSUWkmxuUcpCLpdDt9uFFu9iUSooS6dg6gTcPgO3KuAU40KBGyKFsbOENBWy2SxuO52fF0q7AiZtcFVOghtznoKlzCCl2B98pKBBwYJZBtssowVcmMlCYSWrvsQ5BeX+4IiCVfqH5/YxLkwBizGwb4Hfgu9yHdiGjefDYgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/d342100de181ffa131e7b446df7edb41/ca1dc/image-14.png&apos; srcset=&apos;/dev-blog/static/d342100de181ffa131e7b446df7edb41/e7570/image-14.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;bashrc&apos; title=&apos;&apos; src=&apos;/dev-blog/static/d342100de181ffa131e7b446df7edb41/ca1dc/image-14.png&apos; srcset=&apos;/dev-blog/static/d342100de181ffa131e7b446df7edb41/e7570/image-14.png 170w,
 /dev-blog/static/d342100de181ffa131e7b446df7edb41/f46e7/image-14.png 340w,
 /dev-blog/static/d342100de181ffa131e7b446df7edb41/ca1dc/image-14.png 680w,
 /dev-blog/static/d342100de181ffa131e7b446df7edb41/c6456/image-14.png 925w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;bashrc&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;컨테이너 시작시 SSH 실행되게 하기 위하여 bashrc에 설정 후 적용&lt;/li&gt;
@@ -263,14 +263,14 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/d9ff482a0940e93d079c654b059b67a5/309ad/image-8.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 65.88235294117646%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAAAsTAAALEwEAmpwYAAABi0lEQVR42o1T2W7DIBD0//enKvU3oj6lUqU0sTGwHAams8SOcvTISqNgBMPM7mTY7T9xPI2YjEEIEV4E1vmOEAJqyf8ixwDvHUQcBmtnpJSwlZB0nGYSCvJS8EylvMD6iJAWDB8Hg/2XxSgVNlVEbsacsZRKNLT2HLRaqxiM9fAhgfdRuR9i5msBpZR+UNsQY7pcrHe4Js0UMkxmhpkt1kc6kffCNmS01Y6iqGK2oNb6q/VloWWRs5qtzoRUzX21nS+2a1efeelPwuXuQKEC4XSV0PPXsh1K/Ew9ElJFZE/N6FAZn0J4tiRa19cbqsZpW1PA1gZ1cktIu8LIOA4lUKGwl55kgReFMfLMpiJxUI7fMk5chx61ZY3YA6HTgHMg3QKt6kD0fUXU4TAKOixhvDJJcTek4abJlGzHGRMtMwMEA58imSKagmratt6+2SaNW39ILW+Ea2o4iIjDyfQoGWO7baHNwnONau5xXY89ZAX9H5PIcTiW6AHWyz9MVVUF8Xh9j3h589gdC74BLXv9o4X3rLEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/d9ff482a0940e93d079c654b059b67a5/ca1dc/image-8.png&apos; srcset=&apos;/dev-blog/static/d9ff482a0940e93d079c654b059b67a5/e7570/image-8.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;포트 설정&apos; title=&apos;&apos; src=&apos;/dev-blog/static/d9ff482a0940e93d079c654b059b67a5/ca1dc/image-8.png&apos; srcset=&apos;/dev-blog/static/d9ff482a0940e93d079c654b059b67a5/e7570/image-8.png 170w,
 /dev-blog/static/d9ff482a0940e93d079c654b059b67a5/f46e7/image-8.png 340w,
 /dev-blog/static/d9ff482a0940e93d079c654b059b67a5/ca1dc/image-8.png 680w,
 /dev-blog/static/d9ff482a0940e93d079c654b059b67a5/02d09/image-8.png 1020w,
 /dev-blog/static/d9ff482a0940e93d079c654b059b67a5/309ad/image-8.png 1198w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;포트 설정&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;외부에서 해당 컨테이너로 접속이 가능하도록 포트 설정&lt;/li&gt;
@@ -280,23 +280,23 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 677px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/e38a6f81be1117dc4cde347b681706a4/3c503/image-3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 47.05882352941176%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsTAAALEwEAmpwYAAABqklEQVR42qWRW24TMRRAZwuREikSSTZQCEpRK+UPSEq3UJbRj+4GCaGkf0jdCPCTQiHJ9JHHTCfz8NjzShoyB09KkfqFBLaOrm3Z594rG5OrS6y5xXwyRQQhkYoJdZShIhQKKSSBJ/TZPcIPiKOEZbYkS7NtXKVL7rJ7jNHNDFtfmsiUeHGLcixcIbRYkIYXzBcuU2vGyImxgoggWBJGUhOyEHodrwjUCtO/Y+yvMeb2Lb6uopCkOnMkJULpSvWjRLksPAfzashwZDIajxkMLvh6PuDL50+Y11PiZIlKMmS2RqRaGHgWoTfVVfo4gYmKJbGIsPyEs49nnBwf8/rVSw4ODul2urTbbfb292k2mxwdveXd+w/0ej36/T6nGsO1v+HbJr7OshDfCaSL9BTDmaT75lA/fEar1eLpzg7PtWR39wXVanVLpVKhVCo9wvBurnF0u17gU4yfmw25npvNmk6nQ7lcpl6vU6vVeKIpYrF/oNFoPMKwvIxQzbHsS/JNocy34jzP/wiLi7Xfsr9hJM5Af33G8McQKRUP45+FuTjftmjZDq7n/bfwF3na+LNPxPboAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e38a6f81be1117dc4cde347b681706a4/3c503/image-3.png&apos; srcset=&apos;/dev-blog/static/e38a6f81be1117dc4cde347b681706a4/e7570/image-3.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;MobaXterm 접속 화면-1&apos; title=&apos;&apos; src=&apos;/dev-blog/static/e38a6f81be1117dc4cde347b681706a4/3c503/image-3.png&apos; srcset=&apos;/dev-blog/static/e38a6f81be1117dc4cde347b681706a4/e7570/image-3.png 170w,
 /dev-blog/static/e38a6f81be1117dc4cde347b681706a4/f46e7/image-3.png 340w,
 /dev-blog/static/e38a6f81be1117dc4cde347b681706a4/3c503/image-3.png 677w&apos; sizes=&apos;(max-width: 677px) 100vw, 677px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;MobaXterm 접속 화면-1&lt;/figcaption&gt;
   &lt;/figure&gt;
 &lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 661px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/4128c/image-15.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 50.588235294117645%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAACH0lEQVR42o2S3U4TQRiG9w4ICRxAW0FCaIVCKLEtXoGKxQODWGJNvCRj4n2YGK9AK0EPTPzBokbotl3aWbo7+1fa7c/jsCISD4xf8uzObmaefO/MaF8/72PUWjSOGkjLw3e7eHag6ODKUzwZRN++5ePb52P1PwwG9PyQXhDSV4SKQSdE+3KoY9oSXS10zRbecR3TspHSpiP3aTSbHOpVKobNkbAxTQ9LOliehe32kF4XS4ktv8+HVh/tUK9FE4TtELiu6qJNW8kcV+I7daRjK2kd3WhSaxxTVUka9ToH+5+oG0Kt9Wi7Kk3QQ7e6aNaJqaIKjkWLtm0QdFQ018dS0d/uvuPZ0ydsbd1jp7hD8UGRQqEQcfPWbYrFIs9fvKRcfs2bcpm93TKaaLxHih+IIKBpf1TdmbjCoVLz2b67TTqRJH99nWw2Sy6XZym9xMLCAnNzc8TjCaamppiYmFBMRmgn+lEUV6p9HA5G9PuDCEZDSvdLJCevks/8EubzebK5HOvrN1hdXSWVSjE/P08ikbhAa4mzDTawHMFZjUYj9YiGlB4+JnklRSadYXllmWuLi8zOzhKbniYWizF9/o7H4xdodtvAVyf2/dsBndPuH6mqR1slUvEka8trZDIZ0umVSHJZ8Dca4hX+aUilckC1WiXshfyujTsbjI2NkVATY7F/iy6E/eGQoWpICBNL3b/LHW4WNhkfH2dmZua/ZGfCn7bGLxp5untuAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/4128c/image-15.png&apos; srcset=&apos;/dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/e7570/image-15.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;MobaXterm 접속 화면-2&apos; title=&apos;&apos; src=&apos;/dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/4128c/image-15.png&apos; srcset=&apos;/dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/e7570/image-15.png 170w,
 /dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/f46e7/image-15.png 340w,
 /dev-blog/static/c85f9f1b1d94f265e4f3bffde753062a/4128c/image-15.png 661w&apos; sizes=&apos;(max-width: 661px) 100vw, 661px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;MobaXterm 접속 화면-2&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;MobaXterm 프로그램을 이용하여 접속시 정상 접근 확인&lt;/li&gt;
@@ -311,12 +311,12 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 640px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/0f09e/image-16.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 35.29411764705882%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABKElEQVR42l2Q227DIBBE8yO+gQEb8C04vrSpKvWhUv//g6ZjcKK0D0ezK2CY3YvRFvdxxjYELN5j66dUU32tYSsJK+qkD4T82593Buoly0q8uQE/75/43u74mjcE22INHba5x76MUdcr+3Dq2R931qmL9XL1CLKmYV6haRzmsGAaAzo/QBmDpreJwcF0Fsa3UK2Btg2MO+omcvS11ihLgaIQp2Hrse4fmG87tHNQI03464MmqkfBsbJcIC9fkZGMZvnDUOkWU7hh4C61pVnvYZhM01h1LSqlUNUKJUcquKfjzX/y/MXQOu6E+7stO2YS5pVJOe7kY7oId2WO5ERwJaIhRqeaIwulk6GUEhVHqaSBrHkoNXuFgmOUMqV6IhJH2pj6eZ70MPwFMT3OSFsBjOcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/0f09e/image-16.png&apos; srcset=&apos;/dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/e7570/image-16.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Redis Dependency 추가&apos; title=&apos;&apos; src=&apos;/dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/0f09e/image-16.png&apos; srcset=&apos;/dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/e7570/image-16.png 170w,
 /dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/f46e7/image-16.png 340w,
 /dev-blog/static/9635e0d0009f24b85b8b654c770c7bdb/0f09e/image-16.png 640w&apos; sizes=&apos;(max-width: 640px) 100vw, 640px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Redis Dependency 추가&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -472,14 +472,14 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/b25d8/image-17.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 20.58823529411765%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAAAsTAAALEwEAmpwYAAABEElEQVR42i3Pu07CcBiG8d4Ei5MmxNhCOKkVooZdBgcZlJOCk7OLJnJdGqNBB6NXoIPB6KIt0j890AZKy2MFvuSX510/qfvxhaYb2MLCMh0cO6rjYjojPG/C2J8wGoW4XoDlhYT+lGAmXHTOsV3Ghomk/fYxLAtnIDAtE6F/8vL8xF3nkc79A7c317y+vWMIG00MmU58woXAnwsjpjBwfzQkQ+vSEzoDS2doj2mfX7G7oVLM59lRt9jeVNnfK9Gq1WhWKzSjNo4qnFSrtOoNjqN9GvXwoEz74hKp3/uO3hMEQcD/ndVbrCspioUCaiZDPpcjm0ySVhRSazLZRIKULJOOKPE4q8srsy7FYpRLJf4AwRzvOm2WfsoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/ca1dc/image-17.png&apos; srcset=&apos;/dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/e7570/image-17.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;Redis 접속 화면&apos; title=&apos;&apos; src=&apos;/dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/ca1dc/image-17.png&apos; srcset=&apos;/dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/e7570/image-17.png 170w,
 /dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/f46e7/image-17.png 340w,
 /dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/ca1dc/image-17.png 680w,
 /dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/02d09/image-17.png 1020w,
 /dev-blog/static/79c1fcb12d264c698526b94d6e6495d3/b25d8/image-17.png 1117w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;Redis 접속 화면&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;POSTMAN을 이용하여 2개의 서로 다른 캐릭터를 조회해봤는데 Redis에 정상적으로 데이터가 들어간 것을 볼 수 있습니다.&lt;/li&gt;
@@ -489,12 +489,12 @@
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 410px; &apos;&gt;
       &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/112dba15c44910ee385c4103f7431d05/cb1d0/image-18.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 124.70588235294117%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAZCAYAAAAxFw7TAAAACXBIWXMAAAsTAAALEwEAmpwYAAAD+ElEQVR42q1VW28bRRT2D0G8A31BhYJEqQSqhHIjJWkoiD8Az6C+IB4p+QlFQognJJqmqlCE+kRFJWiaiKa5+H7dtZ2117HX3l3vfffjm7FjN01aCcFYR2fm7JlvZs4533EK/2EkSXLKlnrWEMcxHWOpoyiSOgxDORcAo+/UwodyNuD4JN/38NvGBtbWbuGPBw+w8etd/H7/PtZvr2Nt/Q4ePXqIW5zv7T7B7Tvr2Nzc5EHx828oTh4OhxgM+rCHNoa2BcuyaHNg2zYcx+Hahue61Ka0Pfvs1PPiw5fBdBNE8b+L6ynAJB6d6HkelEYb3W4XNm9jDgYwel3e1pZxFAfGcSL1iwHHTzBNGzv7WWw/2cVetoTdTBFbj/dRUg/h+eHI90U3FEAiu4n4ce6HMQwnQm8YSum7EQZejK4dwvFC1Os+SkUP1arPKkhOA4pniOcYhgGXzxWZj8KAmXcReEyCOZAiRkd3sbJUxfJHCmYuV1EuuZO4nwAUWTRNE0EQjOPoS5uIp8i2yQyLobc9zH1QxuX3Krj4VhHF4hmAJ4r2qaIW4NIeT4vddQPsPB7g4Z99bG8NuI4m5ZzC/zBG8U+mMRRzIfG4ZDqdI9TVBhqNBg7SaaiKyiQ0UKkwXuUKcrkCVLUpfaMowdO1nTqrZGq1Mjftc3MBu7t/I5/PoFDIYm9vB9vbm9ja+otxy43jFnBfSImmgJYVQ9NCtNshWq2QxcyS6SXoUfrGSBvUrG0mxCeYwdv2kU5rPFhHJq1DOxxMAX/4/gjvX6rg0xUFV68oWJyrSrm6WMMnKzUsUX84W8WV+SquLdfw2TUVy4sK1wo+XlKxMKPgpx97U8DV1SO8/FIJczN1XHxHwblXyjj3agWX3lUwP1/H2xeqeI22869XMTtbx8JCHW+eH9kuvFGVe27eNKaA935p4JvP01i9XsS3X+bx3VfHUqCtNFnfkLpIXcCNsd/q9Ty+/iKLez/XJBlTIg1xixkLbVLIYnBFkXqiOyL0DFjdGpLIkmth94dtij72GUkEB6HWQOK4oxsGLR2hH8EjfwOWAZUULyB/zaHktVjzE6yhy17pTnyE+LT7egcJGSUBw1YbMRkRydY+lYCtPyQzhIi10D79hD0SzDlmlcDoENAdA0bNQ9H/4bADx3SWpKSzxUbRp6NDfovh8rumqjjSNIZj1EB4Cnx28KDBsB0DeloLejqDw4ODE9LO5tDJ5amzaGUyUh/PNTKoub+PXqkM71CDw4NImxGgw9Oa7TZq9Tq7dEOK2mwiXyohm88jXyyiwHmOulguQxn7CX+dHd1iR7L5X3TyX++M/9iOrqPJjXpbJ787ZFGLzDHO6g6T/f8AKxw9WwKB6jAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
-  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;alt text&apos; title=&apos;&apos; src=&apos;/dev-blog/static/112dba15c44910ee385c4103f7431d05/cb1d0/image-18.png&apos; srcset=&apos;/dev-blog/static/112dba15c44910ee385c4103f7431d05/e7570/image-18.png 170w,
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;OMG 페이지 랭킹&apos; title=&apos;&apos; src=&apos;/dev-blog/static/112dba15c44910ee385c4103f7431d05/cb1d0/image-18.png&apos; srcset=&apos;/dev-blog/static/112dba15c44910ee385c4103f7431d05/e7570/image-18.png 170w,
 /dev-blog/static/112dba15c44910ee385c4103f7431d05/f46e7/image-18.png 340w,
 /dev-blog/static/112dba15c44910ee385c4103f7431d05/cb1d0/image-18.png 410w&apos; sizes=&apos;(max-width: 410px) 100vw, 410px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
   &lt;/a&gt;
     &lt;/span&gt;
-    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;alt text&lt;/figcaption&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;OMG 페이지 랭킹&lt;/figcaption&gt;
   &lt;/figure&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;클라이언트 페이지에서 확인해보았을 때도 정상적으로 랭킹이 나오는 것을 확인해볼 수 있었습니다.&lt;/li&gt;
