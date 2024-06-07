@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 07 Jun 2024 11:42:15 GMT</lastBuildDate><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;1. 랭킹 서비스에 대한 이해&lt;/h1&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 07 Jun 2024 11:50:46 GMT</lastBuildDate><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;1. 랭킹 서비스에 대한 이해&lt;/h2&gt;
 &lt;h2&gt;1.1 랭킹 서비스 개선 전 플로우&lt;/h2&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
@@ -51,7 +51,7 @@
 &lt;/ol&gt;
 &lt;h3&gt;랭킹 서비스 개선 후 얻을 수 있는 장점&lt;/h3&gt;
 &lt;p&gt;우선 랭킹을 조회하기 위해 DB에 쿼리를 날리지 않아도 되는 것이 가장 큰 장점입니다. Redis에 저장할 때마다 SortedSet을 이용하여 Value의 Score을 기반으로 자동 정렬이 되고, 이것을 랭킹처럼 사용할 수 있습니다. 물론 Redis라는 관리포인트가 하나 더 생기는 것이지만 DB의 조회를 없애고 조회에 있어서 성능적으로 간편하게 조회가 가능합니다.&lt;/p&gt;
-&lt;h1&gt;2. 랭킹 서비스 구현하기&lt;/h1&gt;
+&lt;h2&gt;2. 랭킹 서비스 구현하기&lt;/h2&gt;
 &lt;h2&gt;2.1 Synology NAS로 Redis서버 구축하기&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Container Manager에서 Redis 검색 후 클릭
@@ -466,7 +466,7 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;랭킹을 위한 Redis 서버를 구축하고, Spring과 Redis를 연결하여 랭킹 기능을 구현해보았습니다. 구현된 기능들이 정상적으로 동작하는지 확인해보겠습니다.&lt;/p&gt;
-&lt;h1&gt;3. 랭킹 서비스 개선 후&lt;/h1&gt;
+&lt;h2&gt;3. 랭킹 서비스 개선 후&lt;/h2&gt;
 &lt;h2&gt;3.1 Redis 서버에서 데이터 확인&lt;/h2&gt;
 &lt;p&gt;  &lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
