@@ -18,8 +18,9 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
 ---
 
 # 1. 랭킹 서비스에 대한 이해
+
 ## 1.1 랭킹 서비스 개선 전 플로우
-![alt text](image-20.png)
+![기존 랭킹 서비스](image-20.png)
 
 저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면
 
@@ -36,7 +37,7 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
 
 
 ## 1.2 랭킹 서비스 개선 후 플로우
-![alt text](image-19.png)
+![개선 후 랭킹 서비스](image-19.png)
 
 이 구성은 개선 후의 랭킹 조회 서비스이며 플로우는 아래와 같습니다.
 
@@ -58,43 +59,43 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
 ## 2.1 Synology NAS로 Redis서버 구축하기
 
 1. Container Manager에서 Redis 검색 후 클릭
-    ![alt text](image.png)
+    ![레지스트리](image.png)
 
 2. Redis 이미지 클릭
-    ![alt text](image-1.png)
+    ![이미지](image-1.png)
 
 3. Redis 설정
 
-    ![alt text](image-2.png)
-    ![alt text](image-10.png)
+    ![일반 설정](image-2.png)
+    ![고급 설정](image-10.png)
     - 포트는 첫번째가 외부이고, 두번째는 컨테이너 내부입니다.
     - 컨테이너 내부에서는 6379 기본 포트로 동작하고 외부에서 접근할 때는 7000으로 변경하겠습니다.
 
-    ![alt text](image-11.png)
+    ![redis.conf](image-11.png)
     - 그리고 Redis에 대한 설정 파일을 미리 만들어서 넣어주도록 하겠습니다.
     - 기본적으로 Redis는 패스워드가 없기 때문에 패스워드를 설정해줍니다.
     - 그 외 설정은 Redis의 파일 백업 방식을 설정하거나 꽉 찼을 때 메모리 용량을 제거할 수 있는 방법에 대한 설정입니다.
       - 저는 조회가 많아지면 메모리의 양이 늘어날 수 있다고 생각하여 maxmemory에 대한 policy를 설정하여 제한 메모리까지 찼을 때 비워줄 수 있도록 했습니다.
       - 또한 스냅샷 방식을 통해 파일로 저장하고 껐다켜지더라도 복구가될 수 있도록 설정했습니다.
 
-    ![alt text](image-12.png)
+    ![NAS 공유폴더](image-12.png)
     - NAS 서버의 공유 폴더에 해당 config 파일을 넣어주고
 
-    ![alt text](image-13.png)
+    ![볼륨 연결 설정](image-13.png)
     - 해당 공유 폴더와 컨테이너의 볼륨을 연결하여 사용할 수 있도록 합니다.
 
-    ![alt text](image-9.png)
+    ![실행 명령 설정](image-9.png)
     - 컨테이너를 실행할 때 해당하는 config 파일을 토대로 실행할 수 있도록 합니다.
     - 이때 실행 명령은 설정 후 변경할 수 없으므로 꼭 해주고 가야합니다.
 
 4. 설정된 Redis 컨테이너 실행
 
-    ![alt text](image-4.png)
+    ![컨테이너 실행](image-4.png)
     - 만들어진 컨테이너를 실행시킵니다.
 
 
 5. 컨테이너 접속하여 외부 접근을 위한 설정 진행
-    ![alt text](image-5.png)
+    ![컨테이너 접속](image-5.png)
     - 터미널을 열어서 아래 명령어들을 입력합니다.
       ```shell
       apt-get update
@@ -105,33 +106,33 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
       vi /etc/ssh/sshd_config # 루트 접근 허용을 위한 설정
       ```
 
-    ![alt text](image-6.png)
+    ![/etc/ssh/sshd_config](image-6.png)
     - PermitRootLogin의 주석을 해제하고 yes로 변경
 
     ```shell
     vi ~/.bashrc # 서버 실행시 시작 명령어 모음
     source ~/.bashrc # 바로 적용
     ```
-    ![alt text](image-14.png)
+    ![bashrc](image-14.png)
      - 컨테이너 시작시 SSH 실행되게 하기 위하여 bashrc에 설정 후 적용
 
     ```shell
     service ssh restart # ssh 서비스 재실행
     ```
 
-    ![alt text](image-8.png)
+    ![포트 설정](image-8.png)
     - 외부에서 해당 컨테이너로 접속이 가능하도록 포트 설정
     - 실제로 외부에서 접속하기 위해서는 공유기 포트포워딩도 필요함
 
-    ![alt text](image-3.png)
-    ![alt text](image-15.png)
+    ![MobaXterm 접속 화면-1](image-3.png)
+    ![MobaXterm 접속 화면-2](image-15.png)
     - MobaXterm 프로그램을 이용하여 접속시 정상 접근 확인
 
 ## 2.2 SpringBoot에서 기능 구현하기
 
 1. 프로젝트에 Redis Dependency 추가
 
-    ![alt text](image-16.png)
+    ![Redis Dependency 추가](image-16.png)
     
 
 2. 접근을 위한 Property 설정
@@ -288,13 +289,14 @@ series: "취업도 못해본 개발자의 우당탕탕 실서비스 개발 및 �
 랭킹을 위한 Redis 서버를 구축하고, Spring과 Redis를 연결하여 랭킹 기능을 구현해보았습니다. 구현된 기능들이 정상적으로 동작하는지 확인해보겠습니다.
 
   # 3. 랭킹 서비스 개선 후
+
   ## 3.1 Redis 서버에서 데이터 확인
     
-  ![alt text](image-17.png)
+  ![Redis 접속 화면](image-17.png)
   - POSTMAN을 이용하여 2개의 서로 다른 캐릭터를 조회해봤는데 Redis에 정상적으로 데이터가 들어간 것을 볼 수 있습니다.
 
   ## 3.2 클라이언트 페이지에서 랭킹 확인 
-  ![alt text](image-18.png)
+  ![OMG 페이지 랭킹](image-18.png)
   - 클라이언트 페이지에서 확인해보았을 때도 정상적으로 랭킹이 나오는 것을 확인해볼 수 있었습니다.
 
 위와 같이 정상적으로 작동되는 것을 확인해볼 수 있었습니다. 해당 글에는 담지 않았지만 스케줄링도 정상적으로 동작하여 자정이 되면 초기화가 되는 것을 확인할 수 있었습니다. 이렇게 기존에 DB에 부하가 갈 수 있었던 문제를 Redis의 SortedSet을 활용하여 개선할 수 있었습니다. 이외에도 비즈니스 로직을 변경하여 쿼리문으로 조회하는 방식을 그대로 채택하고 실시간이 아닌 하루 단위로 랭킹을 산정하게된다면, 스케줄링을 이용하여 자정에 쿼리문으로 랭킹 데이터를 Redis에 넣고 Redis가 죽더라도 쿼리로 랭킹 데이터를 불러올 수 있는 방법도 구현해볼 수 있을 것 같습니다.
