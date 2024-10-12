@@ -1,4 +1,407 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 07 Jun 2024 11:50:46 GMT</lastBuildDate><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;1. 랭킹 서비스에 대한 이해&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[RSS Feed of 황창구리의 개발 블로그]]></title><description><![CDATA[함정 카드가 없는 개발자가 되기 위해 노력하고 있습니다]]></description><link>https://hchanghyeon.github.io/dev-blog</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 12 Oct 2024 07:16:43 GMT</lastBuildDate><item><title><![CDATA[NamedLock은 락으로 사용하기에 적절하지 않아! - 1편 Lock]]></title><description><![CDATA[1편 Lock에서는 NamedLock에서 겪은 문제를 말씀드리기 전 사전 지식이 되는 Lock에 대해 설명하도록 하겠습니다. Lock이란? 여러분은 락에 대해서 자세하게 알고 계신가요?  Lock…]]></description><link>https://hchanghyeon.github.io/dev-blog/17/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/17/</guid><pubDate>Sat, 12 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;1편 Lock에서는 NamedLock에서 겪은 문제를 말씀드리기 전 사전 지식이 되는 Lock에 대해 설명하도록 하겠습니다.&lt;/p&gt;
+&lt;h2&gt;Lock이란?&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;여러분은 락에 대해서 자세하게 알고 계신가요? &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Lock은 사전에 나오는 것 처럼 &lt;strong&gt;잠금&lt;/strong&gt;이라고 할 수 있습니다. 그럼 소프트웨어 즉, 컴퓨터에서의 잠금은 무엇을 의미하는 것일까요?&lt;/p&gt;
+&lt;p&gt;우선 잠금을 알아보기 전, 컴퓨터에서 프로그램이 어떻게 실행되는지부터 알아봅시다.
+컴퓨터의 프로그램(코드)들은 실행되면 전부 프로세스로 변하게 되는데요. 이때 프로그램을 실행하기 위해 프로세스는 메모리를 할당받게 됩니다.
+프로세스는 메모리에 적재되어 실제 프로그램이 실행중인 상태로 있게되는거죠. 이때 메모리를 할당받은 프로세스는 또 여러 개의 영역으로 나눌 수 있는데 그 중 하나가 힙이라는 메모리 영역입니다.&lt;/p&gt;
+&lt;p&gt;힙의 경우 다른 프로세스와는 공유되는 영역이 아니지만, 하나의 프로세스안에서 여러 개의 쓰레드에 의해 공유되는 영역입니다. &lt;strong&gt;(공유된다고 하니까 뭔가 문제가 생길거같지않나요?)&lt;/strong&gt; 힙 영역은 주로 사용자(클라이언트) 또는 개발자에 의해 새롭게 생성되는 객체를 담고 있는 곳이라고 보면 됩니다. &lt;/p&gt;
+&lt;p&gt;예를 들어, 저희가 선착순으로 500명만 받는 쿠폰 서비스를 이용한다고 가정해보겠습니다. 이때 프로그램은 500명만 받을 수 있도록 제한을 걸어둘 것이고, 사용자가 천천히 차례차례 들어온다면 모두 쿠폰을 이상 없이 받을 수 있을 것입니다. &lt;/p&gt;
+&lt;p&gt;하지만, 동시에 500명이 한꺼번에 쿠폰을 얻으려고 버튼을 누른다면 어떠한 일이 발생할까요? 과연 정상적으로 처리가 될까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CouponService.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Heap 영역&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; couponAmount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponAmount &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        couponAmount &lt;span class=&quot;token operator&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCouponAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; couponAmount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위 서비스 코드는 Heap 영역에 있는 couponAmount라는 변수를 공유하고있습니다. CouponService의 getCoupon()을 호출하는 경우 couponAmount가 1개씩 감소하며 수량이 0개가 되었을 때는 감소시키지 못하도록 했습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CouponTest.java&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponTest&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; couponService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;testConcurrency&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;InterruptedException&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// Given&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; numberOfThreads &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;CountDownLatch&lt;/span&gt; countDownLatch &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CountDownLatch&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numberOfThreads&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;ExecutorService&lt;/span&gt; executorService &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Executors&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;newFixedThreadPool&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numberOfThreads&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;// When&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; numberOfThreads&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; i&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            executorService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                    couponService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt; e&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;token class-name&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;out&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;e&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getMessage&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+                countDownLatch&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;countDown&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        countDownLatch&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;await&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        executorService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;shutdown&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;// Then&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;Assertions&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;assertEquals&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; couponService&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getCouponAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위 테스트 코드는 쓰레드를 500개 만들어 반복문을 돌며 최대한 동시에 요청할 수 있도록 하는 코드입니다. 500개의 쿠폰이 있었으니 500명이 getCoupon을 요청한다면 당연히 0개가 남겠죠?&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/5fbd7/image-1.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 30%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABGklEQVR42l3Q2W7CMBAF0HxKgcR2vCWOs5MFKBCplSoe6f9/yO3ErQD14Wgc27rOTFT1Z9TTB6rjDdPyjfF6x7jcQx0ud9TzDa55J6eH/F8N6t8aqayAtSVk3pEW3FZI9FMsPbbMEB3EXBH9sHuxZQqRrTrspwHaOgjdIXF7SE2HicAmTrFJVvKPojMJpy2czKFSSw9mSGgtTBFCIy4N6iZD0YxBTJfeYvESIkPolqVgKkeqPKwuA0UdGFPBmjpURXvRTlCYd5gPE4bTJ+qeZlMNSKl1Lh24KgJhSvj2gNz3uEwLzuOC1vUobIMya0NdQ6MdN1ixlNCvM0WtG48kzRAL+0Tf6552LebrF3x3pNk3NKYSTHtSgusSP5FPu40uSZmLAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;테스트 결과&apos; title=&apos;&apos; src=&apos;/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/ca1dc/image-1.png&apos; srcset=&apos;/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/e7570/image-1.png 170w,
+/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/f46e7/image-1.png 340w,
+/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/ca1dc/image-1.png 680w,
+/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/02d09/image-1.png 1020w,
+/dev-blog/static/1f5a51c1bf542f2178ac33558d69ff3b/5fbd7/image-1.png 1276w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;테스트 결과&lt;/figcaption&gt;
+  &lt;/figure&gt;
+하지만 실제 결과 값은 위처럼 3개가 남은 것으로 나옵니다. 왜 이런 문제가 발생하는 걸까요?&lt;/p&gt;
+&lt;p&gt;앞에서 말씀드렸던 couponAmount 변수는 Heap에 저장되어있기 때문에 CouponService가 싱글톤으로 실행된다는 가정하에 여러 개의 쓰레드에서 공유되게 됩니다. 차례차례 접근하면 전혀 문제가 없지만 위에서는 동시에 접근하려고 했기 때문에 문제가 되는데요. 아래 순서에 의해 동작한다고 보시면 될 것 같습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;정상 시나리오&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;A가 couponAmount 변수를 읽으니 100이 나왔고, 이후의 로직을 실행하여 99개가 되었습니다.&lt;/li&gt;
+&lt;li&gt;B도 couponAmount 변수를 읽었는데 99가 나왔고, 이후의 로직을 실행하여 98개가 되었습니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;비정상 시나리오&lt;/strong&gt; &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;A와 B가 동시에 공유된 자원인 couponAmount를 읽었습니다.&lt;/li&gt;
+&lt;li&gt;동시에 읽다보니 두 사용자 모두 100을 읽게되고, 두 사용자 모두 100에서 -1한 값을 couponAmount에 저장하게 되어 결과 값이 98이 아닌 99가 나오게 됩니다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;위와 같은 현상을 갱신 손실이라 부릅니다. 실제로 컴퓨터에서는 동시라는 개념이 없지만, 아주아주 미세한 차이로 동시에 일어나는 것을 의미해서 동시라고 표현했습니다. 이렇게 굉장히 빠르게 거의 동일하게 공유된 자원에 접근해서 연산을 하는 경우 문제가 발생할 여지가 많습니다. 그래서 힙 처럼 같이 공유하게 되는 자원들 중 중요한 자원들은 Lock이라는 기법을 통해 잠그고 잠금이 해제된 이후 새로운 쓰레드가 진입하도록 만들어 갱신손실을 방지할 수 있습니다. &lt;/p&gt;
+&lt;h2&gt;Lock의 종류&lt;/h2&gt;
+&lt;p&gt;아래에 작성해둔 락은 제가 지금까지 사용해본 Lock들이며, 기존 예제에 어떤식으로 적용하여 문제를 해결할 수 있는지 간단하게 설명드리도록 하겠습니다.&lt;/p&gt;
+&lt;h3&gt;&lt;strong&gt;어플리케이션 단계에서의 락&lt;/strong&gt; &lt;br&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;1. Synchronized&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;가장 단순한 방법으로 Synchronized라고 선언하여 임계구역을 지정하고, 하나의 쓰레드가 임계구역에서 나올때까지 다른 쓰레드는 접근하지 못하도록 할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;  &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+      &lt;span class=&quot;token comment&quot;&gt;// Heap 영역&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; couponAmount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+      &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponAmount &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+              &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+          &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          couponAmount &lt;span class=&quot;token operator&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+      &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCouponAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; couponAmount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;하지만 단점으로는 메서드 자체나 코드 블럭안의 구역을 전부 다 잠구기 때문에, 특정 ID가 가지고 있는 상태 값만 잠그고 싶다라는 조건이 있을 때는 사용이 어렵게됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2. AtomicInteger&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AtomicInteger는 원자성을 보장하는 Integer로 Compare And Set이라는 개념을 사용하여 갱신 손실을 방지합니다.&lt;/li&gt;
+&lt;li&gt;현재 쓰레드에서 읽은 값과 메인 메모리에 있는 값을 비교하여 동일할 때만 변경하기 때문에 공유하는 자원이더라도 문제 없이 처리할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt; &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;AtomicInteger&lt;/span&gt; couponAmount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;AtomicInteger&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponAmount&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         couponAmount&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;decrementAndGet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCouponAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; couponAmount&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;기존에 값을 가져오는 방식과 값을 설정하는 방식이 기본 연산자를 이용한 것이 아니기 때문에 메서드를 확인해서 사용해야합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3. ReentrantLock&lt;/strong&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/274d914ddb48d0a1d779563e62db377f/d9c1b/image.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 72.94117647058825%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAACSElEQVR42pVU7XKbMBDMy8RgkEBCIAmJTzs4jpNJZ5r3f5btQtKkbpN2+mPnTiBWt7cnbpwLWOYJoY2YxwFj36MnQuyRFQ12eY00N2+oNiRrLupPcaNUh8meMbgjlvYRvTuh6U+ohwtciNBNRFY6ZKolwoZceezlF4Q70SAvLIZuQgwdTLiDHS8o/Yw2RvRDx3xC3p4gibw9o4oHlJXFjgTJ74SJbCCER6j4QeVRuxk2nmHsAY022CcKIlXI05J5wch8r5G9RZGZPwlz6aB0RKxHPNYt5mZALDt01Yi+Yq57DHx/CQcctEdkDy/xiCP3TUUNJcxW7UaYSouUpCuxyhsMzYw4v9CYJ8p9xjh9Z/xGs55wXl7w0N/hTMkP04UHsgj2siRh8ivhnmQrbkWFSk8kfaTcIys+Q7KyPXucFY7RQzDKzRQWQclJZq76+EooCG5MS4ucuZCeBJ5m8UOatipIt0MtlVCRaDaX10Oy4rWg9FqyhVF0uaIZ7Jtkf8r+AuEXOnuGotyivYd0CwTXue6gTERD92s/bpUnb+a89zBj1EUPwx5amuPqGVXNteUsuhHKd5DGQVSOhFRhPqKs+Vy7TcFVDxM6aOoFvuFQm3sSd7DOk7CD7gJ0DCi5LmwLHQKjh2I0fdwOzDgt74RrlT48cwaf0YQn1PaIW16zW0rZrdi/YjMh+zz/MIXNTdjkggNeElJwLsu4bdj/dFD+A1c3ha4GzftLY1q9wFYHjsLXP4C/4SZVnLOSI8JK1xuzYZ05+TEu/4MfdMLdbjtuEAUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;ReentrantLock&apos; title=&apos;&apos; src=&apos;/dev-blog/static/274d914ddb48d0a1d779563e62db377f/ca1dc/image.png&apos; srcset=&apos;/dev-blog/static/274d914ddb48d0a1d779563e62db377f/e7570/image.png 170w,
+/dev-blog/static/274d914ddb48d0a1d779563e62db377f/f46e7/image.png 340w,
+/dev-blog/static/274d914ddb48d0a1d779563e62db377f/ca1dc/image.png 680w,
+/dev-blog/static/274d914ddb48d0a1d779563e62db377f/02d09/image.png 1020w,
+/dev-blog/static/274d914ddb48d0a1d779563e62db377f/d9c1b/image.png 1040w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;ReentrantLock&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
+      &lt;a class=&apos;gatsby-resp-image-link&apos; href=&apos;/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/b842e/image-3.png&apos; style=&apos;display: block&apos; target=&apos;_blank&apos; rel=&apos;noopener&apos;&gt;
+    &lt;span class=&apos;gatsby-resp-image-background-image&apos; style=&quot;padding-bottom: 19.411764705882355%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAt0lEQVR42kWQaxKDIAyEvUxHpaBSHhHQjrXv+x9oC6m1P75JZlnIhmqeJoSQkGJC6Qu9JjRHi0ZuKLfTlioN6qzXm0eov7e6+DfILIj2hmSvmN0ddFoR9QNmWKDiC114os9VhRdsWLHMZxCNIDsj6Bu8C/B+5GFVK913EuMYkTWhPMpZ21E2eqbOSbouYTL3vFFEoIhBj3xXcPKccF+LMXtf81pm08yuHSVB9xPkQDiIn8fyF5QHP6ftfraygXj8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;img class=&apos;gatsby-resp-image-image&apos; alt=&apos;ReentrantLock&apos; title=&apos;&apos; src=&apos;/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/ca1dc/image-3.png&apos; srcset=&apos;/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/e7570/image-3.png 170w,
+/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/f46e7/image-3.png 340w,
+/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/ca1dc/image-3.png 680w,
+/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/02d09/image-3.png 1020w,
+/dev-blog/static/a98e0c703803bc8ac2982c89c3aa2e03/b842e/image-3.png 1142w&apos; sizes=&apos;(max-width: 680px) 100vw, 680px&apos; style=&apos;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&apos; loading=&apos;lazy&apos; decoding=&apos;async&apos;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&apos;gatsby-resp-image-figcaption&apos;&gt;ReentrantLock&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ReentrantLock은 자바의 Concurrency 패키지에 있는데요. 이 Lock도 Compare And Set이라는 기법을 통해 갱신 손실을 방지합니다.&lt;/li&gt;
+&lt;li&gt;위 사진을 보면 ReentrantLock도 동일하게 CompareAndSet 메서드를 통해 실제 native 메서드를 호출하게 됩니다.&lt;/li&gt;
+&lt;li&gt;native가 붙은 메서드는 실제로 PC의 커널에 요청하여 처리하는 작업으로 시스템 콜이라고 보면 될 것 같습니다. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt; &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; couponAmount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ReentrantLock&lt;/span&gt; lock &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ReentrantLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;boolean&lt;/span&gt; isLockAcquired &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;token comment&quot;&gt;// 1초 동안 락을 시도해 보고, 실패 시 예외 처리&lt;/span&gt;
+             isLockAcquired &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; lock&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;tryLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TimeUnit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;SECONDS&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+             &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;isLockAcquired&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                 &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;락을 획득하는 데 실패했습니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+             &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+             &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponAmount &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                 &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+             &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+             &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;InterruptedException&lt;/span&gt; e&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;token class-name&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;currentThread&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;interrupt&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 현재 스레드의 인터럽트 상태를 복구&lt;/span&gt;
+             &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;락을 획득하는 동안 인터럽트가 발생했습니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; e&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+             &lt;span class=&quot;token comment&quot;&gt;// 락이 성공적으로 획득되었을 때만 락을 해제&lt;/span&gt;
+             &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;isLockAcquired&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                 lock&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;unlock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+             &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+         &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;decreaseCouponCount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         couponAmount &lt;span class=&quot;token operator&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+     &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCouponAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; couponAmount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;ReentrantLock의 장점 중 하나는 조금 더 정교하게 락을 걸 수 있다는 것인데, tryLock 메서드를 이용해서 락을 획득하는데 시간을 설정하여 무한 대기하지 않도록 할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;DB를 이용해서 처리할 수 있는 락&lt;/strong&gt; &lt;br&gt;&lt;/h3&gt;
+&lt;p&gt;위 내용들에서는 애플리케이션 단계에서 처리할 수 있는 방법들에 대해서 이야기 해보았습니다. 만약 애플리케이션이 스케일 아웃, 여러 대의 서버로 동작한다면 위의 Lock들은 사용할 수 있을까요? 네. 사용할 수는 있지만 정상적으로 작동하지 않습니다. 동일한 로직을 실행시키는 애플리케이션이지만 여러 대의 서버가 하나의 락을 잡는 것이 아닌 애플리케이션마다 별도의 락으로 동작하기 때문에 데이터의 동시성을 제대로 제어할 수 없게 됩니다. 이럴 때는 보통 DB를 이용한 락을 많이 사용하기도 합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. OptimisticLock&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OptimisticLock의 경우 낙관적 락이라고 부르며, 말 그대로 충돌이 적을 것을 가정하고 락을 거는 것을 의미합니다.&lt;/li&gt;
+&lt;li&gt;JPA에서는 직접 구현되어있기도 하지만, 쿼리문을 통해 직접 구현이 가능합니다.&lt;/li&gt;
+&lt;li&gt;직접 구현시 컬럼에 Version 컬럼을 추가하고, Update시 자기가 처음에 읽었던 버전과 동일한지 확인하여 변경합니다.&lt;/li&gt;
+&lt;li&gt;하지만 단점으로 재시도에 대한 로직을 직접 구현해야한다는 단점이 있습니다. 쿼리를 날렸을 때 버전이 다른 경우 예외를 던질 것인지 재시도를 할 것인지 판단해야하는데, 보통은 재시도를 통해 처리하곤 합니다. 이때 재시도시 이러한 로직을 직접 구현해야하며, 충돌이 많이 날 경우 쿼리를 계속 요청하게 되어 부하가 생기는 문제가 발생할 수도 있습니다. (이런 것을 보통 스핀 락이라고 부릅니다.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Getter&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;token annotation punctuation&quot;&gt;@Id&lt;/span&gt;
+   &lt;span class=&quot;token annotation punctuation&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;strategy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Version&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; version&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;updateAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;amount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Service&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequiredArgsConstructor&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponRepository&lt;/span&gt; couponRepository&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; couponId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt; coupon &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; couponRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;orElseThrow&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰을 찾을 수 없습니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;updateAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        couponRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// JPA가 버전 정보를 자동으로 체크하여 업데이트&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;JPA에서는 @Version 어노테이션을 따로 지원하여, update시 버전을 자동으로 비교하여 저장하게 해줍니다.&lt;/li&gt;
+&lt;li&gt;실패시 OptimisticLockException을 던지므로 해당 예외를 잡아서 재시도 로직을 구현할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;2. PessimisticLock&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PessimisticLock은 비관적 락이라고 부르며, 충돌이 많을 것을 가정하고 락을 거는 것을 의미합니다.&lt;/li&gt;
+&lt;li&gt;JPA에서 구현되어있지만, 쿼리문을 직접 작성하여 처리도 가능하며 이때 Select ... for Update 문을 통해 X-Lock을 걸게됩니다.&lt;/li&gt;
+&lt;li&gt;X-Lock의 경우 데이터베이스에서 지원하는 Lock으로 특정 로우에 락을 걸어 락이 해제될 때까지 특정 로우에 대해서 사용할 수 없게 만드는 것을 의미합니다.&lt;/li&gt;
+&lt;li&gt;Lock을 얻기 위한 대기 시간 지정이 어려우며, 교착상태와 같은 문제가 발생될 수 있어 사용할 때 조심히 사용해야합니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@Getter&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;strategy &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;IDENTITY&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;updateAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;amount &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; amount&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Service&lt;/span&gt;
+&lt;span class=&quot;token annotation punctuation&quot;&gt;@RequiredArgsConstructor&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponService&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponRepository&lt;/span&gt; couponRepository&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Transactional&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getCoupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; couponId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt; coupon &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; couponRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;findByIdWithLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;couponId&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;RuntimeException&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;쿠폰 잔여량이 0입니다.&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;updateAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getAmount&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        couponRepository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;coupon&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 변경 사항 저장&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;java&quot;&gt;&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CouponRepository&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;JpaRepository&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Lock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;LockModeType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;PESSIMISTIC_WRITE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token annotation punctuation&quot;&gt;@Query&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;SELECT c FROM Coupon c WHERE c.id = :id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token class-name&quot;&gt;Coupon&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;findByIdWithLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token annotation punctuation&quot;&gt;@Param&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Long&lt;/span&gt; id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;JPA에서는 위 처럼 Repository에 @Lock 어노테이션을 활용하여 select 조회시 락을 획득해올 수 있습니다.&lt;/li&gt;
+&lt;li&gt;낙관적 락과 마찬가지로 특정 레코드에 대해서 락을 거는 것 이기 때문에 여러 작업을 처리하는데 사용할 수 있는 락이라고 보기에는 어려움이 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3. NamedLock&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NamedLock은 이름을 가진 락으로써 실제로 락의 이름을 지정하여 해당하는 이름이 락이 생성되어있으면, 다른 쓰레드는 해당 락을 점유하지 못하여 멈추게됩니다.&lt;/li&gt;
+&lt;li&gt;이것도 데이터베이스에서 지원하는 락으로, Lock을 얻기 위한 대기 시간을 지정할 수 있고 이름을 통해 편하게 Lock을 얻을 수 있어 장점이 있습니다.&lt;/li&gt;
+&lt;li&gt;하지만 충돌이 많이 발생하는 곳에서 사용하는 경우 Lock을 획득하기 위해 많은 커넥션 풀을 사용하기 때문에 교착상태에 빠질 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;strong&gt;분산 락&lt;/strong&gt; &lt;br&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;1. DistributeLock&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;분산 락은 특정한 기술이 아니고 개념이며, 분산된 환경에서 쓰이는 락을 주로 의미합니다.&lt;/li&gt;
+&lt;li&gt;자주 사용되는 것으로 Redis의 setnx를 이용한 것과 pub/sub을 이용한 Redisson Lock이 있습니다.&lt;/li&gt;
+&lt;li&gt;Redis는 명령어가 싱글스레드에 의해 동작하기 때문에 setnx로 처리하면 순서대로 동작하여 Lock이 가능하지만 실패에 대한 재시도 처리를 위하여 스핀락으로 구현해야합니다. &lt;/li&gt;
+&lt;li&gt;Pub/Sub의 Redisson Lock의 경우 특정 토픽에 대해 Subscribe하고, Lock이 해제된 순간 Sub하고 있는 유저에게 Publish 해주는 것을 의미합니다. 이렇게 대기하고 있기 때문에 별도의 재시도 처리를 하지 않아도되며, 락을 얻기까지의 시간과 락을 얻고나서의 시간도 조절할 수 있기 때문에 가장 많이 사용되는 것으로 알고있습니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;요약 및 결론&lt;/h2&gt;
+&lt;p&gt;이렇게 여러 종류의 Lock에 대해서 알아보는 시간을 가졌습니다. 아래는 제 개인적인 생각으로 만들어본 표입니다.&lt;/p&gt;
+&lt;h3&gt;락 종류 요약&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;락 종류&lt;/th&gt;
+&lt;th&gt;설명&lt;/th&gt;
+&lt;th&gt;장점&lt;/th&gt;
+&lt;th&gt;단점&lt;/th&gt;
+&lt;th&gt;사용 적합 상황&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Synchronized&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;코드 블록이나 메서드를 간단히 잠그며, 다른 스레드의 접근을 막음&lt;/td&gt;
+&lt;td&gt;구현이 쉬우며 기본적인 잠금이 필요할 때 적합&lt;/td&gt;
+&lt;td&gt;세부적인 제어 불가, 메서드 전체나 블록 전체를 잠금&lt;/td&gt;
+&lt;td&gt;단일 인스턴스 환경에서, 세부 제어가 필요하지 않은 경우&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;AtomicInteger&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;CAS(Compare And Set)를 사용하여 정수 연산의 원자성을 보장&lt;/td&gt;
+&lt;td&gt;별도의 락 없이 갱신 손실을 방지&lt;/td&gt;
+&lt;td&gt;정수 타입에만 한정, 복잡한 데이터나 작업에는 적합하지 않음&lt;/td&gt;
+&lt;td&gt;카운터와 같은 단순한 정수 연산이 필요한 경우&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;ReentrantLock&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;tryLock과 타임아웃 설정을 통해 정밀한 잠금 제어 가능, 복잡한 구현을 요구&lt;/td&gt;
+&lt;td&gt;타임아웃을 통해 무한 대기 방지 가능, 정밀한 잠금 제어 가능&lt;/td&gt;
+&lt;td&gt;복잡한 코드, unlock을 잊을 경우 데드락 위험&lt;/td&gt;
+&lt;td&gt;타임아웃이 필요하거나, 정밀한 제어가 필요한 경우&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Optimistic Lock&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;낮은 충돌을 가정하며, 버전이나 타임스탬프 확인 후 업데이트&lt;/td&gt;
+&lt;td&gt;낮은 충돌 환경에서 높은 성능, JPA와 통합 시 유용&lt;/td&gt;
+&lt;td&gt;버전 불일치 시 재시도 필요, 충돌이 많을 경우 성능 저하 발생&lt;/td&gt;
+&lt;td&gt;충돌이 드문 환경에서, 읽기/쓰기 성능이 중요한 경우&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Pessimistic Lock&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;충돌이 많을 경우를 가정하고 자원을 잠그며, 락이 풀릴 때까지 자원을 독점&lt;/td&gt;
+&lt;td&gt;데이터 충돌 방지에 탁월, 높은 일관성 유지&lt;/td&gt;
+&lt;td&gt;자원 잠금 시 대기 시간이 길어질 수 있음, 교착 상태 발생 위험&lt;/td&gt;
+&lt;td&gt;충돌이 빈번하고, 데이터 일관성이 중요한 경우&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Named Lock&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;특정 이름으로 자원 잠금, 분산 환경에서 사용 가능&lt;/td&gt;
+&lt;td&gt;분산 환경에서도 쉽게 적용 가능, 응용 프로그램별 잠금 회피 가능&lt;/td&gt;
+&lt;td&gt;충돌 시 커넥션 풀이 부족할 수 있으며, 관리 어려움, DB가 분산되면 적용 불가함&lt;/td&gt;
+&lt;td&gt;이름을 기반으로 자원 접근을 잠금해야 하는 분산 시스템 환경&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Distributed Lock&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;분산 시스템의 자원 동시성을 관리하며, Redis 등을 통해 구현&lt;/td&gt;
+&lt;td&gt;분산 시스템에서 자원 일관성 보장 가능, 다양한 아키텍처에 적용 가능&lt;/td&gt;
+&lt;td&gt;추가적인 설정 필요, 네트워크 지연이나 장애 대응 시 주의 필요&lt;/td&gt;
+&lt;td&gt;클라우드나 마이크로서비스 등 분산 시스템에서 자원을 관리할 때&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;데이터를 공유한다는 것은 결국 갱신 손실이 일어날 수 있는 문제가 있고, 이러한 문제가 중요시 여겨지는 소프트웨어에서는 어떤 락을 선택해서 잘 통제할 것인가가 굉장히 중요합니다. 각 소프트웨어의 요구사항은 다르기 때문에 위의 표를 보고 락을 선택할 때 도움이 되셨으면 좋겠습니다. 네임드 락과 분산 락의 경우 다음 편에서 조금 더 자세하게 설명드리도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;감사합니다!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[[OMG-8] 일일 캐릭터 조회 랭킹 Redis Sorted Set으로 개선하기]]></title><description><![CDATA[1. 랭킹 서비스에 대한 이해 1.1 랭킹 서비스 개선 전 플로우  저번에는 일일 캐릭터 조회 랭킹 서비스를 위 그림과 같이 구성하여 진행했습니다. 아래에 다시 정리해보자면 클라이언트가 랭킹 데이터를 요청합니다. SpringBoot 서버에서 JPQL…]]></description><link>https://hchanghyeon.github.io/dev-blog/16/</link><guid isPermaLink="false">https://hchanghyeon.github.io/dev-blog/16/</guid><pubDate>Fri, 07 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;1. 랭킹 서비스에 대한 이해&lt;/h2&gt;
 &lt;h2&gt;1.1 랭킹 서비스 개선 전 플로우&lt;/h2&gt;
 &lt;p&gt;&lt;figure class=&apos;gatsby-resp-image-figure&apos; style=&apos;margin-bottom: 16px;&apos;&gt;
     &lt;span class=&apos;gatsby-resp-image-wrapper&apos; style=&apos;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 680px; &apos;&gt;
